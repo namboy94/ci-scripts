@@ -22,14 +22,16 @@ This file is part of gitlab-build-scripts.
 LICENSE
 """
 
+import os
 from typing import Dict, List
-from subprocess import check_output, Popen
+from subprocess import check_output
 
 
 def upload_github_release(repository_owner: str,
                           repository_name: str,
                           version_number: str,
                           o_auth_token: str,
+                          release_notes: str,
                           release_assets: List[Dict[str, str]]) -> None:
     """
     Uploads a new release to github.com
@@ -41,13 +43,12 @@ def upload_github_release(repository_owner: str,
     :param repository_name:  the destination repository
     :param version_number:   the project's current version number
     :param o_auth_token:     the repository owner's oauth token
+    :param release_notes:    release notes associated with this release
     :param release_assets:   the release assets, as a list of dictionaries with the following keys:
-                                     file_name_pre_version:  the part of the filename BEFORE the version number
-                                     file_name_post_version: the part of the filename AFTER the version number
-                                     file_path:             the asset's file path
-                                     content_type:          the asset's content type, for example
-                                                                application/java-archive
-                                                            for .jar files
+                                     file_path:              the file path to the asset
+                                     content_type:           the asset's content type, for example
+                                                                 application/java-archive
+                                                             for .jar files
     :return: None
     """
 
@@ -64,7 +65,7 @@ def upload_github_release(repository_owner: str,
                       "{\"tag_name\": \"" + version_number + "\"," +
                       " \"target_commitish\": \"master\"," +
                       "\"name\":\"" + version_number + "\"," +
-                      "\"body\": \"Automatic Release Build\"," +
+                      "\"body\": \"" + release_notes + "\"," +
                       "\"draft\": false," +
                       "\"prerelease\": false}"]
 
@@ -73,8 +74,8 @@ def upload_github_release(repository_owner: str,
 
     for asset in release_assets:
 
-        file_name = asset["file_name_pre_version"] + version_number + asset["file_name_post_version"]
-        file_path = asset["file_path"] + file_name
+        file_path = asset["file_path"]
+        file_name = os.path.basename(file_path).split(".")[0]
         content_type = asset["content_type"]
 
         upload_binary = ["curl",
@@ -87,4 +88,9 @@ def upload_github_release(repository_owner: str,
                          "'" + repository_upload_url + "/" + tag_id + "/assets?name=" +
                          file_name + "&" + o_auth_parameter + "'"]
 
-        Popen(upload_binary).wait()
+        # No Idea why this doesn't just work with Popen
+        params = ""
+        for param in upload_binary:
+            params += param + " "
+        params = params[0:-1]
+        os.system(params)
