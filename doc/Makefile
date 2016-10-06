@@ -223,3 +223,8 @@ dummy:
 	$(SPHINXBUILD) -b dummy $(ALLSPHINXOPTS) $(BUILDDIR)/dummy
 	@echo
 	@echo "Build finished. Dummy builder generates no files."
+
+buildsource:
+	sphinx-apidoc -f ../gitlab_build_scripts -o source
+	@echo "Auto-generation of API documentation finished. " \
+		"The generated files are in 'source/'"

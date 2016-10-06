@@ -11,6 +11,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   gitlab_build_scripts.rst
+
 
 
 Indices and tables
