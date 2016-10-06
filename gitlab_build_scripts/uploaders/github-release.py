@@ -34,6 +34,9 @@ def upload_github_release(repository_owner: str,
     """
     Uploads a new release to github.com
 
+    First, a new release is created. Afterwards, the script uploads all specified release assets to that
+    Github release
+
     :param repository_owner: the destination repository owner
     :param repository_name:  the destination repository
     :param version_number:   the project's current version number
