@@ -1,0 +1,5 @@
+build
+dist
+doc/build
+gitlab_build_scripts.egg-info
+.idea

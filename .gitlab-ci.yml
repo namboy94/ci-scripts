@@ -1,0 +1,103 @@
+stages:
+  - test
+  - install
+  - upload
+  - docstats
+
+run_unit_tests_python_2:
+  stage: test
+  only:
+    - master
+    - develop
+  script:
+    - 3to2 . --write
+    - python2 setup.py test
+
+run_unit_tests_python_3:
+  stage: test
+  only:
+    - master
+    - develop
+  script:
+    - python3 setup.py test
+
+install_scripts:
+  stage: install
+  only:
+    - master
+  script:
+    - python3 setup.py install
+
+source_dist:
+  stage: upload
+  only:
+    - master
+  script:
+    - python3 setup.py register sdist upload
+
+binary_3_dist:
+  stage: upload
+  only:
+    - master
+  script:
+    - python3 setup.py bdist_wheel upload
+
+binary_2_dist:
+  stage: upload
+  only:
+    - master
+  script:
+    - 3to2 . --write
+    - python2 setup.py bdist_wheel upload
+
+generate_documentation_pdf:
+  stage: docstats
+  only:
+    - master
+    - develop
+  script:
+    - cd doc
+    - make buildsource
+    - make latexpdf
+    - rsync -av build/latex/GitlabBuildScripts.pdf /var/www/docs.namibsun.net/public_html/pdf_docs/gitlab-build-scripts.pdf --delete-before
+  artifacts:
+    paths:
+      - doc/build/latex/GitlabBuildScripts.pdf
+
+generate_documentation_html:
+  stage: docstats
+  only:
+    - master
+    - develop
+  script:
+    - cd doc
+    - make buildsource
+    - make html
+    - rsync -av build/html/ /var/www/docs.namibsun.net/public_html/html_docs/gitlab-build-scripts --delete-before
+  artifacts:
+    paths:
+      - doc/build/html
+
+gitstats:
+  stage: docstats
+  only:
+    - master
+    - develop
+  script:
+    - gitstats . git_stats
+    - rsync -av git_stats/ /var/www/gitstats.namibsun.net/public_html/gitstats/gitlab-build-scripts --delete-before
+  artifacts:
+    paths:
+      - git_stats
+
+git_stats:
+  stage: docstats
+  only:
+    - master
+    - develop
+  script:
+    - git_stats generate
+    - rsync -av git_stats/ /var/www/gitstats.namibsun.net/public_html/git_stats/gitlab-build-scripts --delete-before
+  artifacts:
+    paths:
+      - git_stats
