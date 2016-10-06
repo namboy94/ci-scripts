@@ -22,21 +22,21 @@ This file is part of gitlab-build-scripts.
 LICENSE
 """
 
-import os
 import json
 import urllib.parse
 import requests
 from typing import Dict, List
-from subprocess import check_output
 
 
-def upload_github_release(repository_owner: str,
+def upload_gitlab_release(repository_owner: str,
                           repository_name: str,
                           gitlab_url: str,
                           version_number: str,
                           personal_access_token: str,
+                          tag_annotation: str,
                           release_notes: str,
-                          release_assets: List[Dict[str, str]]) -> None:
+                          release_assets: List[Dict[str, str]],
+                          branch: str = "master") -> None:
     """
     Uploads a new release to a Gitlab instance
 
@@ -51,16 +51,28 @@ def upload_github_release(repository_owner: str,
     :param gitlab_url:            the URL of the gitlab instance
     :param version_number:        the project's current version number
     :param personal_access_token: the repository owner's personal access token
+    :param tag_annotation:        the tag's annotation
     :param release_notes:         release notes associated with this release
     :param release_assets:        the release assets, as a list of dictionaries with the following keys:
                                          file_path:     the file path to the asset
                                          content_type:  the asset's content type, for example
                                                             application/java-archive
                                                         for .jar files
+    :param branch:                the branch to base the release on. Defaults to master
     :return: None
     """
 
     gitlab_api_path = gitlab_url + "api/v3/" if gitlab_url.endswith("/") else gitlab_url + "/api/v3/"
+    project_id = get_repository_id(repository_owner, repository_name, personal_access_token, gitlab_url)
+    project_url = gitlab_api_path + "projects/" + str(project_id) + "/repository/tags"
+
+    query = project_url + "?private_token=" + personal_access_token + "&ref=" + branch + "&message=" + tag_annotation
+    query += "&release_description=" + release_notes + "&tag_name=" + version_number
+
+    requests.post(query)
+
+    str(release_assets)
+    # TODO Upload Release Assets
 
 
 def get_repository_id(repository_owner: str, repository_name: str, personal_access_token: str, gitlab_url: str) -> int:
@@ -74,8 +86,9 @@ def get_repository_id(repository_owner: str, repository_name: str, personal_acce
     :return:                       the project's ID
     """
     gitlab_api_path = gitlab_url + "api/v3/" if gitlab_url.endswith("/") else gitlab_url + "/api/v3/"
-    repository_path = gitlab_api_path + urllib.parse.urlencode(repository_owner + "/" + repository_name)
-    query = repository_path + "?" + personal_access_token
+    repository_path = gitlab_api_path + "projects/" + urllib.parse.quote(
+        (repository_owner + "/" + repository_name), safe="")
+    query = repository_path + "?private_token=" + personal_access_token
 
     project_info = json.loads(requests.get(query).text)
     return int(project_info["id"])
