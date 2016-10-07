@@ -54,11 +54,14 @@ def find_scripts():
 
     :return: the list of scripts
     """
-    scripts = []
-    for file_name in os.listdir("bin"):
-        if not file_name == "__init__.py" and os.path.isfile(os.path.join("bin", file_name)):
-            scripts.append(os.path.join("bin", file_name))
-    return scripts
+    try:
+        scripts = []
+        for file_name in os.listdir("bin"):
+            if not file_name == "__init__.py" and os.path.isfile(os.path.join("bin", file_name)):
+                scripts.append(os.path.join("bin", file_name))
+        return scripts
+    except OSError:
+        return []
 
 setup(name=metadata.project_name,
       version=metadata.version_number,
