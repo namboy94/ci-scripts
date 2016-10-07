@@ -30,6 +30,7 @@ def get_changelog_for_version(version: str) -> str:
     :param version: the version for which the changelog should be found
     :return:        the changelog entry, formatted like this:
                             Changelog Version <version>:
+
                                 - Feature 1
                                 - Feature 2
     """
@@ -37,8 +38,7 @@ def get_changelog_for_version(version: str) -> str:
         changelog = changelog_file.read()
 
     try:
-        changelog = changelog.split(version)[1].split("\n", 1)[1]
-        changelog = changelog.split(":")[0].rsplit("\n", 1)[0]
+        changelog = changelog.split("V " + version + ":")[1].split("\n", 1)[1].rstrip().lstrip()
     except IndexError:
         changelog = ""
 
@@ -46,9 +46,13 @@ def get_changelog_for_version(version: str) -> str:
 
     if changelog:
 
-        changelog = "Changelog Version " + version + ":\n"
+        changelog = "Changelog Version " + version + ":\n\n"
 
         for line in changelog_lines:
+
+            if ":" in line:
+                break
+
             formatted_line = line.rstrip().lstrip()
             if not formatted_line.startswith("-"):
                 formatted_line = "- " + formatted_line

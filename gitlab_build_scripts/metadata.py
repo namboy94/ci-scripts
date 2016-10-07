@@ -38,9 +38,9 @@ class GitRepository:
     The name of the repository
     """
 
-    gitlab_url = "https://namibsun.net/namboy94/gitlab-build-scripts"
+    github_owner = "namboy94"
     """
-    The Gitlab Project URL
+    The owner's Github username
     """
 
     gitlab_owner = "namboy94"
@@ -48,14 +48,19 @@ class GitRepository:
     The project's owner's username on Gitlab
     """
 
-    github_url = "https://github.com/namboy94/gitlab_build_scripts"
+    gitlab_site_url = "https://gitlab.namibsun.net/"
+    """
+    The address of the Gitlab instance
+    """
+
+    github_url = "https://github.com/" + github_owner + "/" + repository_name
     """
     The Github site URL
     """
 
-    github_owner = "namboy94"
+    gitlab_url = gitlab_site_url + gitlab_owner + "/" + repository_name
     """
-    The owner's Github username
+    The Gitlab Project URL
     """
 
 

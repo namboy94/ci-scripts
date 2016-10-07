@@ -22,6 +22,7 @@ This file is part of gitlab-build-scripts.
 LICENSE
 """
 
+import os
 import argparse
 from typing import List, Dict
 from gitlab_build_scripts.metadata import SentryLogger
@@ -42,7 +43,7 @@ def build(metadata_module: 'module', artifacts: List[Dict[str, str]]=None) -> No
     try:
         parser = argparse.ArgumentParser()
         parser.add_argument("mode", help="The build mode.\n"
-                                         "Available modes:   - github-release"
+                                         "Available modes:   - github-release\n"
                                          "                   - gitlab-release")
         args = parser.parse_args()
 
@@ -54,8 +55,8 @@ def build(metadata_module: 'module', artifacts: List[Dict[str, str]]=None) -> No
             print("Invalid mode. Enter --help for more information")
 
     except Exception as e:
-        str(e)
         SentryLogger.sentry.captureException()
+        raise e
 
 
 # noinspection PyUnresolvedReferences
@@ -71,7 +72,7 @@ def gitlab_release(metadata_module: 'module', artifacts: List[Dict[str, str]]=No
 
     repository_name = metadata_module.GitRepository.repository_name
     repository_owner = metadata_module.GitRepository.gitlab_owner
-    gitlab_url = metadata_module.GitRepository.gitlab_url
+    gitlab_site_url = metadata_module.GitRepository.gitlab_site_url
 
     personal_access_token = os.environ["GITLAB_ACCESS_TOKEN"]
     version_number = metadata_module.General.version_number
@@ -79,7 +80,7 @@ def gitlab_release(metadata_module: 'module', artifacts: List[Dict[str, str]]=No
 
     upload_gitlab_release(repository_owner,
                           repository_name,
-                          gitlab_url,
+                          gitlab_site_url,
                           version_number,
                           personal_access_token,
                           "Release " + version_number,
