@@ -2,7 +2,7 @@ stages:
   - mirror
   - test
   - install
-  - upload
+  - source_upload
   - release
   - docstats
 
@@ -74,7 +74,8 @@ binary_2_dist:
     - python
   script:
     - 3to2 . --write
-    - python2 setup.py bdist_wheel upload
+    - python2 setup.py bdist_wheel
+    - twine upload dist/*
 
 upload_release_to_github:
   stage: release
