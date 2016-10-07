@@ -2,7 +2,7 @@ stages:
   - mirror
   - test
   - install
-  - source_upload
+  - upload
   - release
   - docstats
 

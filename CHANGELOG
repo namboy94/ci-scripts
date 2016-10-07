@@ -1,3 +1,5 @@
+V 0.1.3:
+  - Fixed invalid Gitlab CI yaml.
 V 0.1.2:
   - Fixed insecure python2 uploading
 V 0.1.1:
