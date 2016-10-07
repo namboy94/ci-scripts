@@ -23,17 +23,20 @@ LICENSE
 """
 
 import argparse
+from typing import List, Dict
 from gitlab_build_scripts.metadata import sentry
+from gitlab_build_scripts.project_parsers.general import get_changelog_for_version
 from gitlab_build_scripts.uploaders.github_release import upload_github_release
 from gitlab_build_scripts.uploaders.gitlab_release import upload_gitlab_release
 
 
 # noinspection PyUnresolvedReferences
-def build(metadata_module: 'module') -> None:
+def build(metadata_module: 'module', artifacts: List[Dict[str, str]]=None) -> None:
     """
     Starts the build script for a python project
 
     :param metadata_module: the metadata module of the project
+    :param artifacts:       release assets for uploading to gitlab or github
     :return:                None
     """
     try:
@@ -44,9 +47,9 @@ def build(metadata_module: 'module') -> None:
         args = parser.parse_args()
 
         if args.mode == "github-release":
-            github_release(metadata_module)
+            github_release(metadata_module, artifacts)
         elif args.mode == "gitlab-release":
-            gitlab_release(metadata_module)
+            gitlab_release(metadata_module, artifacts)
         else:
             print("Invalid mode. Enter --help for more information")
 
@@ -56,12 +59,55 @@ def build(metadata_module: 'module') -> None:
 
 
 # noinspection PyUnresolvedReferences
-def gitlab_release(metadata_module: 'module'):
+def gitlab_release(metadata_module: 'module', artifacts: List[Dict[str, str]]=None) -> None:
+    """
+    Creates a new Gitlab Release tag from the master branch
+
+    :param metadata_module: the metadata module of the project
+    :param artifacts:       release assets for uploading to gitlab
+    :return:                None
+    """
+    artifacts = [] if artifacts is None else artifacts
+
     repository_name = metadata_module.project_url.rplit("/", 1)[1]
-    repository_owner = metadata_module.project_url.rsplit("/", 1)[1]
+    repository_owner = metadata_module.project_url.rsplit("/", 2)[1]
     protocol = metadata_module.project_url.split(":", 1)[0]
     gitlab_url = protocol + "://" + metadata_module.project_url.split("/", 3)[2]
 
     personal_access_token = os.environ["GITLAB_ACCESS_TOKEN"]
+    changelog = get_changelog_for_version(metadata_module.version_number)
 
-    upload_gitlab_release(repository_owner, repository_name, gitlab_url, metadata_module.version_number, personal_access_token, "Rel")
+    upload_gitlab_release(repository_owner,
+                          repository_name,
+                          gitlab_url,
+                          metadata_module.version_number,
+                          personal_access_token,
+                          "Release " + metadata_module.version_number,
+                          changelog,
+                          artifacts,
+                          "master")
+
+
+# noinspection PyUnresolvedReferences
+def github_release(metadata_module: 'module', artifacts: List[Dict[str, str]]=None) -> None:
+    """
+    Creates a new GitHub Release tag
+
+    :param metadata_module: the metadata module of the project
+    :param artifacts:       release assets for uploading to github
+    :return:                None
+    """
+    artifacts = [] if artifacts is None else artifacts
+
+    repository_name = metadata_module.project_url.rplit("/", 1)[1]
+    repository_owner = metadata_module.project_url.rsplit("/", 2)[1]
+    o_auth_token = os.environ["GITHUB_OAUTH_TOKEN"]
+
+    changelog = get_changelog_for_version(metadata_module.version_number)
+
+    upload_github_release(repository_owner,
+                          repository_name,
+                          metadata_module.version_number,
+                          o_auth_token,
+                          changelog,
+                          artifacts)

@@ -43,15 +43,21 @@ def get_changelog_for_version(version: str) -> str:
         changelog = ""
 
     changelog_lines = changelog.split("\n")
-    changelog = "Changelog Version " + version + ":\n"
 
-    for line in changelog_lines:
-        formatted_line = line.rstrip().lstrip()
-        if not formatted_line.startswith("-"):
-            formatted_line = "- " + formatted_line
-        formatted_line = "    " + formatted_line
-        changelog += formatted_line + "\n"
+    if changelog:
 
-    changelog = changelog.rstrip().lstrip()
+        changelog = "Changelog Version " + version + ":\n"
+
+        for line in changelog_lines:
+            formatted_line = line.rstrip().lstrip()
+            if not formatted_line.startswith("-"):
+                formatted_line = "- " + formatted_line
+            formatted_line = "    " + formatted_line
+            changelog += formatted_line + "\n"
+
+        changelog = changelog.rstrip().lstrip()
+
+    else:
+        changelog = "Changelog Version " + version + ":\n"
 
     return changelog
