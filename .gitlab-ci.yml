@@ -1,0 +1,154 @@
+stages:
+  - mirror
+  - test
+  - install
+  - upload
+  - release
+  - docstats
+
+variables:
+  GITLAB_ACCESS_TOKEN: "$GITLAB_ACCESS_TOKEN"
+  GITHUB_OAUTH_TOKEN: "$GITHUB_OAUTH_TOKEN"
+
+github_mirror:
+  stage: mirror
+  only:
+    - master
+    - develop
+  script:
+    - git checkout master
+    - git pull origin master
+    - git push git@github.com:namboy94/gitlab-build-scripts.git master --force
+    - git checkout develop
+    - git pull origin develop
+    - git push git@github.com:namboy94/gitlab-build-scripts.git develop --force
+
+run_unit_tests_python_2:
+  stage: test
+  tags:
+    - python
+  script:
+    - 3to2 . --write
+    - python2 setup.py test
+
+run_unit_tests_python_3:
+  stage: test
+  tags:
+    - python
+  script:
+    - python3 setup.py test
+
+install_scripts:
+  stage: install
+  only:
+    - master
+  tags:
+    - python
+  script:
+    - python3 setup.py install
+
+source_dist:
+  stage: upload
+  only:
+    - master
+  tags:
+    - python
+  script:
+    - python3 setup.py register sdist upload
+
+binary_3_dist:
+  stage: upload
+  only:
+    - master
+  tags:
+    - python
+  script:
+    - python3 setup.py bdist_wheel upload
+
+binary_2_dist:
+  stage: upload
+  only:
+    - master
+  tags:
+    - python
+  script:
+    - 3to2 . --write
+    - python2 setup.py bdist_wheel upload
+
+upload_release_to_github:
+  stage: release
+  only:
+    - master
+  tags:
+    - python
+  script:
+    - python3 builder.py github-release
+
+upload_release_to_gitlab:
+  stage: release
+  only:
+    - master
+  tags:
+    - python
+  script:
+    - python3 builder.py gitlab-release
+
+generate_documentation_pdf:
+  stage: docstats
+  only:
+    - master
+    - develop
+  tags:
+    - python
+  script:
+    - cd doc
+    - make buildsource
+    - make latexpdf
+    - rsync -av build/latex/gitlab-build-scripts.pdf /var/www/docs.namibsun.net/public_html/pdf_docs/gitlab-build-scripts.pdf --delete-before
+  artifacts:
+    paths:
+      - doc/build/latex/GitlabBuildScripts.pdf
+
+generate_documentation_html:
+  stage: docstats
+  only:
+    - master
+    - develop
+  tags:
+    - python
+  script:
+    - cd doc
+    - make buildsource
+    - make html
+    - rsync -av build/html/ /var/www/docs.namibsun.net/public_html/html_docs/gitlab-build-scripts --delete-before
+  artifacts:
+    paths:
+      - doc/build/html
+
+gitstats:
+  stage: docstats
+  only:
+    - master
+    - develop
+  tags:
+    - python
+  script:
+    - gitstats . git_stats
+    - rsync -av git_stats/ /var/www/gitstats.namibsun.net/public_html/gitstats/gitlab-build-scripts --delete-before
+  artifacts:
+    paths:
+      - git_stats
+
+git_stats:
+  stage: docstats
+  only:
+    - master
+    - develop
+  tags:
+    - python
+  script:
+    - git_stats generate
+    - rsync -av git_stats/ /var/www/gitstats.namibsun.net/public_html/git_stats/gitlab-build-scripts --delete-before
+  artifacts:
+    paths:
+      - git_stats
