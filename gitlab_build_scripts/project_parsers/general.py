@@ -34,7 +34,7 @@ def get_changelog_for_version(version: str) -> str:
                                 - Feature 1
                                 - Feature 2
     """
-    with open("/home/hermann/Documents/Programming/PyCharm/gitlab-build-scripts/CHANGELOG", 'r') as changelog_file:
+    with open("CHANGELOG", 'r') as changelog_file:
         changelog = changelog_file.read()
 
     try:
