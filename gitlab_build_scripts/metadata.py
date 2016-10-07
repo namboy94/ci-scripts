@@ -33,6 +33,11 @@ class GitRepository:
     Class that stores information about the git repository sites used by this project
     """
 
+    repository_name = "gitlab-build-scripts"
+    """
+    The name of the repository
+    """
+
     gitlab_url = "https://namibsun.net/namboy94/gitlab-build-scripts"
     """
     The Gitlab Project URL
@@ -59,11 +64,6 @@ class General:
     Class that stores general information about a project
     """
 
-    project_name = "gitlab-build-scripts"
-    """
-    The name of the project
-    """
-
     project_description = "Python Build Scripts for Gitlab CI"
     """
     A short description of the project
@@ -72,11 +72,6 @@ class General:
     version_number = "0.0.1"
     """
     The current version of the program.
-    """
-
-    download_master_zip = GitRepository.gitlab_url + "/repository/archive.zip?ref=master"
-    """
-    A URL linking to the current source zip file of the master branch.
     """
 
     author_names = "Hermann Krumrey"
@@ -92,6 +87,16 @@ class General:
     license_type = "GNU GPL3"
     """
     The project's license type
+    """
+
+    project_name = GitRepository.repository_name
+    """
+    The name of the project
+    """
+
+    download_master_zip = GitRepository.gitlab_url + "/repository/archive.zip?ref=master"
+    """
+    A URL linking to the current source zip file of the master branch.
     """
 
 
@@ -173,10 +178,14 @@ class SentryLogger:
     The DSN associated with this project
     """
 
+    sentry = None
+    """
+    The sentry client
+    """
+
     # Create the Sentry client to log bugs
     try:
         from raven import Client
         sentry = Client(dsn=sentry_dsn, release=General.version_number)
     except ImportError:
         Client = None
-        sentry = None
