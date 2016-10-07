@@ -70,6 +70,7 @@ def upload_github_release(repository_owner: str,
                       "\"prerelease\": false}"]
 
     response = check_output(create_release).decode()
+    print(response)
     tag_id = response.split("\"id\": ")[1].split(",")[0]
 
     for asset in release_assets:

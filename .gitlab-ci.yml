@@ -1,8 +1,27 @@
 stages:
+  - mirror
   - test
   - install
   - upload
+  - release
   - docstats
+
+variables:
+  GITLAB_ACCESS_TOKEN: "$GITLAB_ACCESS_TOKEN"
+  GITHUB_OAUTH_TOKEN: "$GITHUB_OAUTH_TOKEN"
+
+github_mirror:
+  stage: mirror
+  only:
+    - master
+    - develop
+  script:
+    - git checkout master
+    - git pull origin master
+    - git push git@github.com:namboy94/gitlab_build_scripts.git master --force
+    - git checkout develop
+    - git pull origin develop
+    - git push git@github.com:namboy94/gitlab_build_scripts.git develop --force
 
 run_unit_tests_python_2:
   stage: test
@@ -49,6 +68,20 @@ binary_2_dist:
   script:
     - 3to2 . --write
     - python2 setup.py bdist_wheel upload
+
+upload_release_to_github:
+  stage: release
+  only:
+    - master
+  script:
+    - python3 builder.py github-release
+
+upload_release_to_gitlab:
+  stage: release
+  only:
+    - master
+  script:
+    - python3 builder.py gitlab-release
 
 generate_documentation_pdf:
   stage: docstats

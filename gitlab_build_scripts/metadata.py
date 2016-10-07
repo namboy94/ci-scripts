@@ -27,98 +27,156 @@ The metadata is stored here. It can be used by any other module in this project 
 notably by the setup.py file
 """
 
-project_name = "gitlab_build_scripts"
-"""
-The name of the project
-"""
 
-project_description = "Python Build Scripts for Gitlab CI"
-"""
-A short description of the project
-"""
+class GitRepository:
+    """
+    Class that stores information about the git repository sites used by this project
+    """
 
-version_number = "0.0.1"
-"""
-The current version of the program.
-"""
+    gitlab_url = "https://namibsun.net/namboy94/gitlab-build-scripts"
+    """
+    The Gitlab Project URL
+    """
 
-development_status = "Development Status :: 1 - Planning"
-"""
-The current development status of the program
-"""
+    gitlab_owner = "namboy94"
+    """
+    The project's owner's username on Gitlab
+    """
 
-project_url = "http://namibsun.net/namboy94/gitlab-build-scripts"
-"""
-A URL linking to the home page of the project, in this case a
-self-hosted Gitlab page
-"""
+    github_url = "https://github.com/namboy94/gitlab_build_scripts"
+    """
+    The Github site URL
+    """
 
-download_url = "http://gitlab.namibsun.net/namboy94/gitlab-build-scripts/repository/archive.zip?ref=master"
-"""
-A URL linking to the current source zip file.
-"""
+    github_owner = "namboy94"
+    """
+    The owner's Github username
+    """
 
-author_name = "Hermann Krumrey"
-"""
-The name(s) of the project author(s)
-"""
 
-author_email = "hermann@krumreyh.com"
-"""
-The email address(es) of the project author(s)
-"""
+class General:
+    """
+    Class that stores general information about a project
+    """
 
-license_type = "GNU GPL3"
-"""
-The project's license type
-"""
+    project_name = "gitlab-build-scripts"
+    """
+    The name of the project
+    """
 
-dependencies = ['raven']
-"""
-Python Packaging Index requirements
-"""
+    project_description = "Python Build Scripts for Gitlab CI"
+    """
+    A short description of the project
+    """
 
-audience = "Intended Audience :: Developers"
-"""
-The intended audience of this software
-"""
+    version_number = "0.0.1"
+    """
+    The current version of the program.
+    """
 
-environment = "Environment :: Console"
-"""
-The intended environment in which the program will be used
-"""
+    download_master_zip = GitRepository.gitlab_url + "/repository/archive.zip?ref=master"
+    """
+    A URL linking to the current source zip file of the master branch.
+    """
 
-programming_languages = ['Programming Language :: Python :: 3',
-                         'Programming Language :: Python :: 2']
-"""
-The programming language used in this project
-"""
+    author_names = "Hermann Krumrey"
+    """
+    The name(s) of the project author(s)
+    """
 
-topic = "Topic :: Utilities"
-"""
-The broad subject/topic of the project
-"""
+    author_emails = "hermann@krumreyh.com"
+    """
+    The email address(es) of the project author(s)
+    """
 
-language = "Natural Language :: English"
-"""
-The (default) language of this project
-"""
+    license_type = "GNU GPL3"
+    """
+    The project's license type
+    """
 
-compatible_os = "Operating System :: OS Independent"
-"""
-The Operating Systems on which the program can run
-"""
 
-license_identifier = "License :: OSI Approved :: GNU General Public License v3 (GPLv3)"
-"""
-The license used for this project
-"""
+class PypiVariables:
+    """
+    Variables used for distributing with setuptools to the python package index
+    """
 
-# Sentry Configuration
+    classifiers = [
 
-from raven import Client
-sentry = Client(dsn='http://7171853833d74c739fdb6186b1c84e62:51c68437eae54964b5c70ad14b476dbb@sentry.namibsun.net/4',
-                release=version_number)
-"""
-The Sentry client for logging bugs
-"""
+        "Topic :: Utilities",
+        "Environment :: Console",
+        "Natural Language :: English",
+        "Development Status :: 1 - Planning",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 2",
+        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)"
+
+    ]
+    """
+    The list trove classifiers applicable to this project
+    """
+
+    install_requires = ['raven']
+    """
+    Python Packaging Index dependencies
+    """
+
+    name = General.project_name.replace("-", "_")
+    """
+    The name of the project on Pypi
+    """
+
+    version = General.version_number
+    """
+    The version of the project on pypi
+    """
+
+    description = General.project_description
+    """
+    The short description of the project on pypi
+    """
+
+    url = GitRepository.gitlab_url
+    """
+    A URL linking to the home page of the project, in this case a
+    self-hosted Gitlab page
+    """
+
+    download_url = General.download_master_zip
+    """
+    A link to the current source zip of the project
+    """
+
+    author = General.author_names
+    """
+    The author(s) of this project
+    """
+
+    author_email = General.author_emails
+    """
+    The email adress(es) of the author(s)
+    """
+
+    license = General.license_type
+    """
+    The License used in this project
+    """
+
+
+class SentryLogger:
+    """
+    Class that handles the sentry logger initialization
+    """
+
+    sentry_dsn = "http://7171853833d74c739fdb6186b1c84e62:51c68437eae54964b5c70ad14b476dbb@sentry.namibsun.net/4"
+    """
+    The DSN associated with this project
+    """
+
+    # Create the Sentry client to log bugs
+    try:
+        from raven import Client
+        sentry = Client(dsn=sentry_dsn, release=General.version_number)
+    except ImportError:
+        Client = None
+        sentry = None

@@ -25,7 +25,7 @@ LICENSE
 # imports
 import os
 from setuptools import setup, find_packages
-import gitlab_build_scripts.metadata as metadata
+from gitlab_build_scripts.metadata import PypiVariables
 
 
 def readme():
@@ -63,26 +63,18 @@ def find_scripts():
     except OSError:
         return []
 
-setup(name=metadata.project_name,
-      version=metadata.version_number,
-      description=metadata.project_description,
+setup(name=PypiVariables.name,
+      version=PypiVariables.version,
+      description=PypiVariables.description,
       long_description=readme(),
-      classifiers=[metadata.development_status,
-                   metadata.audience,
-                   metadata.license_identifier,
-                   metadata.topic,
-                   metadata.language,
-                   metadata.compatible_os,
-                   metadata.environment,
-                   ] + metadata.programming_languages,
-      url=metadata.project_url,
-      download_url=metadata.download_url,
-      author=metadata.author_name,
-      author_email=metadata.author_email,
-      license=metadata.license_type,
+      classifiers=PypiVariables.classifiers,
+      url=PypiVariables.url,
+      download_url=PypiVariables.download_url,
+      author=PypiVariables.author,
+      author_email=PypiVariables.author_email,
+      license=PypiVariables.license,
       packages=find_packages(),
-      install_requires=metadata.dependencies,
-      dependency_links=[],
+      install_requires=PypiVariables.install_requires,
       test_suite='nose.collector',
       tests_require=['nose'],
       scripts=find_scripts(),
