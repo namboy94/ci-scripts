@@ -59,7 +59,7 @@ generate_documentation_pdf:
     - cd doc
     - make buildsource
     - make latexpdf
-    - rsync -av build/latex/GitlabBuildScripts.pdf /var/www/docs.namibsun.net/public_html/pdf_docs/gitlab-build-scripts.pdf --delete-before
+    - rsync -av build/latex/gitlab-build-scripts.pdf /var/www/docs.namibsun.net/public_html/pdf_docs/gitlab-build-scripts.pdf --delete-before
   artifacts:
     paths:
       - doc/build/latex/GitlabBuildScripts.pdf
