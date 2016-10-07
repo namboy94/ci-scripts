@@ -1,5 +1,6 @@
 V 0.1.1:
   - Fixed installation permission error in CI script
+  - Fixed name of Github releases
 V 0.1.0:
   - Github Release Uploader
   - Gitlab Release Uploader (uploading files currently unsupported)

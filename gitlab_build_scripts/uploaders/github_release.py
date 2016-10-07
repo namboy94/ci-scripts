@@ -64,7 +64,7 @@ def upload_github_release(repository_owner: str,
     json_payload = {
         "tag_name": version_number,
         "target_commitish": branch,
-        "name": version_number,
+        "name": "Release " + version_number,
         "body": release_notes,
         "draft": False,
         "prerelease": False
