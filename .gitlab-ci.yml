@@ -44,6 +44,7 @@ install_scripts:
     - master
   tags:
     - python
+    - production
   script:
     - python3 setup.py install --user
 
