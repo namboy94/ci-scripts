@@ -44,8 +44,9 @@ install_scripts:
     - master
   tags:
     - python
+    - production
   script:
-    - python3 setup.py install
+    - python3 setup.py install --user
 
 source_dist:
   stage: upload
