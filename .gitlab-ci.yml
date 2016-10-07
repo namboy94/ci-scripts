@@ -45,7 +45,7 @@ install_scripts:
   tags:
     - python
   script:
-    - python3 setup.py install
+    - python3 setup.py install --user
 
 source_dist:
   stage: upload
