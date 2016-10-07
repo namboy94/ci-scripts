@@ -23,8 +23,9 @@ LICENSE
 """
 
 import os
+import json
+import requests
 from typing import Dict, List
-from subprocess import check_output
 
 
 def upload_github_release(repository_owner: str,
@@ -32,7 +33,8 @@ def upload_github_release(repository_owner: str,
                           version_number: str,
                           o_auth_token: str,
                           release_notes: str,
-                          release_assets: List[Dict[str, str]]) -> None:
+                          release_assets: List[Dict[str, str]],
+                          branch: str = "master") -> None:
     """
     Uploads a new release to github.com
 
@@ -49,6 +51,7 @@ def upload_github_release(repository_owner: str,
                                      content_type:           the asset's content type, for example
                                                                  application/java-archive
                                                              for .jar files
+    :param branch:           the branch on which the release will be based on, defaults to the master branch
     :return: None
     """
 
@@ -57,20 +60,18 @@ def upload_github_release(repository_owner: str,
     repository_upload_url = "https://uploads.github.com/" + repository_path
     o_auth_parameter = "access_token=" + o_auth_token
 
-    create_release = ["curl",
-                      "-X",
-                      "POST",
-                      repository_api_url + "?" + o_auth_parameter,
-                      "-d",
-                      "{\"tag_name\": \"" + version_number + "\"," +
-                      " \"target_commitish\": \"master\"," +
-                      "\"name\":\"" + version_number + "\"," +
-                      "\"body\": \"" + release_notes + "\"," +
-                      "\"draft\": false," +
-                      "\"prerelease\": false}"]
+    post_url = repository_api_url + "?" + o_auth_parameter
+    json_payload = {
+        "tag_name": version_number,
+        "target_commitish": branch,
+        "name": version_number,
+        "body": release_notes,
+        "draft": False,
+        "prerelease": False
+    }
 
-    response = check_output(create_release).decode()
-    tag_id = response.split("\"id\": ")[1].split(",")[0]
+    response = json.loads(requests.post(post_url, json=json_payload).text)
+    tag_id = response["id"]
 
     for asset in release_assets:
 
@@ -78,19 +79,8 @@ def upload_github_release(repository_owner: str,
         file_name = os.path.basename(file_path).split(".")[0]
         content_type = asset["content_type"]
 
-        upload_binary = ["curl",
-                         "-X",
-                         "POST",
-                         "--header",
-                         "\"Content-Type:" + content_type + "\"",
-                         "--data-binary",
-                         "@" + file_path,
-                         "'" + repository_upload_url + "/" + tag_id + "/assets?name=" +
-                         file_name + "&" + o_auth_parameter + "'"]
+        with open(file_path, "rb") as bytefile:
+            data = bytefile.read()
 
-        # No Idea why this doesn't just work with Popen
-        params = ""
-        for param in upload_binary:
-            params += param + " "
-        params = params[0:-1]
-        os.system(params)
+        tag_api_url = repository_upload_url + "/" + str(tag_id) + "/assets?name=" + file_name + "&" + o_auth_parameter
+        requests.post(url=tag_api_url, data=data, headers={"Content-Type": content_type})

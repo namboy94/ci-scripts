@@ -22,9 +22,10 @@ This file is part of gitlab-build-scripts.
 LICENSE
 """
 
+import os
 import argparse
 from typing import List, Dict
-from gitlab_build_scripts.metadata import sentry
+from gitlab_build_scripts.metadata import SentryLogger
 from gitlab_build_scripts.project_parsers.general import get_changelog_for_version
 from gitlab_build_scripts.uploaders.github_release import upload_github_release
 from gitlab_build_scripts.uploaders.gitlab_release import upload_gitlab_release
@@ -42,7 +43,7 @@ def build(metadata_module: 'module', artifacts: List[Dict[str, str]]=None) -> No
     try:
         parser = argparse.ArgumentParser()
         parser.add_argument("mode", help="The build mode.\n"
-                                         "Available modes:   - github-release"
+                                         "Available modes:   - github-release\n"
                                          "                   - gitlab-release")
         args = parser.parse_args()
 
@@ -54,8 +55,8 @@ def build(metadata_module: 'module', artifacts: List[Dict[str, str]]=None) -> No
             print("Invalid mode. Enter --help for more information")
 
     except Exception as e:
-        str(e)
-        sentry.captureException()
+        SentryLogger.sentry.captureException()
+        raise e
 
 
 # noinspection PyUnresolvedReferences
@@ -69,20 +70,20 @@ def gitlab_release(metadata_module: 'module', artifacts: List[Dict[str, str]]=No
     """
     artifacts = [] if artifacts is None else artifacts
 
-    repository_name = metadata_module.project_url.rplit("/", 1)[1]
-    repository_owner = metadata_module.project_url.rsplit("/", 2)[1]
-    protocol = metadata_module.project_url.split(":", 1)[0]
-    gitlab_url = protocol + "://" + metadata_module.project_url.split("/", 3)[2]
+    repository_name = metadata_module.GitRepository.repository_name
+    repository_owner = metadata_module.GitRepository.gitlab_owner
+    gitlab_site_url = metadata_module.GitRepository.gitlab_site_url
 
     personal_access_token = os.environ["GITLAB_ACCESS_TOKEN"]
-    changelog = get_changelog_for_version(metadata_module.version_number)
+    version_number = metadata_module.General.version_number
+    changelog = get_changelog_for_version(version_number)
 
     upload_gitlab_release(repository_owner,
                           repository_name,
-                          gitlab_url,
-                          metadata_module.version_number,
+                          gitlab_site_url,
+                          version_number,
                           personal_access_token,
-                          "Release " + metadata_module.version_number,
+                          "Release " + version_number,
                           changelog,
                           artifacts,
                           "master")
@@ -99,15 +100,17 @@ def github_release(metadata_module: 'module', artifacts: List[Dict[str, str]]=No
     """
     artifacts = [] if artifacts is None else artifacts
 
-    repository_name = metadata_module.project_url.rplit("/", 1)[1]
-    repository_owner = metadata_module.project_url.rsplit("/", 2)[1]
+    repository_name = metadata_module.GitRepository.repository_name
+    repository_owner = metadata_module.GitRepository.github_owner
+
     o_auth_token = os.environ["GITHUB_OAUTH_TOKEN"]
 
-    changelog = get_changelog_for_version(metadata_module.version_number)
+    version_number = metadata_module.General.version_number
+    changelog = get_changelog_for_version(version_number)
 
     upload_github_release(repository_owner,
                           repository_name,
-                          metadata_module.version_number,
+                          version_number,
                           o_auth_token,
                           changelog,
                           artifacts)
