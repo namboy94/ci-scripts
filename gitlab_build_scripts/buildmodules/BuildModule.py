@@ -32,6 +32,12 @@ class BuildModule(object):
     steps
     """
 
+    @staticmethod
+    def get_identifier() -> str:
+        """
+        :return: A unique string identifier for this build module
+        """
+
     # noinspection PyUnresolvedReferences
     @staticmethod
     def get_artifacts(metadata_module: 'module') -> List[Dict[str, str]]:
@@ -46,8 +52,9 @@ class BuildModule(object):
     @staticmethod
     def build(metadata_module: 'module') -> None:
         """
+        Starts the build process for this module
 
-        :param metadata_module:
-        :return:
+        :param metadata_module: The matadata module of the project
+        :return:                None
         """
         raise NotImplementedError()
