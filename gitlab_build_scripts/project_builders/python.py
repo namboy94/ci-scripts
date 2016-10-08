@@ -26,18 +26,19 @@ import os
 import argparse
 from typing import List, Dict
 from gitlab_build_scripts.metadata import SentryLogger
-from gitlab_build_scripts.project_parsers.general import get_changelog_for_version
+from gitlab_build_scripts.buildmodules.BuildModule import BuildModule
 from gitlab_build_scripts.uploaders.github_release import upload_github_release
 from gitlab_build_scripts.uploaders.gitlab_release import upload_gitlab_release
+from gitlab_build_scripts.project_parsers.general import get_changelog_for_version
 
 
 # noinspection PyUnresolvedReferences
-def build(metadata_module: 'module', artifacts: List[Dict[str, str]]=None) -> None:
+def build(metadata_module: 'module', build_modules: List[BuildModule]) -> None:
     """
     Starts the build script for a python project
 
     :param metadata_module: the metadata module of the project
-    :param artifacts:       release assets for uploading to gitlab or github
+    :param build_modules:   BuildModule implementations
     :return:                None
     """
     try:
@@ -45,12 +46,13 @@ def build(metadata_module: 'module', artifacts: List[Dict[str, str]]=None) -> No
         parser.add_argument("mode", help="The build mode.\n"
                                          "Available modes:   - github-release\n"
                                          "                   - gitlab-release")
+
         args = parser.parse_args()
 
         if args.mode == "github-release":
-            github_release(metadata_module, artifacts)
+            github_release(metadata_module, build_modules)
         elif args.mode == "gitlab-release":
-            gitlab_release(metadata_module, artifacts)
+            gitlab_release(metadata_module, build_modules)
         else:
             print("Invalid mode. Enter --help for more information")
 
