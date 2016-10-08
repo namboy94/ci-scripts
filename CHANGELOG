@@ -1,3 +1,5 @@
+V 0.2.1:
+  - Fixed git repository mirroring step in Gitlab CI build
 V 0.2.0:
   - Implemented Build Module System
 V 0.1.4:
