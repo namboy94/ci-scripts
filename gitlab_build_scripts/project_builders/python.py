@@ -24,33 +24,48 @@ LICENSE
 
 import os
 import argparse
-from typing import List, Dict
+from typing import List
 from gitlab_build_scripts.metadata import SentryLogger
-from gitlab_build_scripts.project_parsers.general import get_changelog_for_version
+from gitlab_build_scripts.buildmodules.BuildModule import BuildModule
 from gitlab_build_scripts.uploaders.github_release import upload_github_release
 from gitlab_build_scripts.uploaders.gitlab_release import upload_gitlab_release
+from gitlab_build_scripts.project_parsers.general import get_changelog_for_version
 
 
-# noinspection PyUnresolvedReferences
-def build(metadata_module: 'module', artifacts: List[Dict[str, str]]=None) -> None:
+# noinspection PyUnresolvedReferences,PyDefaultArgument
+def build(metadata_module: 'module', build_modules: List[BuildModule]=[]) -> None:
     """
     Starts the build script for a python project
 
     :param metadata_module: the metadata module of the project
-    :param artifacts:       release assets for uploading to gitlab or github
+    :param build_modules:   BuildModule implementations
     :return:                None
     """
+    builds_location = os.path.join("builds", "gitlab_build_scripts")
+    if not os.path.isdir(builds_location):
+        os.makedirs(builds_location)
+
     try:
         parser = argparse.ArgumentParser()
         parser.add_argument("mode", help="The build mode.\n"
                                          "Available modes:   - github-release\n"
                                          "                   - gitlab-release")
+        parser.add_argument('module', nargs='?', default=None, help="Specifies the module to be run")
+
         args = parser.parse_args()
 
         if args.mode == "github-release":
-            github_release(metadata_module, artifacts)
+            github_release(metadata_module, build_modules)
+
         elif args.mode == "gitlab-release":
-            gitlab_release(metadata_module, artifacts)
+            gitlab_release(metadata_module, build_modules)
+
+        elif args.mode == "build":
+            for module in build_modules:
+                if module.get_identifier() == args.module:
+                    module.build(metadata_module)
+                    return
+            print("No module '" + args.module + "' specified in builder.py")
         else:
             print("Invalid mode. Enter --help for more information")
 
@@ -60,15 +75,17 @@ def build(metadata_module: 'module', artifacts: List[Dict[str, str]]=None) -> No
 
 
 # noinspection PyUnresolvedReferences
-def gitlab_release(metadata_module: 'module', artifacts: List[Dict[str, str]]=None) -> None:
+def gitlab_release(metadata_module: 'module', build_modules: List[BuildModule]) -> None:
     """
     Creates a new Gitlab Release tag from the master branch
 
     :param metadata_module: the metadata module of the project
-    :param artifacts:       release assets for uploading to gitlab
+    :param build_modules:   BuildModule classes that specify where release artifacts are located
     :return:                None
     """
-    artifacts = [] if artifacts is None else artifacts
+    artifacts = []
+    for module in build_modules:
+        artifacts += module.get_artifacts(metadata_module)
 
     repository_name = metadata_module.GitRepository.repository_name
     repository_owner = metadata_module.GitRepository.gitlab_owner
@@ -90,15 +107,17 @@ def gitlab_release(metadata_module: 'module', artifacts: List[Dict[str, str]]=No
 
 
 # noinspection PyUnresolvedReferences
-def github_release(metadata_module: 'module', artifacts: List[Dict[str, str]]=None) -> None:
+def github_release(metadata_module: 'module', build_modules: List[BuildModule]) -> None:
     """
     Creates a new GitHub Release tag
 
     :param metadata_module: the metadata module of the project
-    :param artifacts:       release assets for uploading to github
+    :param build_modules:   BuildModule classes that specify where release artifacts are located
     :return:                None
     """
-    artifacts = [] if artifacts is None else artifacts
+    artifacts = []
+    for module in build_modules:
+        artifacts += module.get_artifacts(metadata_module)
 
     repository_name = metadata_module.GitRepository.repository_name
     repository_owner = metadata_module.GitRepository.github_owner
