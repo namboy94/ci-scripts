@@ -26,4 +26,4 @@ import gitlab_build_scripts.metadata as metadata
 from gitlab_build_scripts.project_builders.python import build
 
 if __name__ == "__main__":
-    build(metadata, None)
+    build(metadata)
