@@ -41,7 +41,7 @@ def build(metadata_module: 'module', build_modules: List[BuildModule]=[]) -> Non
     :param build_modules:   BuildModule implementations
     :return:                None
     """
-    builds_location = os.path.join("builds", "gitlab_build_scripts")
+    builds_location = os.path.join("build", "gitlab_build_scripts")
     if not os.path.isdir(builds_location):
         os.makedirs(builds_location)
 
