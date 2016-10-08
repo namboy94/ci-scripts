@@ -24,22 +24,22 @@ LICENSE
 
 # imports
 import os
+from subprocess import Popen
 from typing import List, Dict
+from gitlab_build_scripts.buildmodules.BuildModule import BuildModule
 
 
-class BuildModule(object):
+class PyInstallerLinux(BuildModule):
     """
-    Class that models an abstract BuildModule that can be extended by other classes to create custom build
-    steps
+    Class that handles compiling a python program to a single Linux binary
     """
-
-    build_path = os.path.join("build", "gitlab_build_scripts")
 
     @staticmethod
     def get_identifier() -> str:
         """
-        :return: A unique string identifier for this build module
+        :return: pyinstaller_linux
         """
+        return "pyinstaller_linux"
 
     # noinspection PyUnresolvedReferences
     @staticmethod
@@ -49,7 +49,11 @@ class BuildModule(object):
         :return:                The build's release artifacts:
                                     List(Dict(file_path: content_type))
         """
-        raise NotImplementedError()
+        file_name = metadata_module.General.project_name + "-" + metadata_module.General.version_number
+        return {
+            "file_path": os.path.join(BuildModule.build_path, file_name),
+            "content_type": "application/octet-stream"
+        }
 
     # noinspection PyUnresolvedReferences
     @staticmethod
@@ -60,4 +64,4 @@ class BuildModule(object):
         :param metadata_module: The matadata module of the project
         :return:                None
         """
-        raise NotImplementedError()
+        Popen(["pyinstaller", o.path.join(metadata_module.PypiVariables.name, "main.py"), "--onefile"]).wait()
