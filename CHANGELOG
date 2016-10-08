@@ -1,3 +1,5 @@
+V 0.2.2:
+  - Fixed error in builder.py hindering the build to pass
 V 0.2.1:
   - Fixed git repository mirroring step in Gitlab CI build
 V 0.2.0:
