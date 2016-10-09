@@ -1,3 +1,5 @@
+V 0.2.7:
+  - Fixed Github release asset name being cut off.
 V 0.2.6:
   - Forgot to version bump in Version 0.2.5
 V 0.2.5:
