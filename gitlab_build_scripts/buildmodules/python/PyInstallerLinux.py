@@ -49,7 +49,7 @@ class PyInstallerLinux(BuildModule):
         :return:                The build's release artifacts:
                                     List(Dict(file_path: content_type))
         """
-        file_name = metadata_module.General.project_name + "-" + metadata_module.General.version_number
+        file_name = metadata_module.General.project_name + "-linux-" + metadata_module.General.version_number
         return [{
             "file_path": os.path.join(BuildModule.build_path, file_name),
             "content_type": "application/octet-stream"
@@ -66,7 +66,7 @@ class PyInstallerLinux(BuildModule):
         """
         Popen(["pyinstaller", os.path.join(metadata_module.PypiVariables.name, "main.py"), "--onefile"]).wait()
 
-        file_name = metadata_module.General.project_name + "-" + metadata_module.General.version_number
+        file_name = metadata_module.General.project_name + "-linux-" + metadata_module.General.version_number
         file_origin = os.path.join("dist", "main")
         file_destination = os.path.join(BuildModule.build_path, file_name)
 

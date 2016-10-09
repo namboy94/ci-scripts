@@ -49,7 +49,7 @@ class PyInstallerLinux(BuildModule):
         :return:                The build's release artifacts:
                                     List(Dict(file_path: content_type))
         """
-        file_name = metadata_module.General.project_name + "-" + metadata_module.General.version_number + ".exe"
+        file_name = metadata_module.General.project_name + "-windows-" + metadata_module.General.version_number + ".exe"
         return [{
             "file_path": os.path.join(BuildModule.build_path, file_name),
             "content_type": "application/octet-stream"
@@ -73,7 +73,7 @@ class PyInstallerLinux(BuildModule):
                "--windowed",
                "--icon=" + icon_file]).wait()
 
-        file_name = metadata_module.General.project_name + "-" + metadata_module.General.version_number + ".exe"
+        file_name = metadata_module.General.project_name + "-windows-" + metadata_module.General.version_number + ".exe"
         file_origin = os.path.join("dist", "main.exe")
         file_destination = os.path.join(BuildModule.build_path, file_name)
 

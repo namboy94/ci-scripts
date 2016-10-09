@@ -58,7 +58,7 @@ install_scripts_on_windows:
     - python
     - windows
   script:
-    - python3 setup.py install --user
+    - python setup.py install
 
 source_dist:
   stage: upload
