@@ -126,7 +126,7 @@ class PypiVariables:
     The list trove classifiers applicable to this project
     """
 
-    install_requires = ['raven']
+    install_requires = ['raven', 'requests']
     """
     Python Packaging Index dependencies
     """
