@@ -40,13 +40,23 @@ run_unit_tests_python_3:
   script:
     - python3 setup.py test
 
-install_scripts:
+install_scripts_on_linux:
   stage: install
   only:
     - master
   tags:
     - python
-    - production
+    - linux
+  script:
+    - python3 setup.py install --user
+
+install_scripts_on_windows:
+  stage: install
+  only:
+    - master
+  tags:
+    - python
+    - windows
   script:
     - python3 setup.py install --user
 
