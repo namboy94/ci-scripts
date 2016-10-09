@@ -50,10 +50,10 @@ class PyInstallerLinux(BuildModule):
                                     List(Dict(file_path: content_type))
         """
         file_name = metadata_module.General.project_name + "-" + metadata_module.General.version_number
-        return {
+        return [{
             "file_path": os.path.join(BuildModule.build_path, file_name),
             "content_type": "application/octet-stream"
-        }
+        }]
 
     # noinspection PyUnresolvedReferences
     @staticmethod

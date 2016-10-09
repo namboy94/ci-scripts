@@ -1,3 +1,5 @@
+V 0.2.4:
+  - Fixed Pyinstaller Build Module returning a dict instead of a list
 V 0.2.3:
   - Fixed incorrect file paths in PyInstallerLinux build module
 V 0.2.2:
