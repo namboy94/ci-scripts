@@ -64,4 +64,10 @@ class PyInstallerLinux(BuildModule):
         :param metadata_module: The matadata module of the project
         :return:                None
         """
-        Popen(["pyinstaller", o.path.join(metadata_module.PypiVariables.name, "main.py"), "--onefile"]).wait()
+        Popen(["pyinstaller", os.path.join(metadata_module.PypiVariables.name, "main.py"), "--onefile"]).wait()
+
+        file_name = metadata_module.General.project_name + "-" + metadata_module.General.version_number
+        file_origin = os.path.join("dist", "main")
+        file_destination = os.path.join(BuildModule.build_path, file_name)
+
+        os.rename(file_origin, file_destination)
