@@ -15,6 +15,8 @@ github_mirror:
   only:
     - master
     - develop
+  tags:
+    - linux
   script:
     - git checkout master
     - git pull origin master
