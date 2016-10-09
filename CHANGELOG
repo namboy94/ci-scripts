@@ -1,3 +1,5 @@
+V 0.2.5:
+  - Fixed Github Uploader cutting off the filename after a dot
 V 0.2.4:
   - Fixed Pyinstaller Build Module returning a dict instead of a list
 V 0.2.3:
