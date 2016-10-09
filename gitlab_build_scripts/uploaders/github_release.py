@@ -76,7 +76,7 @@ def upload_github_release(repository_owner: str,
     for asset in release_assets:
 
         file_path = asset["file_path"]
-        file_name = os.path.basename(file_path).rsplit(".", 1)[0]
+        file_name = os.path.basename(file_path)
         content_type = asset["content_type"]
 
         with open(file_path, "rb") as bytefile:
