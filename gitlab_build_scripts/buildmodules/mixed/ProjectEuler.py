@@ -44,6 +44,7 @@ class ProjectEuler(object):
     build_invalid = "[![TeamCity CodeBetter]" \
                     "(https://img.shields.io/teamcity/codebetter/bt428.svg?maxAge=2592000)]()"
 
+    # noinspection PyCallingNonCallable
     @staticmethod
     def build(languages: List[Language], refresh: bool = True) -> None:
         """
@@ -57,14 +58,16 @@ class ProjectEuler(object):
         problem_states = {}
 
         for problem in os.listdir("problems"):
+
             json_file_path = os.path.join("problems", problem, "state.json")
+            problem_number = int(problem.split("-")[1])
+
             if not os.path.isfile(json_file_path) or refresh:
-                problem_number = int(problem.split("-")[1])
                 problem_states[problem_number] = {}
             else:
                 with open(json_file_path, 'r') as json_file:
                     json_content = json.load(json_file)
-                    problem_states[problem] = json_content
+                    problem_states[problem_number] = json_content
 
         for problem in problem_states:
 
@@ -72,15 +75,16 @@ class ProjectEuler(object):
 
             for language in languages:
 
-                if not language.get_name() in problem_states:
+                if not language().get_name() in problem_states:
 
-                    # noinspection PyCallingNonCallable
-                    runtime, result = language().run(problem)
+                    run_result = language().run(problem)
+                    if run_result is not None:
 
-                    problem_state[language.get_name] = {"runtime": runtime,
-                                                        "result": result}
+                        runtime, result = run_result
+                        problem_state[language().get_name()] = {"runtime": runtime,
+                                                                "result": result}
 
-            json_file_path = os.path.join("problems", problem, "state.json")
+            json_file_path = os.path.join("problems", "problem-" + str(problem).zfill(4), "state.json")
             with open(json_file_path, 'w') as json_file:
                 json.dump(problem_state, json_file)
 
@@ -124,7 +128,8 @@ class ProjectEuler(object):
                 badge = ProjectEuler.build_passed
             else:
                 badge = ProjectEuler.build_failed
-            runtime = "%." + str(decimals) + "f" % str(problem[language]["runtime"])
+
+            '{0:.{1}%}'.format(problem[language]["runtime"], decimals)
 
         return badge, runtime
 
@@ -138,7 +143,8 @@ class ProjectEuler(object):
         :param problem_states: the problem states: Dict[problem_#: Dict["language": Dict["runtime", "results"]]]
         :return:               None
         """
-        language_names = list(language.get_name() for language in languages)
+        # noinspection PyCallingNonCallable
+        language_names = list(language().get_name() for language in languages)
 
         main_readme = "# Project Euler\n\nImplementations of Project Euler problems in various languages\n\n"
         main_readme += "## Problem Status:\n\n|Problem" + ProjectEuler.generate_language_header(language_names) + "\n"
@@ -164,7 +170,7 @@ class ProjectEuler(object):
             main_readme += main_table_entry + "\n"
             runtime_table += runtime_table_entry + "\n"
 
-        with open("README.md", 'r') as readme:
+        with open("README.md", 'w') as readme:
             readme.write(main_readme + runtime_table)
 
     @staticmethod
@@ -195,8 +201,9 @@ class ProjectEuler(object):
         for language in sorted(language_names):
 
             badge, runtime = ProjectEuler.generate_badge_and_runtime(problem, language, correct_result, 6)
+            result = "---" if runtime == "---" else problem[language]["result"]
             # noinspection PyTypeChecker
-            problem_readme += "|" + language + "|" + badge + "|" + problem[language]["result"] + "|" + runtime + "|\n"
+            problem_readme += "|" + language + "|" + badge + "|" + result + "|" + runtime + "|\n"
 
         with open(os.path.join(problem_directory, "README.md"), 'w') as readme:
             readme.write(problem_readme)

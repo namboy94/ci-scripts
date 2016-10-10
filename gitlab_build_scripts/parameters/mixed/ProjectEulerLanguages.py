@@ -26,7 +26,7 @@ LICENSE
 import os
 import time
 from typing import Tuple, List, Dict
-from subprocess import check_output, Popen
+from subprocess import check_output, Popen, CalledProcessError
 
 
 class Language(object):
@@ -94,7 +94,10 @@ class Language(object):
             if self.compile_command is not None:
                 Popen(self.create_command(self.compile_command, script)).wait()
 
-            output = check_output(self.create_command(self.run_command, script))
+            try:
+                output = check_output(self.create_command(self.run_command, script)).decode()
+            except CalledProcessError:
+                output = ""
 
             if self.cleanup_command is not None:
                 Popen(self.create_command(self.cleanup_command, script)).wait()
@@ -157,7 +160,7 @@ class GoCompiled(Go):
     """
 
     name = "Go Compiled"
-    compile_command = ["go", "build" "-o", "out", "@@@"]
+    compile_command = ["go", "build", "-o", "out", "@@@"]
     run_command = ["./out"]
     cleanup_command = ["rm", "out"]
 
@@ -241,7 +244,7 @@ class Rust(Language):
     extension = ".rs"
 
 
-class RustOptimized(Language):
+class RustOptimized(Rust):
     """
     The Rust Programming Language, compiled with optimization flags
     """
