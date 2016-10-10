@@ -136,7 +136,7 @@ class COptimized(C):
     The C Programming Language, with compiler optimization
     """
 
-    name = "Optimized C"
+    name = "C Optimized"
     compile_command = ["gcc", "-o", "out", "-O3", "@@@"]
 
 
@@ -156,7 +156,7 @@ class GoCompiled(Go):
     The Go Programming Language, compiled
     """
 
-    name = "Compiled Go"
+    name = "Go Compiled"
     compile_command = ["go", "build" "-o", "out", "@@@"]
     run_command = ["./out"]
     cleanup_command = ["rm", "out"]
@@ -180,7 +180,7 @@ class HaskellOptimized(Haskell):
     The Haskell Programming Language, compiled with optimization flags
     """
 
-    name = "Haskell"
+    name = "Haskell Optimized"
     compile_command = ["ghc", "-o", "out", "-O2", "-optc-O3", "@@@"]
 
 
@@ -190,7 +190,7 @@ class Java(Language):
     """
 
     name = "Java"
-    compile_command = ["javac",  "@@@"]
+    compile_command = ["javac", "@@@"]
     run_command = ["java", "###"]
     cleanup_command = ["rm", "###.class"]
     directory_name = "java"
@@ -246,5 +246,5 @@ class RustOptimized(Language):
     The Rust Programming Language, compiled with optimization flags
     """
 
-    name = "Optimized Rust"
+    name = "Rust Optimized"
     compile_command = ["rustc", "-O", "@@@"]
