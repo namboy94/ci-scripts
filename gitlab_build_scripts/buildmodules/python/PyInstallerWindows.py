@@ -26,7 +26,8 @@ LICENSE
 import os
 from subprocess import Popen
 from typing import List, Dict
-from gitlab_build_scripts.buildmodules.BuildModule import BuildModule
+
+from gitlab_build_scripts.buildmodules.python.BuildModule import BuildModule
 
 
 class PyInstallerWindows(BuildModule):

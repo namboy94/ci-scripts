@@ -22,11 +22,12 @@ This file is part of gitlab-build-scripts.
 LICENSE
 """
 
-import os
 import argparse
+import os
 from typing import List
+
 from gitlab_build_scripts.metadata import SentryLogger
-from gitlab_build_scripts.buildmodules.BuildModule import BuildModule
+from gitlab_build_scripts.buildmodules.python.BuildModule import BuildModule
 from gitlab_build_scripts.uploaders.github_release import upload_github_release
 from gitlab_build_scripts.uploaders.gitlab_release import upload_gitlab_release
 from gitlab_build_scripts.project_parsers.general import get_changelog_for_version

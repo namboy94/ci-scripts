@@ -21,3 +21,24 @@ This file is part of gitlab-build-scripts.
     along with gitlab-build-scripts.  If not, see <http://www.gnu.org/licenses/>.
 LICENSE
 """
+
+# imports
+import os
+from subprocess import Popen
+from typing import List, Dict
+
+
+class ProjectEuler(object):
+    """
+    Class that handles building Project Euler Readme files
+    """
+
+    @staticmethod
+    def build(refresh: bool = True) -> None:
+        """
+        Starts the build process for the Project Euler readmes
+
+        :param refresh: Flag that can be set to rebuild all problems. If False, will only build new ones
+        :return:        None
+        """
+
