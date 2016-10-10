@@ -1,3 +1,6 @@
+V 0.4.2:
+  - Enabled Sentry logging in Project Euler Builder
+  - Fixed access to non-existand directories in Project Euler Language Runners
 V 0.4.1:
   - Made project Euler builder more resilient against compiler errors
 V 0.4.0:
