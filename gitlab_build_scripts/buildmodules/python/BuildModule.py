@@ -29,7 +29,7 @@ from typing import List, Dict
 
 class BuildModule(object):
     """
-    Class that models an abstract BuildModule that can be extended by other classes to create custom build
+    Class that models an abstract python BuildModule that can be extended by other classes to create custom build
     steps
     """
 
