@@ -1,3 +1,6 @@
+V 0.3.0:
+  - Implemented Windows PyInstaller build module
+  - Added a 'linux' tag to python executables
 V 0.2.7:
   - Fixed Github release asset name being cut off.
 V 0.2.6:
