@@ -49,7 +49,9 @@ def build(metadata_module: 'module', build_modules: List[BuildModule]=[]) -> Non
         parser = argparse.ArgumentParser()
         parser.add_argument("mode", help="The build mode.\n"
                                          "Available modes:   - github-release\n"
-                                         "                   - gitlab-release")
+                                         "                   - gitlab-release\n"
+                                         "                   - build pyinstaller_windows\n"
+                                         "                   - build pyinstaller_linux")
         parser.add_argument('module', nargs='?', default=None, help="Specifies the module to be run")
 
         args = parser.parse_args()
