@@ -22,11 +22,12 @@ This file is part of gitlab-build-scripts.
 LICENSE
 """
 
-import os
 import argparse
+import os
 from typing import List
+
 from gitlab_build_scripts.metadata import SentryLogger
-from gitlab_build_scripts.buildmodules.BuildModule import BuildModule
+from gitlab_build_scripts.buildmodules.python.BuildModule import BuildModule
 from gitlab_build_scripts.uploaders.github_release import upload_github_release
 from gitlab_build_scripts.uploaders.gitlab_release import upload_gitlab_release
 from gitlab_build_scripts.project_parsers.general import get_changelog_for_version
@@ -49,7 +50,9 @@ def build(metadata_module: 'module', build_modules: List[BuildModule]=[]) -> Non
         parser = argparse.ArgumentParser()
         parser.add_argument("mode", help="The build mode.\n"
                                          "Available modes:   - github-release\n"
-                                         "                   - gitlab-release")
+                                         "                   - gitlab-release\n"
+                                         "                   - build pyinstaller_windows\n"
+                                         "                   - build pyinstaller_linux")
         parser.add_argument('module', nargs='?', default=None, help="Specifies the module to be run")
 
         args = parser.parse_args()
