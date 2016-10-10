@@ -53,8 +53,7 @@ def build(languages: List[Language], source_branch: str = "publish", target_bran
                                      "                    run.")
     args = parser.parse_args()
 
-    # TODO DO THIS
-    # checkout(target_branch, source_branch)
+    checkout(target_branch, source_branch)
 
     if args.mode == "refresh":
         ProjectEuler.build(languages, refresh=True)
@@ -64,8 +63,7 @@ def build(languages: List[Language], source_branch: str = "publish", target_bran
         print("Incorrect mode specified. Use the --help flag to see the available options")
         sys.exit(1)
 
-    # TODO DO THIS
-    # push(target_branch)
+    push(target_branch)
 
 
 def checkout(target: str, source: str) -> None:
