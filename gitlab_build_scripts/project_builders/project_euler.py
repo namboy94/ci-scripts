@@ -25,11 +25,13 @@ LICENSE
 # imports
 import sys
 import argparse
+from typing import List
 from subprocess import Popen
 from gitlab_build_scripts.buildmodules.mixed.ProjectEuler import ProjectEuler
+from gitlab_build_scripts.parameters.mixed.ProjectEulerLanguages import Language
 
 
-def build(source_branch: str = "publish", target_branch: str = "master") -> None:
+def build(languages: List[Language], source_branch: str = "publish", target_branch: str = "master") -> None:
     """
     Builds project Euler's Readme files after running the implemented solutions of one branch and then pushes
     the results to another branch
@@ -41,6 +43,7 @@ def build(source_branch: str = "publish", target_branch: str = "master") -> None
 
     :param source_branch: The source branch (Publish)
     :param target_branch: The target branch (Master)
+    :param languages:     The languages to use when generating readmes
     :return:              None
     """
     parser = argparse.ArgumentParser()
@@ -53,9 +56,9 @@ def build(source_branch: str = "publish", target_branch: str = "master") -> None
     checkout(target_branch, source_branch)
 
     if args.mode == "refresh":
-        ProjectEuler.build(refresh=True)
+        ProjectEuler.build(languages, refresh=True)
     elif args.mode == "update":
-        ProjectEuler.build(refresh=False)
+        ProjectEuler.build(languages, refresh=False)
     else:
         print("Incorrect mode specified. Use the --help flag to see the available options")
         sys.exit(1)
