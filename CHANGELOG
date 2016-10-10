@@ -1,3 +1,5 @@
+V 0.4.0:
+  - Project Euler build framework
 V 0.3.1:
   - Fixed incorrect class name of pyinstaller windows build module
 V 0.3.0:
