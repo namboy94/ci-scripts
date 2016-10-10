@@ -65,7 +65,7 @@ def build(languages: List[Language], source_branch: str = "publish", target_bran
         sys.exit(1)
 
     # TODO DO THIS
-    push(target_branch)
+    # push(target_branch)
 
 
 def checkout(target: str, source: str) -> None:

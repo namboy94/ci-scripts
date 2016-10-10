@@ -26,7 +26,7 @@ LICENSE
 import os
 import time
 from typing import Tuple, List, Dict
-from subprocess import check_output, Popen, CalledProcessError
+from subprocess import check_output, CalledProcessError
 
 
 class Language(object):
@@ -92,15 +92,21 @@ class Language(object):
             start_time = time.time()
 
             if self.compile_command is not None:
-                Popen(self.create_command(self.compile_command, script)).wait()
+                try:
+                    check_output(self.create_command(self.compile_command, script))
+                except CalledProcessError:
+                    pass
 
             try:
-                output = check_output(self.create_command(self.run_command, script)).decode()
+                output = check_output(self.create_command(self.run_command, script)).decode().rstrip().lstrip()
             except CalledProcessError:
                 output = ""
 
             if self.cleanup_command is not None:
-                Popen(self.create_command(self.cleanup_command, script)).wait()
+                try:
+                    check_output(self.create_command(self.cleanup_command, script))
+                except CalledProcessError:
+                    pass
 
             end_time = time.time()
 

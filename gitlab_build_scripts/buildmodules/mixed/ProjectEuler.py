@@ -75,7 +75,7 @@ class ProjectEuler(object):
 
             for language in languages:
 
-                if not language().get_name() in problem_states:
+                if not language().get_name() in problem_state:
 
                     run_result = language().run(problem)
                     if run_result is not None:
@@ -90,21 +90,27 @@ class ProjectEuler(object):
 
         ProjectEuler.generate_readmes(languages, problem_states)
 
+    # noinspection PyDefaultArgument
     @staticmethod
-    def generate_language_header(language_names: List[str]) -> str:
+    def generate_language_header(language_names: List[str], pre: List[str] = [], post: List[str] = []) -> str:
         """
         Generates a language table header for a list of language names
 
         :param language_names: the languages to use
+        :param pre:            table headers to be shown before the languages
+        :param post:           table headers to be shown after the languages
         :return:               the language markdown header
         """
-        header = "|"
-        subheader = "|"
-        for language in sorted(language_names):
-            header += language.ljust(5) + "|"
-            subheader += ":" + (max(3, len(language) - 2) * "-") + ":|"
+        headers = pre + list(sorted(language_names)) + post
 
-        return header + "\n" + subheader
+        table_header = "|"
+        table_subheader = "|"
+
+        for header in headers:
+            table_header += header.ljust(5) + "|"
+            table_subheader += ":" + (max(3, len(header) - 2) * "-") + ":|"
+
+        return table_header + "\n" + table_subheader
 
     @staticmethod
     def generate_badge_and_runtime(problem: Dict[str, Dict[str, str or float]],
@@ -126,10 +132,9 @@ class ProjectEuler(object):
         if language in problem:
             if problem[language]["result"] == correct_result:
                 badge = ProjectEuler.build_passed
+                runtime = ("%." + str(decimals) + "f") % problem[language]["runtime"] + "s"
             else:
                 badge = ProjectEuler.build_failed
-
-            '{0:.{1}%}'.format(problem[language]["runtime"], decimals)
 
         return badge, runtime
 
@@ -147,13 +152,18 @@ class ProjectEuler(object):
         language_names = list(language().get_name() for language in languages)
 
         main_readme = "# Project Euler\n\nImplementations of Project Euler problems in various languages\n\n"
-        main_readme += "## Problem Status:\n\n|Problem" + ProjectEuler.generate_language_header(language_names) + "\n"
-        runtime_table = "\n## Runtimes:\n\n|:-----:" + ProjectEuler.generate_language_header(language_names) + "\n"
+        main_readme += "## Problem Status:\n\n" + \
+                       ProjectEuler.generate_language_header(language_names, pre=["Problem"]) + "\n"
+        runtime_table = "\n## Runtimes:\n\n" + ProjectEuler.generate_language_header(language_names,
+                                                                                     pre=["Problem"],
+                                                                                     post=["Average", "Fastest"]) + "\n"
 
         for problem in sorted(problem_states):
 
             problem_state = problem_states[problem]
-            correct_result = ProjectEuler.generate_problem_readme(problem_state, problem, language_names)
+            correct_result, fastest_language, runtime_average =\
+                ProjectEuler.generate_problem_readme(problem_state, problem, language_names)
+
             problem_link = "[" + str(problem) + "](" + os.path.join("problems",
                                                                     "problem-" + str(problem).zfill(4),
                                                                     "README.md") + ")"
@@ -168,7 +178,7 @@ class ProjectEuler(object):
                 runtime_table_entry += runtime + "|"
 
             main_readme += main_table_entry + "\n"
-            runtime_table += runtime_table_entry + "\n"
+            runtime_table += runtime_table_entry + "%4f|" % runtime_average + fastest_language + "|\n"
 
         with open("README.md", 'w') as readme:
             readme.write(main_readme + runtime_table)
@@ -176,15 +186,20 @@ class ProjectEuler(object):
     @staticmethod
     def generate_problem_readme(problem: Dict[str, Dict[str, str or float]],
                                 problem_number: int,
-                                language_names: List[str]) -> str:
+                                language_names: List[str]) -> Tuple[str, str, float]:
         """
         Generates the Readme for a single problem
 
         :param problem:        the problem to turn into a readme file
         :param problem_number: the problem's number
         :param language_names: list of language names to be displayed in the readme
-        :return:               the result of the readme
+        :return:               the correct result of the problem, the fastest language, the average runtime
         """
+        # Statistics Gatherers
+        average_calculator = {"sum": 0.0, "amount": 0}
+        fastest_language = {"language": "", "runtime": -1.0}
+        successful_build = False
+
         problem_readme = "# Problem " + str(problem_number) + "\n\n"
 
         problem_directory = os.path.join("problems", "problem-" + str(problem_number).zfill(4))
@@ -194,7 +209,7 @@ class ProjectEuler(object):
         problem_readme = problem_readme.rstrip().lstrip()
         correct_result = problem_readme.rsplit("Answer: ", 1)[1]
 
-        problem_readme += "## Stats:\n\n"
+        problem_readme += "\n\n## Stats:\n\n"
         problem_readme += "|Language|Status|Answer|Runtime|\n"
         problem_readme += "|:---:|:---:|:---:|:---:|\n"
 
@@ -202,10 +217,28 @@ class ProjectEuler(object):
 
             badge, runtime = ProjectEuler.generate_badge_and_runtime(problem, language, correct_result, 6)
             result = "---" if runtime == "---" else problem[language]["result"]
+
+            if runtime != "---":
+                successful_build = True
+                average_calculator["sum"] += problem[language]["runtime"]
+                average_calculator["amount"] += 1
+                if problem[language]["runtime"] < fastest_language["runtime"] or fastest_language["runtime"] == -1.0:
+                    fastest_language["runtime"] = problem[language]["runtime"]
+                    fastest_language["language"] = language
+
             # noinspection PyTypeChecker
             problem_readme += "|" + language + "|" + badge + "|" + result + "|" + runtime + "|\n"
+
+        try:
+            average_runtime = average_calculator["sum"] / average_calculator["amount"]
+        except ZeroDivisionError:
+            average_runtime = -1.0
+
+        problem_readme += "|Average|"
+        problem_readme += ProjectEuler.build_passed if successful_build else ProjectEuler.build_failed
+        problem_readme += "|" + correct_result + "|%.6f" % average_runtime + "|"
 
         with open(os.path.join(problem_directory, "README.md"), 'w') as readme:
             readme.write(problem_readme)
 
-        return correct_result
+        return correct_result, fastest_language["language"], average_runtime
