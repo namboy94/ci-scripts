@@ -78,6 +78,9 @@ class Language(object):
         problem_lang_dir = os.path.join("problems", "problem-" + str(problem_number).zfill(4), self.directory_name)
         scripts = []
 
+        if not os.path.isdir(problem_lang_dir):
+            return None
+
         for script in os.listdir(problem_lang_dir):
             if script.endswith(self.extension):
                 scripts.append({"filename": script,                            # @@@
