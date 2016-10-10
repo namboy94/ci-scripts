@@ -1,3 +1,5 @@
+V 0.4.3:
+  - Added repository parameter to project euler builder to enable ssh pushing
 V 0.4.2:
   - Enabled Sentry logging in Project Euler Builder
   - Fixed access to non-existand directories in Project Euler Language Runners

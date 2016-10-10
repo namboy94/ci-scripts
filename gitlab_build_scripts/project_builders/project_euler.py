@@ -32,7 +32,8 @@ from gitlab_build_scripts.buildmodules.mixed.ProjectEuler import ProjectEuler
 from gitlab_build_scripts.parameters.mixed.ProjectEulerLanguages import Language
 
 
-def build(languages: List[Language], source_branch: str = "publish", target_branch: str = "master") -> None:
+def build(languages: List[Language], git_repository_path: str,
+          source_branch: str = "publish", target_branch: str = "master") -> None:
     """
     Builds project Euler's Readme files after running the implemented solutions of one branch and then pushes
     the results to another branch
@@ -42,10 +43,11 @@ def build(languages: List[Language], source_branch: str = "publish", target_bran
               Publish gets pushed to once a problem is completed. It gets called bi Gitlab CI
               Master only gets pushed to by Gitlab Ci from the publish branch once the Readmes were completed
 
-    :param source_branch: The source branch (Publish)
-    :param target_branch: The target branch (Master)
-    :param languages:     The languages to use when generating readmes
-    :return:              None
+    :param languages:           The languages to use when generating readmes
+    :param git_repository_path: The path to the (SSH) git repository
+    :param source_branch:       The source branch (Publish)
+    :param target_branch:       The target branch (Master)
+    :return:                    None
     """
     try:
         parser = argparse.ArgumentParser()
@@ -65,7 +67,7 @@ def build(languages: List[Language], source_branch: str = "publish", target_bran
             print("Incorrect mode specified. Use the --help flag to see the available options")
             sys.exit(1)
 
-        push(target_branch)
+        push(target_branch, git_repository_path)
 
     except Exception as e:
         SentryLogger.sentry.captureException()
@@ -85,13 +87,14 @@ def checkout(target: str, source: str) -> None:
     Popen(["git", "merge", source, "--no-edit", "no-ff"]).wait()
 
 
-def push(branch: str) -> None:
+def push(branch: str, repository: str) -> None:
     """
     Git-adds all, then commits, then pushes the branch
 
-    :param branch: the branch to push
+    :param branch:     the branch to push
+    :param repository: the remote repository to which to push to
     :return:       None
     """
     Popen(["git", "add", "--all"]).wait()
     Popen(["git", "commit", "-m", "Updated Readme"]).wait()
-    Popen(["git", "push", "origin", branch]).wait()
+    Popen(["git", "push", repository, branch]).wait()
