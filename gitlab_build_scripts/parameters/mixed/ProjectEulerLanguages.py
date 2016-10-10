@@ -94,18 +94,18 @@ class Language(object):
             if self.compile_command is not None:
                 try:
                     check_output(self.create_command(self.compile_command, script))
-                except CalledProcessError:
+                except (CalledProcessError, FileNotFoundError, Exception):
                     pass
 
             try:
                 output = check_output(self.create_command(self.run_command, script)).decode().rstrip().lstrip()
-            except CalledProcessError:
+            except (CalledProcessError, FileNotFoundError, Exception):
                 output = ""
 
             if self.cleanup_command is not None:
                 try:
                     check_output(self.create_command(self.cleanup_command, script))
-                except CalledProcessError:
+                except (CalledProcessError, FileNotFoundError, Exception):
                     pass
 
             end_time = time.time()
