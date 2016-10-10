@@ -16,7 +16,7 @@ github_mirror:
     - master
     - develop
   tags:
-    - linux
+    - key_github
   script:
     - git checkout master
     - git pull origin master
@@ -28,6 +28,7 @@ github_mirror:
 run_unit_tests_python_2:
   stage: test
   tags:
+    - linux
     - python
   script:
     - 3to2 . --write
@@ -36,6 +37,7 @@ run_unit_tests_python_2:
 run_unit_tests_python_3:
   stage: test
   tags:
+    - linux
     - python
   script:
     - python3 setup.py test
@@ -45,8 +47,8 @@ install_scripts_on_linux:
   only:
     - master
   tags:
-    - python
     - linux
+    - python
   script:
     - python3 setup.py install --user
 
@@ -55,8 +57,8 @@ install_scripts_on_windows:
   only:
     - master
   tags:
-    - python
     - windows
+    - python
   script:
     - python setup.py install
 
@@ -65,6 +67,7 @@ source_dist:
   only:
     - master
   tags:
+    - linux
     - python
   script:
     - python3 setup.py register sdist upload
@@ -74,6 +77,7 @@ binary_3_dist:
   only:
     - master
   tags:
+    - linux
     - python
   script:
     - python3 setup.py bdist_wheel upload
@@ -83,6 +87,7 @@ binary_2_dist:
   only:
     - master
   tags:
+    - linux
     - python
   script:
     - 3to2 . --write
@@ -94,6 +99,7 @@ upload_release_to_github:
   only:
     - master
   tags:
+    - linux
     - python
   script:
     - python3 builder.py github-release
@@ -103,6 +109,7 @@ upload_release_to_gitlab:
   only:
     - master
   tags:
+    - linux
     - python
   script:
     - python3 builder.py gitlab-release
@@ -113,6 +120,7 @@ generate_documentation_pdf:
     - master
     - develop
   tags:
+    - linux
     - python
   script:
     - cd doc
@@ -129,6 +137,7 @@ generate_documentation_html:
     - master
     - develop
   tags:
+    - linux
     - python
   script:
     - cd doc
@@ -145,7 +154,7 @@ gitstats:
     - master
     - develop
   tags:
-    - python
+    - linux
   script:
     - gitstats . git_stats
     - rsync -av git_stats/ /var/www/gitstats.namibsun.net/public_html/gitstats/gitlab-build-scripts --delete-before
@@ -159,7 +168,7 @@ git_stats:
     - master
     - develop
   tags:
-    - python
+    - linux
   script:
     - git_stats generate
     - rsync -av git_stats/ /var/www/gitstats.namibsun.net/public_html/git_stats/gitlab-build-scripts --delete-before
