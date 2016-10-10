@@ -27,6 +27,7 @@ import sys
 import argparse
 from typing import List
 from subprocess import Popen
+from gitlab_build_scripts.metadata import SentryLogger
 from gitlab_build_scripts.buildmodules.mixed.ProjectEuler import ProjectEuler
 from gitlab_build_scripts.parameters.mixed.ProjectEulerLanguages import Language
 
@@ -46,24 +47,29 @@ def build(languages: List[Language], source_branch: str = "publish", target_bran
     :param languages:     The languages to use when generating readmes
     :return:              None
     """
-    parser = argparse.ArgumentParser()
-    parser.add_argument("mode", help="Defines the build mode. Avaliable modes are:\n"
-                                     "        - refresh:  Runs all problem solutions"
-                                     "        - update:   Only Runs problem solutions without a previously successful"
-                                     "                    run.")
-    args = parser.parse_args()
+    try:
+        parser = argparse.ArgumentParser()
+        parser.add_argument("mode", help="Defines the build mode. Avaliable modes are:\n"
+                                         "        - refresh:  Runs all problem solutions"
+                                         "        - update:   Only Runs problem solutions without "
+                                         "                    a previously successful run")
+        args = parser.parse_args()
 
-    checkout(target_branch, source_branch)
+        checkout(target_branch, source_branch)
 
-    if args.mode == "refresh":
-        ProjectEuler.build(languages, refresh=True)
-    elif args.mode == "update":
-        ProjectEuler.build(languages, refresh=False)
-    else:
-        print("Incorrect mode specified. Use the --help flag to see the available options")
-        sys.exit(1)
+        if args.mode == "refresh":
+            ProjectEuler.build(languages, refresh=True)
+        elif args.mode == "update":
+            ProjectEuler.build(languages, refresh=False)
+        else:
+            print("Incorrect mode specified. Use the --help flag to see the available options")
+            sys.exit(1)
 
-    push(target_branch)
+        push(target_branch)
+
+    except Exception as e:
+        SentryLogger.sentry.captureException()
+        raise e
 
 
 def checkout(target: str, source: str) -> None:
