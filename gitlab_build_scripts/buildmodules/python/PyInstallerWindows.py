@@ -29,7 +29,7 @@ from typing import List, Dict
 from gitlab_build_scripts.buildmodules.BuildModule import BuildModule
 
 
-class PyInstallerLinux(BuildModule):
+class PyInstallerWindows(BuildModule):
     """
     Class that handles compiling a python program to a single Windows executable file
     """
