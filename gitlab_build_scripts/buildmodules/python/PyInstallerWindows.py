@@ -31,7 +31,7 @@ from gitlab_build_scripts.buildmodules.BuildModule import BuildModule
 
 class PyInstallerLinux(BuildModule):
     """
-    Class that handles compiling a python program to a single Linux binary
+    Class that handles compiling a python program to a single Windows executable file
     """
 
     @staticmethod
@@ -39,7 +39,7 @@ class PyInstallerLinux(BuildModule):
         """
         :return: pyinstaller_linux
         """
-        return "pyinstaller_linux"
+        return "pyinstaller_windows"
 
     # noinspection PyUnresolvedReferences
     @staticmethod
@@ -49,7 +49,7 @@ class PyInstallerLinux(BuildModule):
         :return:                The build's release artifacts:
                                     List(Dict(file_path: content_type))
         """
-        file_name = metadata_module.General.project_name + "-linux-" + metadata_module.General.version_number
+        file_name = metadata_module.General.project_name + "-windows-" + metadata_module.General.version_number + ".exe"
         return [{
             "file_path": os.path.join(BuildModule.build_path, file_name),
             "content_type": "application/octet-stream"
@@ -64,10 +64,17 @@ class PyInstallerLinux(BuildModule):
         :param metadata_module: The matadata module of the project
         :return:                None
         """
-        Popen(["pyinstaller", os.path.join(metadata_module.PypiVariables.name, "main.py"), "--onefile"]).wait()
+        main_py = os.path.join(metadata_module.PypiVariables.name, "main.py")
+        icon_file = os.path.join(metadata_module.PypiVariables.name, "resources", "logo", "logo.ico")
 
-        file_name = metadata_module.General.project_name + "-linux-" + metadata_module.General.version_number
-        file_origin = os.path.join("dist", "main")
+        Popen(["pyinstaller",
+               main_py,
+               "--onefile",
+               "--windowed",
+               "--icon=" + icon_file]).wait()
+
+        file_name = metadata_module.General.project_name + "-windows-" + metadata_module.General.version_number + ".exe"
+        file_origin = os.path.join("dist", "main.exe")
         file_destination = os.path.join(BuildModule.build_path, file_name)
 
         os.rename(file_origin, file_destination)
