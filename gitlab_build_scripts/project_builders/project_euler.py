@@ -94,7 +94,7 @@ def checkout(target: str, source: str) -> None:
     """
     Popen(["git", "checkout", target]).wait()
     Popen(["git", "pull", "origin", target]).wait()
-    Popen(["git", "merge", source, "--no-edit", "no-ff"]).wait()
+    Popen(["git", "merge", source, "--no-edit", "--no-ff"]).wait()
 
 
 def push(branch: str, repository: str) -> None:
