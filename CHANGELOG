@@ -1,3 +1,8 @@
+V 0.5.0:
+  - Created Markdown Documentation
+  - Implemented HTML Index Generators for documentation and git statistics
+  - Updated Python Builder with HTML Index Generator
+  - Updated Project Euler Builder with HTML Index Generator
 V 0.4.3:
   - Added repository parameter to project euler builder to enable ssh pushing
 V 0.4.2:
