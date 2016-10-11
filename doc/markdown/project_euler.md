@@ -53,3 +53,31 @@ At the end of the file, there has to be a line like this:
     Answer: X
     
 Which is used to check if the programs output the correct answer.
+
+## Usage
+
+To build the README files, run
+
+    python builder.py refresh
+    
+    or
+    
+    python builder.py update
+    
+Where ```refresh``` runs all problems again, and ```update``` only the ones
+that were not run before, or the JSON data is missing
+
+You can also use
+
+    python builder.py gitstats <root-directory>
+    
+to create an index.html file for a local git statistics VHost with the following
+structure:
+
+    |-- root
+    |  |-- gitstats
+    |  |  |-- project
+    |  |  |  |-- index.html
+    |  |-- git_stats
+    |  |  |-- project
+    |  |  |  |-- index.html

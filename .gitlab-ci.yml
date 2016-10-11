@@ -46,7 +46,6 @@ install_scripts_on_linux:
   stage: install
   only:
     - master
-    - develop
   tags:
     - linux
     - python
