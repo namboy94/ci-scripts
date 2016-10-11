@@ -144,9 +144,8 @@ gitstats:
   tags:
     - linux
   script:
-    - gitstats . git_stats
-    - rsync -av git_stats/ /var/www/gitstats.namibsun.net/public_html/gitstats/gitlab-build-scripts --delete-before
-    - mv git_stats gitstats
+    - gitstats . gitstats
+    - rsync -av gitstats/ /var/www/gitstats.namibsun.net/public_html/gitstats/gitlab-build-scripts --delete-before
     - git_stats generate
     - rsync -av git_stats/ /var/www/gitstats.namibsun.net/public_html/git_stats/gitlab-build-scripts --delete-before
     - python3 builder.py gitstats-html /var/www/gitstats.namibsun.net/public_html
