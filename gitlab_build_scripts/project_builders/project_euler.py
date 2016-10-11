@@ -53,28 +53,31 @@ def build(languages: List[Language], git_repository_path: str,
     try:
         parser = argparse.ArgumentParser()
         parser.add_argument("mode", help="Defines the build mode. Avaliable modes are:\n"
-                                         "        - refresh:  Runs all problem solutions\n"
-                                         "        - update:   Only Runs problem solutions without "
-                                         "                    a previously successful run\n"
+                                         "        - refresh (local):  Runs all problem solutions. Local does not push\n"
+                                         "        - update  (local):  Only Runs problem solutions without "
+                                         "                            a previously successful run. Local doesn't push\n"
                                          "        - gitstats <root-html-directory>: Updates Gitstats HTML Index")
+        parser.add_argument('additional', nargs='?', default=None, help="Additonal options like local or root-html-dir")
         args = parser.parse_args()
 
-        checkout(target_branch, source_branch)
+        if not (args.additional == "local"):
+            checkout(target_branch, source_branch)
 
         if args.mode == "refresh":
             ProjectEuler.build(languages, refresh=True)
         elif args.mode == "update":
             ProjectEuler.build(languages, refresh=False)
         elif args.mode == "gitstats":
-            if len(sys.argv) == 2:
-                create_gitstats_html(sys.argv[2])
+            if args.additional:
+                create_gitstats_html(args.additional)
             else:
                 print("Must specify gitstats HTML root directory as command line parameter")
         else:
             print("Incorrect mode specified. Use the --help flag to see the available options")
             sys.exit(1)
 
-        push(target_branch, git_repository_path)
+        if not (args.additional == "local"):
+            push(target_branch, git_repository_path)
 
     except Exception as e:
         SentryLogger.sentry.captureException()
