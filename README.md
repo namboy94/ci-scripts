@@ -12,6 +12,25 @@ A collection of configurable scripts for use with gitlab CI builds.
     
 You can also use the ```--user``` flag to install the scripts as a user
 
+## Usage
+
+The scripts are configured via a builder.py file in the top-level directory of
+a project. In this file, the builder(s) are configured by importing the appropriate
+modules and executing them. For example, a python project that builds
+executables using PyInstaller would have a builder.py file like this:
+
+    from gitlab_build_scripts.project_builders.python import build
+    from gitlab_build_scripts.buildmodules.python.PyInstallerLinux import PyInstallerLinux
+    
+    if __name__ == "__main__":
+        build([PyInstallerLinux])
+
+Since different project types require different build setups, each builder type needs to be
+documented seperately. Follow any of these links to learn more:
+
+  - [Python Builder](doc/markdown/python.md)
+  - [Project Euler Builder](doc/markdown/project_euler.md)
+
 ## Additional Links
 
 [Python Package Index Site](https://pypi.python.org/pypi/gitlab_build_scripts)
