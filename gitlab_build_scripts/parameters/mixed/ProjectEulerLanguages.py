@@ -136,7 +136,7 @@ class C(Language):
     """
 
     name = "C"
-    compile_command = ["gcc", "-o", "out", "@@@"]
+    compile_command = ["gcc", "-o", "out", "-std=c99", "@@@"]
     run_command = ["./out"]
     cleanup_command = ["rm", "out"]
     directory_name = "c"
@@ -149,7 +149,7 @@ class COptimized(C):
     """
 
     name = "C Optimized"
-    compile_command = ["gcc", "-o", "out", "-O3", "@@@"]
+    compile_command = ["gcc", "-o", "out", "-O3", "-std=c99", "@@@"]
 
 
 class Go(Language):
