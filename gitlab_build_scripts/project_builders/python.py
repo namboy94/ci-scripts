@@ -24,6 +24,7 @@ LICENSE
 
 # imports
 import os
+import sys
 import argparse
 from typing import List
 from gitlab_build_scripts.metadata import SentryLogger
