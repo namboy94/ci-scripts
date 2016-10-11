@@ -74,7 +74,7 @@ class General:
     A short description of the project
     """
 
-    version_number = "0.4.3"
+    version_number = "0.5.0"
     """
     The current version of the program.
     """

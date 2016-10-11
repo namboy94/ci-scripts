@@ -29,6 +29,7 @@ from typing import List
 from subprocess import Popen
 from gitlab_build_scripts.metadata import SentryLogger
 from gitlab_build_scripts.buildmodules.mixed.ProjectEuler import ProjectEuler
+from gitlab_build_scripts.uploaders.html_generator import create_gitstats_html
 from gitlab_build_scripts.parameters.mixed.ProjectEulerLanguages import Language
 
 
@@ -52,9 +53,10 @@ def build(languages: List[Language], git_repository_path: str,
     try:
         parser = argparse.ArgumentParser()
         parser.add_argument("mode", help="Defines the build mode. Avaliable modes are:\n"
-                                         "        - refresh:  Runs all problem solutions"
+                                         "        - refresh:  Runs all problem solutions\n"
                                          "        - update:   Only Runs problem solutions without "
-                                         "                    a previously successful run")
+                                         "                    a previously successful run\n"
+                                         "        - gitstats <root-html-directory>: Updates Gitstats HTML Index")
         args = parser.parse_args()
 
         checkout(target_branch, source_branch)
@@ -63,6 +65,11 @@ def build(languages: List[Language], git_repository_path: str,
             ProjectEuler.build(languages, refresh=True)
         elif args.mode == "update":
             ProjectEuler.build(languages, refresh=False)
+        elif args.mode == "gitstats":
+            if len(sys.argv) == 2:
+                create_gitstats_html(sys.argv[2])
+            else:
+                print("Must specify gitstats HTML root directory as command line parameter")
         else:
             print("Incorrect mode specified. Use the --help flag to see the available options")
             sys.exit(1)
