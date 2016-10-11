@@ -52,4 +52,4 @@ At the end of the file, there has to be a line like this:
 
     Answer: X
     
-Which is used to check if the programs output the correct answer
+Which is used to check if the programs output the correct answer.
