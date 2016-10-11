@@ -1,3 +1,6 @@
+V 0.5.1:
+  - Fixed multi-argument Project Euler Builder
+  - Implemented 'local' project euler flag
 V 0.5.0:
   - Created Markdown Documentation
   - Implemented HTML Index Generators for documentation and git statistics
