@@ -130,7 +130,8 @@ generate_sphinx_documentation:
     - make html
     - rsync -av build/latex/gitlab-build-scripts.pdf /var/www/docs.namibsun.net/public_html/pdf_docs/gitlab-build-scripts.pdf --delete-before
     - rsync -av build/html/ /var/www/docs.namibsun.net/public_html/html_docs/gitlab-build-scripts --delete-before
-    - python builder.py documentation-html /var/www/docs.namibsun.net/public_html
+    - cd ..
+    - python3 builder.py documentation-html /var/www/docs.namibsun.net/public_html
   artifacts:
     paths:
       - doc/build/latex/GitlabBuildScripts.pdf
@@ -149,7 +150,7 @@ gitstats:
     - mv git_stats gitstats
     - git_stats generate
     - rsync -av git_stats/ /var/www/gitstats.namibsun.net/public_html/git_stats/gitlab-build-scripts --delete-before
-    - python builder.py gitstats-html /var/www/gitstats.namibsun.net/public_html
+    - python3 builder.py gitstats-html /var/www/gitstats.namibsun.net/public_html
   artifacts:
     paths:
       - gitstats
