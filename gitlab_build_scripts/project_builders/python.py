@@ -22,15 +22,16 @@ This file is part of gitlab-build-scripts.
 LICENSE
 """
 
-import argparse
+# imports
 import os
+import argparse
 from typing import List
-
 from gitlab_build_scripts.metadata import SentryLogger
 from gitlab_build_scripts.buildmodules.python.BuildModule import BuildModule
 from gitlab_build_scripts.uploaders.github_release import upload_github_release
 from gitlab_build_scripts.uploaders.gitlab_release import upload_gitlab_release
 from gitlab_build_scripts.project_parsers.general import get_changelog_for_version
+from gitlab_build_scripts.uploaders.html_generator import create_gitstats_html, create_documentation_html
 
 
 # noinspection PyUnresolvedReferences,PyDefaultArgument
@@ -51,6 +52,8 @@ def build(metadata_module: 'module', build_modules: List[BuildModule]=[]) -> Non
         parser.add_argument("mode", help="The build mode.\n"
                                          "Available modes:   - github-release\n"
                                          "                   - gitlab-release\n"
+                                         "                   - gitstats-html <html_directory>\n"
+                                         "                   - documentation-html <html_directory>"
                                          "                   - build pyinstaller_windows\n"
                                          "                   - build pyinstaller_linux")
         parser.add_argument('module', nargs='?', default=None, help="Specifies the module to be run")
@@ -69,6 +72,15 @@ def build(metadata_module: 'module', build_modules: List[BuildModule]=[]) -> Non
                     module.build(metadata_module)
                     return
             print("No module '" + args.module + "' specified in builder.py")
+
+        elif args.mode in ["gitstats-html", "documentation-html"]:
+            if len(sys.argv) == 3:
+                if args.mode == "gitstats-html":
+                    create_gitstats_html(sys.argv[2])
+                else:
+                    create_documentation_html(sys.argv[2])
+            else:
+                print("Must specify a root directory for the HTML pages")
         else:
             print("Invalid mode. Enter --help for more information")
 
