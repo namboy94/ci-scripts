@@ -37,8 +37,8 @@ class ProjectEuler(object):
     Class that handles building Project Euler Readme files
     """
 
-    build_passed = "[![Passed](media/build_passing.svg)]()"
-    build_failed = "[![Failed](media/build_failing.svg)]()"
+    build_passed = "![](media/build_passing.svg)"
+    build_failed = "![](media/build_failing.svg)"
     build_invalid = " "
 
     # noinspection PyCallingNonCallable
@@ -224,6 +224,8 @@ class ProjectEuler(object):
                     fastest_language["language"] = language
 
             # noinspection PyTypeChecker
+            if badge.startswith("![]("):
+                badge = "![](../../" + badge.split("![](")[1]
             problem_readme += "|" + language + "|" + badge + "|" + result + "|" + runtime + "|\n"
 
         try:
@@ -232,7 +234,8 @@ class ProjectEuler(object):
             average_runtime = -1.0
 
         problem_readme += "|Average|"
-        problem_readme += ProjectEuler.build_passed if successful_build else ProjectEuler.build_failed
+        problem_badge = ProjectEuler.build_passed if successful_build else ProjectEuler.build_failed
+        problem_readme += "![](../../" + problem_badge.split("![](")[1]
         problem_readme += "|" + correct_result + "|%.6f" % average_runtime + "|"
 
         with open(os.path.join(problem_directory, "README.md"), 'w') as readme:
