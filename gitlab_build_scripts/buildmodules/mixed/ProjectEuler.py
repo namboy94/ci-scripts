@@ -41,8 +41,7 @@ class ProjectEuler(object):
                    "(https://img.shields.io/wercker/ci/wercker/docs.svg?maxAge=2592000)]()"
     build_failed = "[![Codeship]" \
                    "(https://img.shields.io/codeship/d6c1ddd0-16a3-0132-5f85-2e35c05e22b1.svg?maxAge=2592000)]()"
-    build_invalid = "[![TeamCity CodeBetter]" \
-                    "(https://img.shields.io/teamcity/codebetter/bt428.svg?maxAge=2592000)]()"
+    build_invalid = "[![Travis](https://img.shields.io/travis/rust-lang/rust.svg)]()"
 
     # noinspection PyCallingNonCallable
     @staticmethod
