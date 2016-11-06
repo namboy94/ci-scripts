@@ -40,7 +40,9 @@ run_unit_tests_python_3:
     - linux
     - python
   script:
-    - python3 setup.py test
+    - python3 setup.py nosetests --with-coverage --cover-package=gitlab_build_scripts --cover-branches --cover-erase --cover-html --cover-inclusive
+    - rsync -av cover/ /var/www/coverage.namibsun.net/public_html/gitlab-build-scripts --delete-before
+    - python3 builder.py coverage-html /var/www/coverage.namibsun.net/public_html
 
 install_scripts_on_linux:
   stage: install
