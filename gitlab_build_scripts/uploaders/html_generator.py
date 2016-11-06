@@ -38,12 +38,14 @@ def create_gitstats_html(gitstats_root_directory: str) -> None:
     html.write("<h1><a href=\"http://gitstats.sourceforge.net/\">gitstats</a>:</h1>")
 
     for project in os.listdir(os.path.join(gitstats_root_directory, "gitstats")):
-        html.write("<h3><a href=\"gitstats/" + project + "/index.html\">" + project + "</h3>")
+        if os.path.isdir(os.path.join(gitstats_root_directory, "gitstats", project)):
+            html.write("<h3><a href=\"gitstats/" + project + "/index.html\">" + project + "</h3>")
 
     html.write("<h1><a href=\"https://github.com/tomgi/git_stats\">git_stats</a>:</h1>")
 
     for project in os.listdir(os.path.join(gitstats_root_directory, "git_stats")):
-        html.write("<h3><a href=\"git_stats/" + project + "/index.html\">" + project + "</h3>")
+        if os.path.isdir(os.path.join(gitstats_root_directory, "git_stats", project)):
+            html.write("<h3><a href=\"git_stats/" + project + "/index.html\">" + project + "</h3>")
     html.close()
 
 
@@ -52,17 +54,36 @@ def create_documentation_html(documentation_root_directory: str) -> None:
     Creates a Documentation Index Page
 
     :param documentation_root_directory: The root directory of the documntation site/vhost
-    :return: None
+    :return:                             None
     """
     html = open(os.path.join(documentation_root_directory, "index.html"), 'w')
     html.write("<!DOCTYPE html><html><head><title>Documentation</title><meta charset=\"UTF-8\"></head><body>")
     html.write("<h1>HTML:</h1>")
 
     for project in os.listdir(os.path.join(documentation_root_directory, "html_docs")):
-        html.write("<h3><a href=\"html_docs/" + project + "/index.html\">" + project + "</h3>")
+        if os.path.isdir(os.path.join(documentation_root_directory, "html_docs", project)):
+            html.write("<h3><a href=\"html_docs/" + project + "/index.html\">" + project + "</h3>")
 
     html.write("<h1>PDF:</h1>")
 
     for project in os.listdir(os.path.join(documentation_root_directory, "pdf_docs")):
         html.write("<h3><a href=\"pdf_docs/" + project + "\">" + project + "</h3>")
+    html.close()
+
+
+def create_test_coverage_html(coverage_root_directory: str) -> None:
+    """
+    Creates a test coverage Index Page
+
+    :param coverage_root_directory: The root directory of the coverage site/vhost
+    :return:                        None
+    """
+    html = open(os.path.join(coverage_root_directory, "index.html"), 'w')
+    html.write("<!DOCTYPE html><html><head><title>Coverage</title><meta charset=\"UTF-8\"></head><body>")
+    html.write("<h1>HTML:</h1>")
+
+    for project in os.listdir(coverage_root_directory):
+        if os.path.isdir(os.path.join(coverage_root_directory, project)):
+            html.write("<h3><a href=\"" + project + "/index.html\">" + project + "</h3>")
+
     html.close()

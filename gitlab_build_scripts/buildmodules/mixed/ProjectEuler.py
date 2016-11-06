@@ -37,12 +37,9 @@ class ProjectEuler(object):
     Class that handles building Project Euler Readme files
     """
 
-    build_passed = "[![Wercker]" \
-                   "(https://img.shields.io/wercker/ci/wercker/docs.svg?maxAge=2592000)]()"
-    build_failed = "[![Codeship]" \
-                   "(https://img.shields.io/codeship/d6c1ddd0-16a3-0132-5f85-2e35c05e22b1.svg?maxAge=2592000)]()"
-    build_invalid = "[![TeamCity CodeBetter]" \
-                    "(https://img.shields.io/teamcity/codebetter/bt428.svg?maxAge=2592000)]()"
+    build_passed = "[![AppVeyor branch](https://img.shields.io/appveyor/ci/gruntjs/grunt/master.svg)]()"
+    build_failed = "[![Codeship](https://img.shields.io/codeship/d6c1ddd0-16a3-0132-5f85-2e35c05e22b1/master.svg)]()"
+    build_invalid = " "
 
     # noinspection PyCallingNonCallable
     @staticmethod

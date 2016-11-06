@@ -60,7 +60,7 @@ def build(languages: List[Language], git_repository_path: str,
         parser.add_argument('additional', nargs='?', default=None, help="Additonal options like local or root-html-dir")
         args = parser.parse_args()
 
-        if not (args.additional == "local"):
+        if not (args.additional == "local") and args.mode in ["refresh", "update"]:
             checkout(target_branch, source_branch)
 
         if args.mode == "refresh":
@@ -76,7 +76,7 @@ def build(languages: List[Language], git_repository_path: str,
             print("Incorrect mode specified. Use the --help flag to see the available options")
             sys.exit(1)
 
-        if not (args.additional == "local"):
+        if not (args.additional == "local") and args.mode in ["refresh", "update"]:
             push(target_branch, git_repository_path)
 
     except Exception as e:
@@ -94,7 +94,7 @@ def checkout(target: str, source: str) -> None:
     """
     Popen(["git", "checkout", target]).wait()
     Popen(["git", "pull", "origin", target]).wait()
-    Popen(["git", "merge", source, "--no-edit", "no-ff"]).wait()
+    Popen(["git", "merge", source, "--no-edit", "--no-ff"]).wait()
 
 
 def push(branch: str, repository: str) -> None:

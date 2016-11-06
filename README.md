@@ -43,4 +43,4 @@ documented seperately. Follow any of these links to learn more:
 
 [git_stats statistics](https://gitstats.namibsun.net/gitstats/gitlab_buils_scripts/index.html)
 
-[Changelog](https://gitlab.namibsun.net/namboy94/gitlab_buils_scripts/raw/master/CHANGELOG)
+[Changelog](https://gitlab.namibsun.net/namboy94/gitlab-buils-scripts/raw/master/CHANGELOG)
