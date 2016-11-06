@@ -38,13 +38,13 @@ def create_gitstats_html(gitstats_root_directory: str) -> None:
     html.write("<h1><a href=\"http://gitstats.sourceforge.net/\">gitstats</a>:</h1>")
 
     for project in os.listdir(os.path.join(gitstats_root_directory, "gitstats")):
-        if os.path.isdir(os.path.join(gitstats_root_directory, project)):
+        if os.path.isdir(os.path.join(gitstats_root_directory, "gitstats", project)):
             html.write("<h3><a href=\"gitstats/" + project + "/index.html\">" + project + "</h3>")
 
     html.write("<h1><a href=\"https://github.com/tomgi/git_stats\">git_stats</a>:</h1>")
 
     for project in os.listdir(os.path.join(gitstats_root_directory, "git_stats")):
-        if os.path.isdir(os.path.join(gitstats_root_directory, project)):
+        if os.path.isdir(os.path.join(gitstats_root_directory, "git_stats", project)):
             html.write("<h3><a href=\"git_stats/" + project + "/index.html\">" + project + "</h3>")
     html.close()
 
@@ -61,7 +61,7 @@ def create_documentation_html(documentation_root_directory: str) -> None:
     html.write("<h1>HTML:</h1>")
 
     for project in os.listdir(os.path.join(documentation_root_directory, "html_docs")):
-        if os.path.isdir(os.path.join(documentation_root_directory, project)):
+        if os.path.isdir(os.path.join(documentation_root_directory, "html_docs", project)):
             html.write("<h3><a href=\"html_docs/" + project + "/index.html\">" + project + "</h3>")
 
     html.write("<h1>PDF:</h1>")
