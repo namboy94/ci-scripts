@@ -52,7 +52,7 @@ def create_documentation_html(documentation_root_directory: str) -> None:
     Creates a Documentation Index Page
 
     :param documentation_root_directory: The root directory of the documntation site/vhost
-    :return: None
+    :return:                             None
     """
     html = open(os.path.join(documentation_root_directory, "index.html"), 'w')
     html.write("<!DOCTYPE html><html><head><title>Documentation</title><meta charset=\"UTF-8\"></head><body>")
@@ -65,4 +65,21 @@ def create_documentation_html(documentation_root_directory: str) -> None:
 
     for project in os.listdir(os.path.join(documentation_root_directory, "pdf_docs")):
         html.write("<h3><a href=\"pdf_docs/" + project + "\">" + project + "</h3>")
+    html.close()
+
+
+def create_test_coverage_html(coverage_root_directory: str) -> None:
+    """
+    Creates a test coverage Index Page
+
+    :param coverage_root_directory: The root directory of the coverage site/vhost
+    :return:                        None
+    """
+    html = open(os.path.join(coverage_root_directory, "index.html"), 'w')
+    html.write("<!DOCTYPE html><html><head><title>Coverage</title><meta charset=\"UTF-8\"></head><body>")
+    html.write("<h1>HTML:</h1>")
+
+    for project in os.listdir(coverage_root_directory):
+        html.write("<h3><a href=\"html_docs/" + project + "/index.html\">" + project + "</h3>")
+
     html.close()

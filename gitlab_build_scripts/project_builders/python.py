@@ -32,7 +32,8 @@ from gitlab_build_scripts.buildmodules.python.BuildModule import BuildModule
 from gitlab_build_scripts.uploaders.github_release import upload_github_release
 from gitlab_build_scripts.uploaders.gitlab_release import upload_gitlab_release
 from gitlab_build_scripts.project_parsers.general import get_changelog_for_version
-from gitlab_build_scripts.uploaders.html_generator import create_gitstats_html, create_documentation_html
+from gitlab_build_scripts.uploaders.html_generator import create_gitstats_html, create_documentation_html, \
+    create_test_coverage_html
 
 
 # noinspection PyUnresolvedReferences,PyDefaultArgument
@@ -74,12 +75,14 @@ def build(metadata_module: 'module', build_modules: List[BuildModule]=[]) -> Non
                     return
             print("No module '" + args.module + "' specified in builder.py")
 
-        elif args.mode in ["gitstats-html", "documentation-html"]:
+        elif args.mode in ["gitstats-html", "documentation-html", "coverage-html"]:
             if len(sys.argv) == 3:
                 if args.mode == "gitstats-html":
                     create_gitstats_html(sys.argv[2])
-                else:
+                elif args.mode == "documentation-html":
                     create_documentation_html(sys.argv[2])
+                elif args.mode == "coverage-html":
+                    create_test_coverage_html(sys.argv[2])
             else:
                 print("Must specify a root directory for the HTML pages")
         else:
