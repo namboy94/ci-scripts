@@ -32,6 +32,12 @@ documented seperately. Follow any of these links to learn more:
 
   - [Python Builder](doc/markdown/python.md)
   - [Project Euler Builder](doc/markdown/project_euler.md)
+  
+## Projects using gitlab_build_scripts:
+
+* [comunio-manager](https://gitlab.namibsun.net/namboy94/comunio-manager)
+* [xdcc-downloader](https://gitlab.namibsun.net/namboy94/xdcc-downloader)
+* [toktokkie](https://gitlab.namibsun.net/namboy94/toktokkie)
 
 ## Additional Links
 
