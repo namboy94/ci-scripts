@@ -1,5 +1,7 @@
 # Gitlab Build Scripts
 
+![Logo](gitlab_build_scripts/resources/logo/logo_256.png)
+
 A collection of configurable scripts for use with gitlab CI builds.
 
 ## Installation
@@ -33,14 +35,12 @@ documented seperately. Follow any of these links to learn more:
 
 ## Additional Links
 
-[Python Package Index Site](https://pypi.python.org/pypi/gitlab_build_scripts)
-
-[PDF Documentation](https://docs.namibsun.net/pdf_docs/gitlab_buils_scripts/index.html)
-
-[HTML Documentation](https://docs.namibsun.net/html_docs/gitlab_buils_scripts/index.html)
-
-[gitstats statistics](https://gitstats.namibsun.net/gitstats/gitlab_buils_scripts/index.html)
-
-[git_stats statistics](https://gitstats.namibsun.net/gitstats/gitlab_buils_scripts/index.html)
-
-[Changelog](https://gitlab.namibsun.net/namboy94/gitlab-buils-scripts/raw/master/CHANGELOG)
+* [Changelog](https://gitlab.namibsun.net/namboy94/gitlab-buils-scripts/raw/master/CHANGELOG)
+* [Gitlab](https://gitlab.namibsun.net/namboy94/gitlab-build-scripts)
+* [Github](https://github.com/namboy94/gitlab-build-scripts)
+* [Python Package Index Site](https://pypi.python.org/pypi/gitlab_build_scripts)
+* [Documentation(HTML)](https://docs.namibsun.net/html_docs/gitlab_buils_scripts/index.html)
+* [Documentation(PDF)](https://docs.namibsun.net/pdf_docs/gitlab_buils_scripts.pdf)
+* [Git Statistics (gitstats)](https://gitstats.namibsun.net/gitstats/gitlab_buils_scripts/index.html)
+* [Git Statistics (git_stats)](https://gitstats.namibsun.net/gitstats/gitlab_buils_scripts/index.html)
+* [Test Coverage](https://coverage.namibsun.net/gitlab-build-scripts/index.html)
