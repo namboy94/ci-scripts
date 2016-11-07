@@ -65,19 +65,10 @@ To build the README files, run
     python builder.py update
     
 Where ```refresh``` runs all problems again, and ```update``` only the ones
-that were not run before, or the JSON data is missing
+that were not run before, or for which the JSON data is missing.
 
-You can also use
+The build will automatically push to the specified branch. To disable this,
+add the 'local' positional argument
 
-    python builder.py gitstats <root-directory>
-    
-to create an index.html file for a local git statistics VHost with the following
-structure:
 
-    |-- root
-    |  |-- gitstats
-    |  |  |-- project
-    |  |  |  |-- index.html
-    |  |-- git_stats
-    |  |  |-- project
-    |  |  |  |-- index.html
+Git statistics index can be built using ```python builder.py gitstats```

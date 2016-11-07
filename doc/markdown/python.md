@@ -77,9 +77,10 @@ The commands
 
     python builder.py gitstats-html      <root-directory>
     python builder.py documentation-html <root-directory>
+    python builder.py coverage-html      <root-directory>
     
 create an index.html file inside a local VHost containing git statistics
-or documentation. It is assumed that the gitlab runner ha write permissions to the
+or documentation. It is assumed that the gitlab runner has write permissions to the
 specified directory. The directories should look like this:
 
   - gitstats:
@@ -100,6 +101,12 @@ specified directory. The directories should look like this:
     |  |  |  |-- index.html
     |  |-- pdf_docs
     |  |  |-- project.pdf
+    
+  - test coverage:
+  
+    |-- root
+    |  |-- project
+    |  |  |-- index.html
         
 ## Available Optional Build Modules:
 
