@@ -4,6 +4,7 @@ import os
 import sys
 # noinspection PyPackageRequirements
 import sphinx_rtd_theme
+# noinspection PyPackageRequirements
 from sphinx.ext.autodoc import between
 
 sys.path.insert(0, os.path.abspath("../.."))
@@ -36,7 +37,6 @@ html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 html_static_path = ['.static']
 htmlhelp_basename = 'gitlab-build-scriptsdoc'
 
-
 # Latex
 latex_elements = {
 }
@@ -65,13 +65,13 @@ epub_publisher = author
 epub_copyright = copyright
 epub_exclude_files = ['search.html']
 
-
 intersphinx_mapping = {'https://docs.python.org/': None}
 
 
 def setup(app) -> None:
     """
     Registers an autodoc between listener to igore License texts
+
     :param app: The sphinx app
     :return:    None
     """
