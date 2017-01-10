@@ -90,6 +90,19 @@ def upload_github_release(repository_owner,  # str
         # Upload Asset
         requests.post(url=tag_api_url, data=data, headers=headers)
 
+def get_content_type(filename):
+
+    try:
+        extension = filename.rsplit(".", 1)[1].lower()
+
+        if extension == "jar":
+            return "application/java-archive"
+        else:
+            return "application/octet-stream"
+
+    except IndexError:
+        return "application/octet-stream"
+
 
 def parse_args():  # -> username, reponame, auth token, release notes, assets
 
@@ -109,6 +122,37 @@ def parse_args():  # -> username, reponame, auth token, release notes, assets
                         Every file in this directory will be uploaded")
 
     args = parser.parse_args()
+    username = args["username"]
+    reponame = args["reponame"]
+    auth_token = args["auth_token"]
+    tag_name = args["tag_name"]
+    release_notes = args["release_notes"]
+    assets = args["release_assets"]
+
+    if os.path.isfile(release_notes):
+        with open(release_notes, 'r') as notes:
+            release_notes = notes.read()
+
+    if not os.path.isdir(assets):
+        print(assets + " is not a directory")
+        exit()
+
+    return username, reponame, auth_token, tag_name, release_notes, assets
 
 if __name__ == "__main__":
-    parse_args()
+
+    args = parse_args()
+    username, reponame, auth_token, tag_name, release_notes, assets = args
+    asset_info = []
+
+    for asset in os.listdir(assets):
+
+        asset_dict = {}
+
+        asset_dict["file_path"] = os.path.join(assets, asset)
+        asset_dict["content_type"] = get_content_type(asset)
+
+        asset_info.append(asset_dict)
+
+    upload_github_release(username, reponame, auth_token, tag_name,
+                          release_notes, asset_info)
