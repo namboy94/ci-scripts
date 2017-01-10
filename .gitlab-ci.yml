@@ -1,0 +1,9 @@
+stages:
+  - mirror
+
+github_mirror:
+  stage: mirror
+  script:
+    - git checkout master
+    - git pull origin master
+    - git push -f git@github.com:namboy94/github-release-uploader.git master
