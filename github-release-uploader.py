@@ -14,14 +14,20 @@ This program is free software: you can redistribute it and/or modify
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+import os
+import sys
+import json
+import argparse
+import requests
 
-def upload_github_release(repository_owner: str,
-                          repository_name: str,
-                          version_number: str,
-                          o_auth_token: str,
-                          release_notes: str,
-                          release_assets: List[Dict[str, str]],
-                          branch: str = "master") -> None:
+
+def upload_github_release(repository_owner,  # str
+                          repository_name,   # str,
+                          version_number,    # str,
+                          o_auth_token,      # str,
+                          release_notes,     # str,
+                          release_assets,    # List[Dict[str, str]],
+                          branch):           # str = "master"
     """
     Uploads a new release to github.com
 
@@ -83,3 +89,26 @@ def upload_github_release(repository_owner: str,
 
         # Upload Asset
         requests.post(url=tag_api_url, data=data, headers=headers)
+
+
+def parse_args():  # -> username, reponame, auth token, release notes, assets
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("username",
+                        help="The Github Username")
+    parser.add_argument("reponame",
+                        help="The Repository Name")
+    parser.add_argument("auth_token",
+                        help="The Authentication Token")
+    parser.add_argument("tag_name",
+                        help="The Tag name on which to base the release on")
+    parser.add_argument("release_notes",
+                        help="The Release Notes. Can be a file or a string")
+    parser.add_argument("release_assets",
+                        help="The Release Asset directory. \
+                        Every file in this directory will be uploaded")
+
+    args = parser.parse_args()
+
+if __name__ == "__main__":
+    parse_args()
