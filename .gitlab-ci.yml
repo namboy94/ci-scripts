@@ -3,6 +3,7 @@ stages:
   - test
 variables: 
   GITHUB_PERSONAL_ACCESS_TOKEN: "$GITHUB_PERSONAL_ACCESS_TOKEN"
+  CI_BUILD_REF: "$CI_BUILD_REF"
 
 github_mirror:
   stage: mirror
@@ -15,6 +16,7 @@ create_github_release:
   stage: test
   script:
     - echo $GITHUB_PERSONAL_ACCESS_TOKEN
+    - echo GITHUB_PERSONAL_ACCESS_TOKEN
     - mkdir assets
     - touch assets/testasset
-    - python github-release-uploader.py namboy94 github-release-uploader $GITHUB_PERSONAL_ACCESS_TOKEN $CI_BUILD_REF "Test Release Notes" assets
+    - python github-release-uploader.py namboy94 github-release-uploader GITHUB_PERSONAL_ACCESS_TOKEN CI_BUILD_REF "Test Release Notes" assets
