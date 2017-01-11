@@ -125,7 +125,7 @@ def parse_args():  # -> username, reponame, auth token, release notes, assets
                         Every file in this directory will be uploaded")
 
     args = parser.parse_args()
-    
+
     username = args.username
     reponame = args.reponame
     auth_token = args.auth_token
@@ -159,5 +159,5 @@ if __name__ == "__main__":
 
         asset_info.append(asset_dict)
 
-    upload_github_release(username, reponame, auth_token, tag_name,
+    upload_github_release(username, reponame, tag_name, auth_token,
                           release_notes, asset_info)
