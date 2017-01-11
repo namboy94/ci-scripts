@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 Copyright Hermann Krumrey <hermann@krumreyh.com>, 2017
 
@@ -14,6 +15,7 @@ This program is free software: you can redistribute it and/or modify
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+
 import os
 import sys
 import json
@@ -90,6 +92,7 @@ def upload_github_release(repository_owner,  # str
         # Upload Asset
         requests.post(url=tag_api_url, data=data, headers=headers)
 
+
 def get_content_type(filename):
 
     try:
@@ -138,6 +141,7 @@ def parse_args():  # -> username, reponame, auth token, release notes, assets
         exit()
 
     return username, reponame, auth_token, tag_name, release_notes, assets
+
 
 if __name__ == "__main__":
 
