@@ -110,8 +110,8 @@ def get_content_type(filename):
         return "application/octet-stream"
 
 
-def parse_args():  # -> username, reponame, auth token, release notes, assets,
-                   #    source branch
+def parse_args():   # -> username, reponame, auth token, release notes, assets,
+                    #    source branch
 
     parser = argparse.ArgumentParser()
     parser.add_argument("username",
@@ -137,20 +137,19 @@ def parse_args():  # -> username, reponame, auth token, release notes, assets,
     reponame = args.reponame
     auth_token = args.auth_token
     tag_name = args.tag_name
-    release_notes = args.release_notes
+    notes = args.release_notes
     assets = args.release_assets
     branch = args.source_branch
 
-    if os.path.isfile(release_notes):
-        with open(release_notes, 'r') as notes:
-            release_notes = notes.read()
+    if os.path.isfile(notes):
+        with open(notes, 'r') as release_notes:
+            notes = release_notes.read()
 
     if not os.path.isdir(assets):
         print(assets + " is not a directory")
         exit()
 
-    return username, reponame, auth_token, tag_name, release_notes, assets, \
-           branch
+    return username, reponame, auth_token, tag_name, notes, assets, branch
 
 
 if __name__ == "__main__":
