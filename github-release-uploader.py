@@ -150,6 +150,8 @@ if __name__ == "__main__":
     username, reponame, auth_token, tag_name, release_notes, assets = args
     asset_info = []
 
+    print(args)
+
     for asset in os.listdir(assets):
 
         asset_dict = {}
@@ -158,6 +160,8 @@ if __name__ == "__main__":
         asset_dict["content_type"] = get_content_type(asset)
 
         asset_info.append(asset_dict)
+
+    print(asset_info)
 
     upload_github_release(username, reponame, tag_name, auth_token,
                           release_notes, asset_info)
