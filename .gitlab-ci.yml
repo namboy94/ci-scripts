@@ -11,6 +11,8 @@ github_mirror:
 
 create_gitlab_release:
   stage: test
+  only:
+    - master
   script:
     - mkdir assets
     - echo "Hello World" > assets/testasset
