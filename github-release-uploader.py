@@ -127,7 +127,7 @@ def parse_args():   # -> username, reponame, auth token, release notes, assets,
     parser.add_argument("release_assets",
                         help="The Release Asset directory. \
                         Every file in this directory will be uploaded")
-    parser.add_argument("source_branch", default="master",
+    parser.add_argument("source_branch", default="master", nargs='?',
                         help="The source branch or commit on which to base \
                         this release on")
 
