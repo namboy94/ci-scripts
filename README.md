@@ -23,4 +23,9 @@ If a file path is passed, the contents of that file are used
 ## Current Limitations:
 
 * The script will fail if the release already exists
-* The script only creates tag off the master branch
+* The script only creates tags off the master branch
+
+## Links
+
+* [Github](https://github.com/namboy94/github-release-uploader)
+* [Gitlab](https://gitlab.namibsun.net/namboy94/github-release-uploader)
