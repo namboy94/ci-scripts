@@ -29,7 +29,7 @@ def upload_github_release(repository_owner,  # str
                           o_auth_token,      # str,
                           release_notes,     # str,
                           release_assets,    # List[Dict[str, str]],
-                          branch):           # str = "master"
+                          branch="master"):  # str
     """
     Uploads a new release to github.com
 
