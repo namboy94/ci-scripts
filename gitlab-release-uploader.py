@@ -29,15 +29,14 @@ except ImportError:
     quote = urllib.quote
 
 
-
-def upload_gitlab_release(repository_owner,                # str
-                          repository_name,                 # str
-                          version_number,                  # str
-                          personal_access_token,           # str
-                          release_notes,                   # str (or file)
-                          release_assets,                 # List[Dict[str, str]]
-                          gitlab_url="https://gitlab.com", # str
-                          branch='master'):                # str
+def upload_gitlab_release(repository_owner,                 # str
+                          repository_name,                  # str
+                          version_number,                   # str
+                          personal_access_token,            # str
+                          release_notes,                    # str (or file)
+                          release_assets,                # List[Dict[str, str]]
+                          gitlab_url="https://gitlab.com",  # str
+                          branch='master'):                 # str
     """
     Uploads a new release to a Gitlab instance
 
@@ -59,7 +58,7 @@ def upload_gitlab_release(repository_owner,                # str
                                       file_path:     the file path to the asset
                                       content_type:  the asset's content type,
                                                      for example
-                                                        application/java-archive
+                                                       application/java-archive
                                                      for .jar files
     :param branch:                the branch to base the release on.
                                   Defaults to master
@@ -113,6 +112,7 @@ def get_repository_id(repository_owner,       # str
     project_info = json.loads(requests.get(query).text)
     return int(project_info["id"])
 
+
 def parse_args():   # -> username, reponame, auth token, release notes, assets,
                     #    source branch, gitlab_address
 
@@ -157,6 +157,7 @@ def parse_args():   # -> username, reponame, auth token, release notes, assets,
 
     return username, reponame, auth_token, tag_name, notes, assets, url, branch
 
+
 def get_content_type(filename):
 
     try:
@@ -169,6 +170,7 @@ def get_content_type(filename):
 
     except IndexError:
         return "application/octet-stream"
+
 
 if __name__ == "__main__":
 
@@ -184,4 +186,5 @@ if __name__ == "__main__":
 
         asset_info.append(asset_dict)
 
-    upload_gitlab_release(user, repo, tag, auth, notes, asset_info, url, branch)
+    upload_gitlab_release(user, repo, tag, auth, notes, asset_info,
+                          url, branch)
