@@ -14,6 +14,6 @@ create_gitlab_release:
   script:
     - mkdir assets
     - echo "Hello World" > assets/testasset
-    - python gitlab-release-uploader.py namboy94 gitlab-release-uploader \
-      $GITLAB_PERSONAL_ACCESS_TOKEN $CI_PIPELINE_ID "Test Release Notes" \
+    - python gitlab-release-uploader.py namboy94 gitlab-release-uploader
+      $GITLAB_PERSONAL_ACCESS_TOKEN $CI_PIPELINE_ID "Test Release Notes"
       assets https://gitlab.namibsun.net master

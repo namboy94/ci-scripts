@@ -20,7 +20,11 @@ import os
 import json
 import argparse
 import requests
-import urllib.parse
+
+try:
+    import urllib.parse as urlparse
+except ImportError:
+    from urlparse import urlparse
 
 
 def upload_gitlab_release(repository_owner,                # str
@@ -99,7 +103,7 @@ def get_repository_id(repository_owner,       # str
     else:
         gitlab_api_path = gitlab_url + "/api/v3/"
 
-    repository_path = gitlab_api_path + "projects/" + urllib.parse.quote(
+    repository_path = gitlab_api_path + "projects/" + urlparse.quote(
         (repository_owner + "/" + repository_name), safe="")
     query = repository_path + "?private_token=" + personal_access_token
 
