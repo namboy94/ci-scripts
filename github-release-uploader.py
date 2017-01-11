@@ -74,8 +74,10 @@ def upload_github_release(repository_owner,  # str
 
     # Create Tag and get Tag ID
     response = json.loads(requests.post(post_url, json=json_payload).text)
-    print(response)
-    tag_id = response["id"]
+    try:
+        tag_id = response["id"]
+    except KeyError:
+        print(response)
 
     for asset in release_assets:
 
@@ -151,8 +153,6 @@ if __name__ == "__main__":
     username, reponame, auth_token, tag_name, release_notes, assets = args
     asset_info = []
 
-    print(args)
-
     for asset in os.listdir(assets):
 
         asset_dict = {}
@@ -161,8 +161,6 @@ if __name__ == "__main__":
         asset_dict["content_type"] = get_content_type(asset)
 
         asset_info.append(asset_dict)
-
-    print(asset_info)
 
     upload_github_release(username, reponame, tag_name, auth_token,
                           release_notes, asset_info)
