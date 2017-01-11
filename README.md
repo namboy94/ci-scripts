@@ -1,8 +1,7 @@
 # Github Release Uploader
 
-This is a script that creates a Github release. It also allows creating a
-new githb release (which includes a git tag) and uploading release assets
-like compiled binaries.
+This is a script that creates a Github release. It also allows uploading
+release assets like compiled binaries.
 
 The script uses Github's
 [Personal Access Tokens](https://github.com/settings/tokens) to
@@ -19,6 +18,7 @@ The script expects all of the following information(in that exact order):
 * The release notes. Can be either a string or a filepath. 
 If a file path is passed, the contents of that file are used
 * A directory path in which all release assets are located in.
+* (Optional) The target branch or commit off which to base the release on
 
 ## Current Limitations:
 
