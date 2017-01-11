@@ -29,7 +29,7 @@ def upload_github_release(repository_owner,  # str
                           o_auth_token,      # str,
                           release_notes,     # str,
                           release_assets,    # List[Dict[str, str]],
-                          branch="master"):  # str
+                          branch):  # str
     """
     Uploads a new release to github.com
 
@@ -110,7 +110,8 @@ def get_content_type(filename):
         return "application/octet-stream"
 
 
-def parse_args():  # -> username, reponame, auth token, release notes, assets
+def parse_args():  # -> username, reponame, auth token, release notes, assets,
+                   #    source branch
 
     parser = argparse.ArgumentParser()
     parser.add_argument("username",
@@ -126,6 +127,9 @@ def parse_args():  # -> username, reponame, auth token, release notes, assets
     parser.add_argument("release_assets",
                         help="The Release Asset directory. \
                         Every file in this directory will be uploaded")
+    parser.add_argument("source_branch", default="master",
+                        help="The source branch or commit on which to base \
+                        this release on")
 
     args = parser.parse_args()
 
@@ -135,6 +139,7 @@ def parse_args():  # -> username, reponame, auth token, release notes, assets
     tag_name = args.tag_name
     release_notes = args.release_notes
     assets = args.release_assets
+    branch = args.source_branch
 
     if os.path.isfile(release_notes):
         with open(release_notes, 'r') as notes:
@@ -144,13 +149,15 @@ def parse_args():  # -> username, reponame, auth token, release notes, assets
         print(assets + " is not a directory")
         exit()
 
-    return username, reponame, auth_token, tag_name, release_notes, assets
+    return username, reponame, auth_token, tag_name, release_notes, assets, \
+           branch
 
 
 if __name__ == "__main__":
 
-    args = parse_args()
-    username, reponame, auth_token, tag_name, release_notes, assets = args
+    username, reponame, auth_token, tag_name, release_notes, assets, branch \
+        = parse_args()
+
     asset_info = []
 
     for asset in os.listdir(assets):

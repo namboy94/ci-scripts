@@ -14,4 +14,4 @@ create_github_release:
   script:
     - mkdir assets
     - echo "Hello World" > assets/testasset
-    - python github-release-uploader.py namboy94 github-release-uploader $GITHUB_PERSONAL_ACCESS_TOKEN $CI_PIPELINE_ID "Test Release Notes" assets
+    - python github-release-uploader.py namboy94 github-release-uploader $GITHUB_PERSONAL_ACCESS_TOKEN $CI_PIPELINE_ID "Test Release Notes" assets master
