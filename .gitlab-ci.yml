@@ -1,5 +1,8 @@
 stages:
   - mirror
+  - test
+variables: 
+  GITHUB_PERSONAL_ACCESS_TOKEN: "$GITHUB_PERSONAL_ACCESS_TOKEN"
 
 github_mirror:
   stage: mirror
@@ -7,3 +10,10 @@ github_mirror:
     - git checkout master
     - git pull origin master
     - git push -f git@github.com:namboy94/github-release-uploader.git master
+
+create_github_release:
+  stage: test
+  script:
+    - mkdir assets
+    - touch assets/testasset
+    - python github-release-uploader.py namboy94 github-release-uploader $GITHUB_PERSONAL_ACCESS_TOKEN $CI_BUILD_REF "Test Release Notes" assets
