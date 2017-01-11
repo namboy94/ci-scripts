@@ -74,6 +74,7 @@ def upload_github_release(repository_owner,  # str
 
     # Create Tag and get Tag ID
     response = json.loads(requests.post(post_url, json=json_payload).text)
+    print(response)
     tag_id = response["id"]
 
     for asset in release_assets:
