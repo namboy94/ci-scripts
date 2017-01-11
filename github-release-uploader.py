@@ -170,4 +170,4 @@ if __name__ == "__main__":
         asset_info.append(asset_dict)
 
     upload_github_release(username, reponame, tag_name, auth_token,
-                          release_notes, asset_info)
+                          release_notes, asset_info, branch)

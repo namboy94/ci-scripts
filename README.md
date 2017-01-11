@@ -23,7 +23,6 @@ If a file path is passed, the contents of that file are used
 ## Current Limitations:
 
 * The script will fail if the release already exists
-* The script only creates tags off the master branch
 
 ## Links
 
