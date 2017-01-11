@@ -125,12 +125,13 @@ def parse_args():  # -> username, reponame, auth token, release notes, assets
                         Every file in this directory will be uploaded")
 
     args = parser.parse_args()
-    username = args["username"]
-    reponame = args["reponame"]
-    auth_token = args["auth_token"]
-    tag_name = args["tag_name"]
-    release_notes = args["release_notes"]
-    assets = args["release_assets"]
+    
+    username = args.username
+    reponame = args.reponame
+    auth_token = args.auth_token
+    tag_name = args.tag_name
+    release_notes = args.release_notes
+    assets = args.release_assets
 
     if os.path.isfile(release_notes):
         with open(release_notes, 'r') as notes:
