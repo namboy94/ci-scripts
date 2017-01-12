@@ -17,26 +17,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import os
-import arparse
+import argparse
 
 
 def parse_args():
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("changelog", nargs='?', default="CHANGELOG",
+    parser.add_argument("-c", "--changelog", nargs='?', default="CHANGELOG",
                         help="The path to the Changelog file")
-    parser.add_argument("destination", nargs='?', default=None,
+    parser.add_argument("-d", "--destination", nargs='?', default=None,
                         help="The destination file")
 
     args = parser.parse_args()
 
-    source = parser.changelog
-    dest = parser.destination
+    source = args.changelog
+    dest = args.destination
 
     if not os.path.isfile(source):
         print("Changelog File not found")
         exit()
-    if os.path.isfile(dest):
+    if dest is not None and os.path.isfile(dest):
         print("Destination file already exists")
         exit()
 
