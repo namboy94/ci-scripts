@@ -23,7 +23,8 @@ and writes the most recent changelog entry to a file in the format:
 
 ```VersionName```s can be written with or without a leading ```V ``` or ```V.```
 but needs to be seperated by those by at least one space. The case of the
-```v```'s don't matter. The line containing the ```VersionName``` may not
+```v```'s don't matter. The ```V```s may also be ```Version```, the behaviour
+is the same. The line containing the ```VersionName``` may not
 start with any kind of Whitespace.
 
 The ```Description``` lines need to start with some form of whitespace. The 
