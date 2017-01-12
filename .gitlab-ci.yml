@@ -9,6 +9,21 @@ github_mirror:
     - git pull origin master
     - git push -f git@github.com:namboy94/changelog-reader.git master
 
+create_gitlab_release_with_changelog:
+  stage: test
+  only:
+    - master
+  script:
+    - git clone https://gitlab.namibsun.net/namboy94/gitlab-release-uploader.git
+    - mkdir assets
+    - python changelog-reader.py -c TESTLOG -d version
+    - python gitlab-release-uploader/gitlab-release-uploader.py namboy94
+      changelog-reader $GITLAB_PERSONAL_ACCESS_TOKEN $CI_PIPELINE_ID version
+      assets https://gitlab.namibsun.net master
+    - rm version
+    - rmdir assets
+    - rm -rf gitlab-release-uploader
+
 checkstyle:
   stage: test
   script:
