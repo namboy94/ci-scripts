@@ -69,10 +69,14 @@ def read(source_file):
 
 
 def format_version_name(version_name):
-    if version_name.lower().startswith("V "):
+
+    if version_name.lower().startswith("V ") or \
+            version_name.lower().startswith("version "):
         version_name = version_name.split(" ", 1)[1]
+
     if version_name.endswith(":"):
         version_name = version_name.rsplit(":", 1)[0]
+        
     return version_name
 
 
@@ -93,7 +97,7 @@ def format_version_description(version_description):
 
 def format_changelog_entry(version_name, version_description):
 
-    formatted = "Changelog Version " + version_name + ":\n\n"
+    formatted = "Changelog Version ```" + version_name + "```:\n\n"
 
     for description in version_description:
         formatted += "    - " + description + "\n"

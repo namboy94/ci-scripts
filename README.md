@@ -14,7 +14,7 @@ This script reads a changelog file written in the following format:
 
 and writes the most recent changelog entry to a file in the format:
 
-    Changelog Version <ProcessedVersionName>
+    Changelog Version ```<ProcessedVersionName>```
 
         - <Description_Line_One>
         - <Description_Line_Two>
