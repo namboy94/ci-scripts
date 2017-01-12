@@ -76,7 +76,7 @@ def format_version_name(version_name):
 
     if version_name.endswith(":"):
         version_name = version_name.rsplit(":", 1)[0]
-        
+
     return version_name
 
 
