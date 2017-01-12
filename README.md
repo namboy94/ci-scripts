@@ -30,6 +30,8 @@ The ```Description``` lines need to start with some form of whitespace. The
 Description may also start with a ```- ```. This will be removed and later
 added back when writing to file.
 
+Empty lines are ignored completely
+
 ## Usage
 
 To use the script, a ```CHANGELOG``` file must be provided. If a ```CHANGELOG```
