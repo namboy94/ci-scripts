@@ -7,6 +7,13 @@ github_mirror:
   script:
     - git push --mirror -f git@github.com:namboy94/html-index-generator.git
 
+test_generating_index_for_coverage:
+  stage: test
+  script:
+    - python html-generator.py /var/www/coverage.namibsun.net/public_html
+      /var/www/coverage.namibsun.net/public_html/index.html
+      -t template.html
+
 stylecheck:
   stage: test
   script:
