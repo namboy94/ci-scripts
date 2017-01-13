@@ -61,7 +61,7 @@ def generate_html(source_directory, template_file, destination_file):
             content += format_html(child_path, child)
 
         elif os.path.isdir(child_path):
-            content += process_directory
+            content += process_directory(child_path)
 
     html.replace("@TITLE", title)
     html.replace("@CONTENT", content)
