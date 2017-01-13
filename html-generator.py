@@ -22,9 +22,24 @@ import argparse
 
 def parse_args():
 
-    parser = ArgumentParser()
+    parser = argparse.ArgumentParser()
     parser.add_argument("directory", help="The directory for which to create \
                                            an HTML index page for.")
+    parser.add_argument("target_file", help="The path to the generated \
+                                             index.html file")
+    parser.add_argument("-t", "--template_file", default="template.html",
+                        help="The template HTML file to use")
+
+    args = parser.parse_args()
+
+    if not os.path.isdir(args.directory):
+        print(args.directory + " is not a directory")
+        exit()
+    if not os.path.isfile(args.template_file):
+        print(args.template_file + " does not exist")
+        exit()
+
+    return args.directory, args.template_file, args.target_file
 
 
 def generate_html(source_directory, template_file, destination_file):
