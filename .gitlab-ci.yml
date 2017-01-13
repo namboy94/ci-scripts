@@ -26,7 +26,7 @@ test_generating_index_for_documentation:
   script:
     - python html-generator.py /var/www/docs.namibsun.net/public_html
       /var/www/docs.namibsun.net/public_html/index.html
-      -t template.html
+      -t template.html -n Documentation
 
 stylecheck:
   stage: test
