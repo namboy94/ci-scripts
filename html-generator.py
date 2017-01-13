@@ -98,7 +98,7 @@ def process_directory(directory_path, source_directory):
 
 def format_html(path, display_name, root_directory):
     relative = os.path.relpath(path, root_directory)
-    return "<li><a href=\"" + relatove + "\">" + display_name + "</a></li>"
+    return "<li><a href=\"" + relative + "\">" + display_name + "</a></li>"
 
 
 if __name__ == "__main__":
