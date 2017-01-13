@@ -57,6 +57,9 @@ def generate_html(source_directory, template_file, destination_file):
             with open(child_path, 'r') as title_file:
                 title = title_file.read().rstrip().lstrip()
 
+        elif child == "index.html":
+            pass
+
         elif os.path.isfile(child_path):
             content += format_html(child_path, child, source_directory)
 
