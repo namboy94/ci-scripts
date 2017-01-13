@@ -5,9 +5,7 @@ stages:
 github_mirror:
   stage: mirror
   script:
-    - git checkout master
-    - git pull origin master
-    - git push -f git@github.com:namboy94/gitlab-release-uploader.git master
+    - git push --mirror -f git@github.com:namboy94/gitlab-release-uploader.git
 
 create_gitlab_release:
   stage: test
