@@ -56,7 +56,7 @@ def generate_html(source_directory, template_file, destination_file):
 
 
 def process_directory(directory_path):
-    
+
     directory_name = os.path.basename(directory_path)
     index_file = os.path.join(directory_path, "index.html")
 
@@ -79,6 +79,7 @@ def process_directory(directory_path):
 
         html += "</ul></li>"
         return html
+
 
 def format_html(path, display_name):
     return "<li><a href=\"" + path + "\">" + display_name + "</a></li>"

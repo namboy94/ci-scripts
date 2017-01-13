@@ -1,7 +1,13 @@
 stages:
   - mirror
+  - test
 
 github_mirror:
   stage: mirror
   script:
     - git push --mirror -f git@github.com:namboy94/html-index-generator.git
+
+stylecheck:
+  stage: test
+  script:
+    - pep8 .
