@@ -83,7 +83,7 @@ def process_directory(directory_path, source_directory):
 
     else:
 
-        html = "<li><ul>"
+        html = "<li>" + directory_name + "<ul>"
 
         for child in os.listdir(directory_path):
 
