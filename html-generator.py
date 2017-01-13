@@ -58,10 +58,10 @@ def generate_html(source_directory, template_file, destination_file):
                 title = title_file.read().rstrip().lstrip()
 
         elif os.path.isfile(child_path):
-            content += format_html(child_path, child)
+            content += format_html(child_path, child, source_directory)
 
         elif os.path.isdir(child_path):
-            content += process_directory(child_path)
+            content += process_directory(child_path, source_directory)
 
     html = html.replace("@TITLE", title)
     html = html.replace("@CONTENT", content)
@@ -70,13 +70,13 @@ def generate_html(source_directory, template_file, destination_file):
         destination.write(html)
 
 
-def process_directory(directory_path):
+def process_directory(directory_path, source_directory):
 
     directory_name = os.path.basename(directory_path)
     index_file = os.path.join(directory_path, "index.html")
 
     if os.path.isfile(index_file):
-        return format_html(index_file, directory_name)
+        return format_html(index_file, directory_name, source_directory)
 
     else:
 
@@ -87,17 +87,18 @@ def process_directory(directory_path):
             child_path = os.path.join(directory_path, child)
 
             if os.path.isfile(child_path):
-                html += format_html(child_path, child)
+                html += format_html(child_path, child, source_directory)
 
             elif os.path.isdir(child_path):
-                html += process_directory(child_path)
+                html += process_directory(child_path, source_directory)
 
         html += "</ul></li>"
         return html
 
 
-def format_html(path, display_name):
-    return "<li><a href=\"" + path + "\">" + display_name + "</a></li>"
+def format_html(path, display_name, root_directory):
+    relative = os.path.relpath(path, root_directory)
+    return "<li><a href=\"" + relatove + "\">" + display_name + "</a></li>"
 
 
 if __name__ == "__main__":
