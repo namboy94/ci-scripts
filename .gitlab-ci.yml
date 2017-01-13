@@ -4,6 +4,4 @@ stages:
 github_mirror:
   stage: mirror
   script:
-    - git checkout master
-    - git pull origin master
-    - git push -f git@github.com:namboy94/html-index-generator.git master
+    - git push --mirror -f git@github.com:namboy94/html-index-generator.git
