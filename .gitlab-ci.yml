@@ -21,6 +21,13 @@ test_generating_index_for_gitstats:
       /var/www/gitstats.namibsun.net/public_html/index.html
       -t template.html
 
+test_generating_index_for_documentation:
+  stage: test
+  script:
+    - python html-generator.py /var/www/docs.namibsun.net/public_html
+      /var/www/docs.namibsun.net/public_html/index.html
+      -t template.html
+
 stylecheck:
   stage: test
   script:
