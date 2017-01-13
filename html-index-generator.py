@@ -88,7 +88,7 @@ def process_directory(directory_path, source_directory):
 
         html = "<li>" + directory_name + "<ul>"
 
-        for child in os.listdir(directory_path):
+        for child in sorted(os.listdir(directory_path)):
 
             child_path = os.path.join(directory_path, child)
 
