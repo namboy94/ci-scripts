@@ -14,6 +14,13 @@ test_generating_index_for_coverage:
       /var/www/coverage.namibsun.net/public_html/index.html
       -t template.html
 
+test_generating_index_for_gitstats:
+  stage: test
+  script:
+    - python html-generator.py /var/www/gitstats.namibsun.net/public_html
+      /var/www/gitstats.namibsun.net/public_html/index.html
+      -t template.html
+
 stylecheck:
   stage: test
   script:
