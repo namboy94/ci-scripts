@@ -32,6 +32,57 @@ def generate_html(source_directory, template_file, destination_file):
     with open(template_file, 'r') as template:
         html = template.read()
 
+    title = "Title"
+    content = ""
+
+    for child in sorted(os.listdir(source_directory)):
+        child_path = os.path.join(source_directory, child)
+
+        if child == "title":
+            with open(child_path, 'r') as title_file:
+                title = title_file.read().rstrip().lstrip()
+
+        elif os.path.isfile(child_path):
+            content += format_html(child_path, child)
+
+        elif os.path.isdir(child_path):
+            content += process_directory
+
+    html.replace("@TITLE", title)
+    html.replace("@CONTENT", content)
+
+    with open(destination_file, 'w') as destination:
+        destination.write(html)
+
+
+def process_directory(directory_path):
+    
+    directory_name = os.path.basename(directory_path)
+    index_file = os.path.join(directory_path, "index.html")
+
+    if os.path.isfile(index_file):
+        return format_html(index_file, directory_name)
+
+    else:
+
+        html = "<li><ul>"
+
+        for child in os.listdir(directory_path):
+
+            child_path = os.path.join(directory_path, child)
+
+            if os.path.isfile(child_path):
+                html += format_html(child_path, child)
+
+            elif os.path.isdir(child_path):
+                html += process_directory(child_path)
+
+        html += "</ul></li>"
+        return html
+
+def format_html(path, display_name):
+    return "<li><a href=\"" + path + "\">" + display_name + "</a></li>"
+
 
 if __name__ == "__main__":
 
