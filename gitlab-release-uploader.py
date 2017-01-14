@@ -132,7 +132,7 @@ def parse_args():   # -> username, reponame, auth token, release notes, assets,
                         Every file in this directory will be uploaded")
     parser.add_argument("-u", "--gitlab_url", default="https://gitlab.com",
                         help="The URL of the Gitlab instance")
-    parser.add_argument("-b", "branch", default="master",
+    parser.add_argument("-b", "--branch", default="master",
                         help="The source branch or commit on which to base \
                         this release on")
 
