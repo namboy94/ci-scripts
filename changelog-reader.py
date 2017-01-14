@@ -70,7 +70,7 @@ def read(source_file):
 
 def format_version_name(version_name):
 
-    if version_name.lower().startswith("V ") or \
+    if version_name.lower().startswith("v ") or \
             version_name.lower().startswith("version "):
         version_name = version_name.split(" ", 1)[1]
 
