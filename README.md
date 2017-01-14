@@ -46,7 +46,7 @@ will refuse to execute as a safety mechanism.
 
 An example of running this script would look like this:
 
-    python changelog-reader.py CHANGELOG change_message
+    python changelog-reader.py -c CHANGELOG -d change_message
 
 This will read the ```CHANGELOG``` file, extract the latest version entry
 and write it formatted into the change_message file.
