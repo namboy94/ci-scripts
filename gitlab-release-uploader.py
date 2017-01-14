@@ -130,9 +130,9 @@ def parse_args():   # -> username, reponame, auth token, release notes, assets,
     parser.add_argument("release_assets",
                         help="The Release Asset directory. \
                         Every file in this directory will be uploaded")
-    parser.add_argument("gitlab_url", default="https://gitlab.com", nargs='?',
+    parser.add_argument("-u", "--gitlab_url", default="https://gitlab.com",
                         help="The URL of the Gitlab instance")
-    parser.add_argument("source_branch", default="master", nargs='?',
+    parser.add_argument("-b", "branch", default="master",
                         help="The source branch or commit on which to base \
                         this release on")
 
@@ -145,7 +145,7 @@ def parse_args():   # -> username, reponame, auth token, release notes, assets,
     notes = args.release_notes
     assets = args.release_assets
     url = args.gitlab_url
-    branch = args.source_branch
+    branch = args.branch
 
     if os.path.isfile(notes):
         with open(notes, 'r') as release_notes:
