@@ -139,7 +139,7 @@ def parse_args():   # -> username, reponame, auth token, release notes, assets,
     tag_name = args.tag_name
     notes = args.release_notes
     assets = args.release_assets
-    branch = args.source_branch
+    branch = args.branch
 
     if os.path.isfile(notes):
         with open(notes, 'r') as release_notes:
