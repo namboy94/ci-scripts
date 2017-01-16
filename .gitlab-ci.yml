@@ -18,6 +18,8 @@ github_mirror:
 
 get_current_scripts:
   stage: clone
+  only:
+    - master
   tags:
     - buildserver_linux
   script:
