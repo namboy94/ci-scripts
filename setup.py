@@ -64,7 +64,7 @@ def find_scripts():
         return []
 
 setup(name="gitlab_build_scripts",
-      version="0.7.0",
+      version="0.8.0",
       description="Python Build Scripts for Gitlab CI",
       long_description=readme(),
       classifiers=[

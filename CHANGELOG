@@ -1,3 +1,6 @@
+V 0.8.0:
+  - Fixed build script
+  - Fixed script names when installed
 V 0.7.0:
   - Threw away builder implementation
   - Added Changelog Reader Script
