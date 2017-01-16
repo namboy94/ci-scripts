@@ -1,3 +1,9 @@
+V 0.7.0:
+  - Threw away builder implementation
+  - Added Changelog Reader Script
+  - Added HTML Index Generator Script
+  - Added Github Release Uploader Script
+  - Added Gitlab Release Uploader Script
 V 0.6.0:
   - Implemented coverage HTML generator
 V 0.5.1:

@@ -25,7 +25,6 @@ LICENSE
 # imports
 import os
 from setuptools import setup, find_packages
-from gitlab_build_scripts.metadata import PypiVariables
 
 
 def readme():
@@ -64,18 +63,27 @@ def find_scripts():
     except OSError:
         return []
 
-setup(name=PypiVariables.name,
-      version=PypiVariables.version,
-      description=PypiVariables.description,
+setup(name="gitlab_build_scripts",
+      version="0.6.0",
+      description="Python Build Scripts for Gitlab CI",
       long_description=readme(),
-      classifiers=PypiVariables.classifiers,
-      url=PypiVariables.url,
-      download_url=PypiVariables.download_url,
-      author=PypiVariables.author,
-      author_email=PypiVariables.author_email,
-      license=PypiVariables.license,
+      classifiers=[
+          "Topic :: Utilities",
+          "Environment :: Console",
+          "Natural Language :: English",
+          "Development Status :: 1 - Planning",
+          "Operating System :: OS Independent",
+          "Programming Language :: Python :: 3",
+          "Programming Language :: Python :: 2",
+          "License :: OSI Approved :: GNU General Public License v3 (GPLv3)"
+      ],
+      url="https://gitlab.namibsun.net/namboy94/gitlab-build-scripts",
+      download_url="https://gitlab.namibsun.net/namboy94/gitlab-build-scripts/repository/archive.zip?ref=master",
+      author="Hermann Krumrey",
+      author_email="hermann@krumreyh.com",
+      license="GNU GPL3",
       packages=find_packages(),
-      install_requires=PypiVariables.install_requires,
+      install_requires=[],
       test_suite='nose.collector',
       tests_require=['nose'],
       scripts=find_scripts(),
