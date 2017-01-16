@@ -1,6 +1,6 @@
 # Gitlab Build Scripts
 
-![Logo](gitlab_build_scripts/resources/logo/logo_256.png)
+![Logo](logo/logo.png)
 
 A collection of scripts for use with gitlab CI builds.
 
