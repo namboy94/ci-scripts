@@ -18,6 +18,8 @@ github_mirror:
 
 get_current_scripts:
   stage: clone
+  tags:
+    - buildserver_linux
   script:
     - git clone https://gitlab.namibsun.net/namboy94/changelog-reader.git
     - git clone https://gitlab.namibsun.net/namboy94/html-index-generator.git
