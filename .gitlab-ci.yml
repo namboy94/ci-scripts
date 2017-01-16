@@ -27,10 +27,10 @@ get_current_scripts:
     - git clone https://gitlab.namibsun.net/namboy94/html-index-generator.git
     - git clone https://gitlab.namibsun.net/namboy94/github-release-uploader.git
     - git clone https://gitlab.namibsun.net/namboy94/gitlab-release-uploader.git
-    - mv changelog-reader/changelog-reader.py bin/
-    - mv html-index-generator/html-index-generator.py bin/
-    - mv github-release-uploader/github-release-uploader.py bin/
-    - mv gitlab-release-uploader/gitlab-release-uploader.py bin/
+    - mv changelog-reader/changelog-reader.py bin/changelog-reader
+    - mv html-index-generator/html-index-generator.py bin/html-index-generator
+    - mv github-release-uploader/github-release-uploader.py bin/github-release-uploader
+    - mv gitlab-release-uploader/gitlab-release-uploader.py bin/gitlab-release-uploader
   artifacts:
     paths:
       - bin/*
