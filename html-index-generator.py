@@ -49,7 +49,10 @@ def generate_html(source_directory, template_file, destination_file, name):
     with open(template_file, 'r') as template:
         html = template.read()
 
-    title = name
+    Title = name
+    if name == "Title":
+    	title = os.path.basename(source_directory)
+
     content = ""
 
     for child in sorted(os.listdir(source_directory)):
@@ -60,8 +63,11 @@ def generate_html(source_directory, template_file, destination_file, name):
                 with open(child_path, 'r') as title_file:
                     title = title_file.read().rstrip().lstrip()
 
-        elif child == "index.html":
+        elif child == "index.html" or child == "style.css":
             pass
+            
+        elif child == ".well-known":
+        	pass
 
         elif os.path.isfile(child_path):
             content += format_html(child_path, child, source_directory)
@@ -93,7 +99,11 @@ def process_directory(directory_path, source_directory):
             child_path = os.path.join(directory_path, child)
 
             if os.path.isfile(child_path):
-                html += format_html(child_path, child, source_directory)
+
+            	if child == "style.css":
+            		pass
+            	else:
+           			html += format_html(child_path, child, source_directory)
 
             elif os.path.isdir(child_path):
                 html += process_directory(child_path, source_directory)
