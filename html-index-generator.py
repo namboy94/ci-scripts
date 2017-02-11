@@ -49,7 +49,7 @@ def generate_html(source_directory, template_file, destination_file, name):
     with open(template_file, 'r') as template:
         html = template.read()
 
-    Title = name
+    title = name
     if name == "Title":
         title = os.path.basename(source_directory)
 
