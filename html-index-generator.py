@@ -51,7 +51,7 @@ def generate_html(source_directory, template_file, destination_file, name):
 
     Title = name
     if name == "Title":
-    	title = os.path.basename(source_directory)
+        title = os.path.basename(source_directory)
 
     content = ""
 
@@ -65,9 +65,9 @@ def generate_html(source_directory, template_file, destination_file, name):
 
         elif child == "index.html" or child == "style.css":
             pass
-            
+
         elif child == ".well-known":
-        	pass
+            pass
 
         elif os.path.isfile(child_path):
             content += format_html(child_path, child, source_directory)
@@ -100,10 +100,10 @@ def process_directory(directory_path, source_directory):
 
             if os.path.isfile(child_path):
 
-            	if child == "style.css":
-            		pass
-            	else:
-           			html += format_html(child_path, child, source_directory)
+                if child == "style.css":
+                    pass
+                else:
+                    html += format_html(child_path, child, source_directory)
 
             elif os.path.isdir(child_path):
                 html += process_directory(child_path, source_directory)

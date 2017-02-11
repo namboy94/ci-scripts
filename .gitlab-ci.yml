@@ -4,11 +4,15 @@ stages:
 
 github_mirror:
   stage: mirror
+  tags:
+    - linux-buildserver
   script:
     - git push --mirror -f git@github.com:namboy94/html-index-generator.git
 
 test_generating_index_for_coverage:
   stage: test
+  tags:
+    - linux-buildserver
   script:
     - python html-index-generator.py /var/www/coverage.namibsun.net/public_html
       /var/www/coverage.namibsun.net/public_html/index.html
@@ -16,6 +20,8 @@ test_generating_index_for_coverage:
 
 test_generating_index_for_gitstats:
   stage: test
+  tags:
+    - linux-buildserver
   script:
     - python html-index-generator.py /var/www/gitstats.namibsun.net/public_html
       /var/www/gitstats.namibsun.net/public_html/index.html
@@ -23,6 +29,8 @@ test_generating_index_for_gitstats:
 
 test_generating_index_for_documentation:
   stage: test
+  tags:
+    - linux-buildserver
   script:
     - python html-index-generator.py /var/www/docs.namibsun.net/public_html
       /var/www/docs.namibsun.net/public_html/index.html
@@ -30,5 +38,7 @@ test_generating_index_for_documentation:
 
 stylecheck:
   stage: test
+  tags:
+    - linux-buildserver
   script:
     - pep8 .
