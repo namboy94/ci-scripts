@@ -43,10 +43,10 @@ def parse_args():
         print(args.template_file + " does not exist")
         exit()
 
-    return args.directory, 
-           args.template_file, 
-           args.target_file, 
-           args.name, 
+    return args.directory, \
+           args.template_file, \
+           args.target_file, \
+           args.name, \
            args.verbose
 
 
