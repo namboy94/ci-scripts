@@ -35,7 +35,7 @@ test_generating_index_for_documentation:
   script:
     - python html-index-generator.py /var/www/docs.namibsun.net/public_html
       /var/www/docs.namibsun.net/public_html/index.html
-      -t template.html -n Documentation
+      -t template.html -n Documentation -v
 
 stylecheck:
   stage: test

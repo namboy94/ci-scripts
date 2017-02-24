@@ -31,6 +31,8 @@ def parse_args():
                         help="The template HTML file to use")
     parser.add_argument("-n", "--name", default="Title",
                         help="The title of the directory to be displayed")
+    parser.add_argument("-v", "--verbose", 
+                        help="If set, the program outputs status messages")
 
     args = parser.parse_args()
 
@@ -41,10 +43,21 @@ def parse_args():
         print(args.template_file + " does not exist")
         exit()
 
-    return args.directory, args.template_file, args.target_file, args.name
+    return args.directory, 
+           args.template_file, 
+           args.target_file, 
+           args.name, 
+           args.verbose
 
 
-def generate_html(source_directory, template_file, destination_file, name):
+def generate_html(source_directory,
+                  template_file, 
+                  destination_file, 
+                  name, 
+                  verbose):
+
+    if verbose:
+        print("Generating Index file for " + source_directory)
 
     with open(template_file, 'r') as template:
         html = template.read()
@@ -118,5 +131,11 @@ def format_html(path, display_name, root_directory):
 
 if __name__ == "__main__":
 
-    source_directory, template_file, destination_file, name = parse_args()
-    generate_html(source_directory, template_file, destination_file, name)
+    source_directory, template_file, destination_file, name, verbose \
+        = parse_args()
+
+    generate_html(source_directory,
+                  template_file,
+                  destination_file,
+                  name, 
+                  verbose)
