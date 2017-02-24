@@ -1,4 +1,5 @@
 # HTML Index Generator
+![Logo](logo/logo-readme.png "Logo")
 
 This script creates a bootstrap-powered HTML index page for a directory.
 The content of the directory is shown as a nested unordered list.
