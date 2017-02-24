@@ -1,5 +1,6 @@
 stages:
   - mirror
+  - gistats
   - test
 
 github_mirror:
@@ -10,6 +11,22 @@ github_mirror:
     - git checkout master
     - git pull
     - git push -f git@github.com:namboy94/html-index-generator.git master
+
+generate gitstats:
+  stage: gitstats
+  tags:
+    - linux-buildserver
+  script:
+    - gitstats . gitstats
+    - rsync -av gitstats/ /var/www/gitstats.namibsun.net/public_html/gitstats/html-index-generator --delete-before
+
+generate git_stats:
+  stage: gitstats
+  tags:
+    - linux-buildserver
+  script:
+    - git_stats generate
+    - rsync -av git_stats/ /var/www/gitstats.namibsun.net/public_html/git_stats/html-index-generator --delete-before
 
 test_generating_index_for_coverage:
   stage: test
