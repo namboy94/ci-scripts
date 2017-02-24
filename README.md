@@ -28,3 +28,5 @@ directory structure.
 
 * [Github](https://github.com/namboy94/html-index-generator)
 * [Gitlab](https://gitlab.namibsun.net/namboy94/html-index-generator)
+* [Git Statistics (gitstats)](https://gitstats.namibsun.net/gitstats/html-index-generator/index.html)
+* [Git Statistics (git_stats)](https://gitstats.namibsun.net/git_stats/html-index-generator/index.html)
