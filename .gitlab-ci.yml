@@ -1,6 +1,6 @@
 stages:
   - mirror
-  - gistats
+  - gitstats
   - test
 
 github_mirror:
