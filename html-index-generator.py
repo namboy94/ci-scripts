@@ -107,7 +107,13 @@ def process_directory(directory_path, source_directory):
 
     else:
 
-        html = "<li><h2>" + directory_name + "</h2><ul>"
+        title = directory_name
+        title_file = os.path.join(source_directory, "title")
+        if os.path.isfile(title_file):
+            with open(title_file, 'r') as f:
+                title = f.read()
+
+        html = "<li><h2>" + title + "</h2><ul>"
 
         for child in sorted(os.listdir(directory_path)):
 
@@ -116,6 +122,8 @@ def process_directory(directory_path, source_directory):
             if os.path.isfile(child_path):
 
                 if child == "style.css":
+                    pass
+                elif child == "title":
                     pass
                 else:
                     html += format_html(child_path, child, source_directory)
