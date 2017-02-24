@@ -92,6 +92,9 @@ def generate_html(source_directory,
 
     with open(destination_file, 'w') as destination:
         destination.write(html)
+        if verbose:
+            print("Resulting HTML:")
+            print(html)
 
 
 def process_directory(directory_path, source_directory):
