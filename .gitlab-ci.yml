@@ -27,7 +27,6 @@ test_generating_index_for_gitstats:
   script:
     - python html-index-generator.py /var/www/gitstats.namibsun.net/public_html
       /var/www/gitstats.namibsun.net/public_html/index.html
-      -t template.html
 
 test_generating_index_for_documentation:
   stage: test

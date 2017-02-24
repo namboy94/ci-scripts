@@ -59,9 +59,8 @@ def generate_html(source_directory, template_file, destination_file, name):
         child_path = os.path.join(source_directory, child)
 
         if child == "title":
-            if title == "Title":
-                with open(child_path, 'r') as title_file:
-                    title = title_file.read().rstrip().lstrip()
+            with open(child_path, 'r') as title_file:
+                title = title_file.read().rstrip().lstrip()
 
         elif child == "index.html" or child == "style.css":
             pass
