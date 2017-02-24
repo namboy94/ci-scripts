@@ -108,7 +108,7 @@ def process_directory(directory_path, source_directory):
     else:
 
         title = directory_name
-        title_file = os.path.join(source_directory, "title")
+        title_file = os.path.join(directory_path, "title")
         if os.path.isfile(title_file):
             with open(title_file, 'r') as f:
                 title = f.read()
