@@ -31,7 +31,7 @@ def parse_args():
                         help="The template HTML file to use")
     parser.add_argument("-n", "--name", default="Title",
                         help="The title of the directory to be displayed")
-    parser.add_argument("-v", "--verbose", 
+    parser.add_argument("-v", "--verbose", action="store_true",
                         help="If set, the program outputs status messages")
 
     args = parser.parse_args()
@@ -44,16 +44,16 @@ def parse_args():
         exit()
 
     return args.directory, \
-           args.template_file, \
-           args.target_file, \
-           args.name, \
-           args.verbose
+        args.template_file, \
+        args.target_file, \
+        args.name, \
+        args.verbose
 
 
 def generate_html(source_directory,
-                  template_file, 
-                  destination_file, 
-                  name, 
+                  template_file,
+                  destination_file,
+                  name,
                   verbose):
 
     if verbose:
@@ -137,5 +137,5 @@ if __name__ == "__main__":
     generate_html(source_directory,
                   template_file,
                   destination_file,
-                  name, 
+                  name,
                   verbose)
