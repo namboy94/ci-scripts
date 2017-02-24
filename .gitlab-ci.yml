@@ -7,8 +7,9 @@ github_mirror:
   tags:
     - linux-buildserver
   script:
-    - echo $USER
-    - git push --mirror -f git@github.com:namboy94/html-index-generator.git
+    - git checkout master
+    - git pull
+    - git push -f git@github.com:namboy94/html-index-generator.git master
 
 test_generating_index_for_coverage:
   stage: test
