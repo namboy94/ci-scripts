@@ -30,3 +30,5 @@ If a file path is passed, the contents of that file are used
 
 * [Github](https://github.com/namboy94/github-release-uploader)
 * [Gitlab](https://gitlab.namibsun.net/namboy94/github-release-uploader)
+* [Git Statistics (gitstats)](https://gitstats.namibsun.net/gitstats/github-release-uploader/index.html)
+* [Git Statistics (git_stats)](https://gitstats.namibsun.net/git_stats/github-release-uploader/index.html)
