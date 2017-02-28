@@ -5,7 +5,9 @@ stages:
 github_mirror:
   stage: mirror
   script:
-    - git push -f --mirror git@github.com:namboy94/changelog-reader.git
+    - git checkout master
+    - git pull
+    - git push -f git@github.com:namboy94/changelog-reader.git master
 
 create_gitlab_release_with_changelog:
   stage: test
