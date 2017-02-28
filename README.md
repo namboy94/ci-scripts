@@ -1,4 +1,4 @@
-# Github Release Uploader
+# Github Release Uploader [![build status](https://gitlab.namibsun.net/namboy94/github-release-uploader/badges/master/build.svg)](https://gitlab.namibsun.net/namboy94/github-release-uploader/commits/master)
 
 ![Logo](logo/logo-readme.png "Logo")
 
