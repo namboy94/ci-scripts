@@ -33,3 +33,5 @@ limitation
 
 * [Github](https://github.com/namboy94/gitlab-release-uploader)
 * [Gitlab](https://gitlab.namibsun.net/namboy94/gitlab-release-uploader)
+* [Git Statistics (gitstats)](https://gitstats.namibsun.net/gitstats/gitlab-release-uploader/index.html)
+* [Git Statistics (git_stats)](https://gitstats.namibsun.net/git_stats/gitlab-release-uploader/index.html)
