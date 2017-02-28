@@ -1,4 +1,5 @@
-# HTML Index Generator
+# HTML Index Generator [![build status](https://gitlab.namibsun.net/namboy94/html-index-generator/badges/master/build.svg)](https://gitlab.namibsun.net/namboy94/html-index-generator/commits/master)
+
 ![Logo](logo/logo-readme.png "Logo")
 
 This script creates a bootstrap-powered HTML index page for a directory.
