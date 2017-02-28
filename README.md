@@ -57,3 +57,6 @@ and write it formatted into the change_message file.
 
 * [Github](https://github.com/namboy94/changelog-reader)
 * [Gitlab](https://gitlab.namibsun.net/namboy94/changelog-reader)
+* [Git Statistics (gitstats)](https://gitstats.namibsun.net/gitstats/changelog-reader/index.html)
+* [Git Statistics (git_stats)](https://gitstats.namibsun.net/git_stats/changelog-reader/index.html)
+
