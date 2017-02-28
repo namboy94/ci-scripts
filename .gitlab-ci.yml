@@ -6,6 +6,8 @@ stages:
 
 github_mirror:
   stage: mirror
+  tags:
+    - linux-buildserver
   script:
     - git checkout master
     - git pull
@@ -13,6 +15,8 @@ github_mirror:
 
 create_gitlab_release_with_changelog:
   stage: test
+  tags:
+    - linux-buildserver
   only:
     - master
   script:
