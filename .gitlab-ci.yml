@@ -37,7 +37,7 @@ generate gitstats:
     - linux-buildserver
   script:
     - gitstats . gitstats
-    - rsync -av gitstats/ /var/www/gitstats.namibsun.net/public_html/gitstats/html-index-generator --delete-before
+    - rsync -av gitstats/ /var/www/gitstats.namibsun.net/public_html/gitstats/changelog-reader --delete-before
 
 generate git_stats:
   stage: gitstats
@@ -45,7 +45,7 @@ generate git_stats:
     - linux-buildserver
   script:
     - git_stats generate
-    - rsync -av git_stats/ /var/www/gitstats.namibsun.net/public_html/git_stats/html-index-generator --delete-before
+    - rsync -av git_stats/ /var/www/gitstats.namibsun.net/public_html/git_stats/changelog-reader --delete-before
 
 update_html_pages:
   stage: finalize
