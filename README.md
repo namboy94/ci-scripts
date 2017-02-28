@@ -1,5 +1,7 @@
 # Gitlab Release Uploader
 
+![Logo](logo/logo-readme.png "Logo")
+
 This is a script that creates a Gitlab release. Once the Gitlab API
 allows for it, uploading of release assets should be incorporated as well.
 
