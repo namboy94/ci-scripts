@@ -1,4 +1,6 @@
-# Changelog Reader
+# Changelog Reader [![build status](https://gitlab.namibsun.net/namboy94/changelog-reader/badges/master/build.svg)](https://gitlab.namibsun.net/namboy94/changelog-reader/commits/master)
+
+![Logo](logo/logo-readme.png "Logo")
 
 **Note**: Names surrounded by <> are variables, the <> are not part of the
 changelog syntax. All Whitespace in a line before the first significant
