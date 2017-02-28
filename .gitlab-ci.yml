@@ -32,6 +32,8 @@ create_gitlab_release_with_changelog:
 
 checkstyle:
   stage: test
+  tags:
+    - linux-buildserver
   script:
     - pep8 .
 
