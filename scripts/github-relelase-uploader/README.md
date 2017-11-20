@@ -1,6 +1,6 @@
-# Github Release Uploader [![build status](https://gitlab.namibsun.net/namboy94/github-release-uploader/badges/master/build.svg)](https://gitlab.namibsun.net/namboy94/github-release-uploader/commits/master)
+# Github Release Uploader 
 
-![Logo](logo/logo-readme.png "Logo")
+![Logo](../../resources/logo/github-release-uploader/logo-readme.png "Logo")
 
 This is a script that creates a Github release. It also allows uploading
 release assets like compiled binaries.
@@ -25,10 +25,3 @@ If a file path is passed, the contents of that file are used
 ## Current Limitations:
 
 * The script will fail if the release already exists
-
-## Links
-
-* [Github](https://github.com/namboy94/github-release-uploader)
-* [Gitlab](https://gitlab.namibsun.net/namboy94/github-release-uploader)
-* [Git Statistics (gitstats)](https://gitstats.namibsun.net/gitstats/github-release-uploader/index.html)
-* [Git Statistics (git_stats)](https://gitstats.namibsun.net/git_stats/github-release-uploader/index.html)

@@ -1,4 +1,4 @@
-# play-upload.py  [![build status](https://gitlab.namibsun.net/namboy94/play-upload/badges/master/build.svg)](https://gitlab.namibsun.net/namboy94/play-upload/commits/master)
+# play-upload.py
 
 ![Logo](../../resources/logo/play-upload/logo-readme.png "Logo")
 
@@ -72,10 +72,3 @@ and follow the menu options: ```Settings -> API access```.
 Here you can grant the service account access to your app.
 
 Once this is done, you're all set!
-
-## Links
-
-* [Github](https://github.com/namboy94/play-upload)
-* [Gitlab](https://gitlab.namibsun.net/namboy94/play-upload)
-* [Git Statistics (gitstats)](https://gitstats.namibsun.net/gitstats/play-upload/index.html)
-* [Git Statistics (git_stats)](https://gitstats.namibsun.net/git_stats/play-upload/index.html)
