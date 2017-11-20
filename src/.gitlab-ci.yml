@@ -1,0 +1,88 @@
+stages:
+  - mirror
+  - clone
+  - upload
+  - release
+  - docstats
+
+variables:
+  GITLAB_ACCESS_TOKEN: "$GITLAB_ACCESS_TOKEN"
+  GITHUB_OAUTH_TOKEN: "$GITHUB_OAUTH_TOKEN"
+
+github_mirror:
+  stage: mirror
+  tags:
+    - buildserver_linux
+  script:
+    - git push --mirror -f git@github.com:namboy94/gitlab-build-scripts.git
+
+get_current_scripts:
+  stage: clone
+  only:
+    - master
+  tags:
+    - buildserver_linux
+  script:
+    - git clone https://gitlab.namibsun.net/namboy94/changelog-reader.git
+    - git clone https://gitlab.namibsun.net/namboy94/html-index-generator.git
+    - git clone https://gitlab.namibsun.net/namboy94/github-release-uploader.git
+    - git clone https://gitlab.namibsun.net/namboy94/gitlab-release-uploader.git
+    - mv changelog-reader/changelog-reader.py bin/changelog-reader
+    - mv html-index-generator/html-index-generator.py bin/html-index-generator
+    - mv github-release-uploader/github-release-uploader.py bin/github-release-uploader
+    - mv gitlab-release-uploader/gitlab-release-uploader.py bin/gitlab-release-uploader
+  artifacts:
+    paths:
+      - bin/*
+
+pypi_dist:
+  stage: upload
+  only:
+    - master
+  tags:
+    - buildserver_linux
+  script:
+    - python3 setup.py register sdist upload
+    - python3 setup.py bdist_wheel upload
+    - rm -rf dist
+    - python2 setup.py bdist_wheel
+    - twine upload dist/*
+
+upload_release_to_github:
+  stage: release
+  only:
+    - master
+  tags:
+    - buildserver_linux
+  script:
+    - git clone https://gitlab.namibsun.net/namboy94/github-release-uploader.git
+    - git clone https://gitlab.namibsun.net/namboy94/changelog-reader.git
+    - python changelog-reader/changelog-reader.py -c CHANGELOG -d current_changelog
+    - python github-release-uploader/github-release-uploader.py namboy94 gitlab-build-scripts $GITHUB_OAUTH_TOKEN
+      $(python3 setup.py -V) current_changelog bin -b master
+
+upload_release_to_gitlab:
+  stage: release
+  only:
+    - master
+  tags:
+    - buildserver_linux
+  script:
+    - git clone https://gitlab.namibsun.net/namboy94/gitlab-release-uploader.git
+    - git clone https://gitlab.namibsun.net/namboy94/changelog-reader.git
+    - python changelog-reader/changelog-reader.py -c CHANGELOG -d  current_changelog
+    - python gitlab-release-uploader/gitlab-release-uploader.py namboy94 gitlab-build-scripts $GITLAB_ACCESS_TOKEN
+      $(python3 setup.py -V) current_changelog bin -b master -u https://gitlab.namibsun.net
+
+gitstats:
+  stage: docstats
+  tags:
+    - buildserver_linux
+  script:
+    - gitstats . gitstats
+    - rsync -av gitstats/ /var/www/gitstats.namibsun.net/public_html/gitstats/gitlab-build-scripts --delete-before
+    - git_stats generate
+    - rsync -av git_stats/ /var/www/gitstats.namibsun.net/public_html/git_stats/gitlab-build-scripts --delete-before
+    - git clone https://gitlab.namibsun.net/namboy94/html-index-generator.git
+    - python html-index-generator/html-index-generator.py /var/www/gitstats.namibsun.net/public_html
+      /var/www/gitstats.namibsun.net/public_html/index.html
