@@ -1,6 +1,6 @@
 # Gitlab Build Scripts [![pipeline status](https://gitlab.namibsun.net/namboy94/gitlab-build-scripts/badges/master/pipeline.svg)](https://gitlab.namibsun.net/namboy94/gitlab-build-scripts/commits/master)
 
-![Logo](resources/logo/logo-readme.png)
+![Logo](../resources/logo/logo-readme.png)
 
 This project contains various script for use with Gitlab CI.
 
