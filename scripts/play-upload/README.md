@@ -1,6 +1,6 @@
 # play-upload.py  [![build status](https://gitlab.namibsun.net/namboy94/play-upload/badges/master/build.svg)](https://gitlab.namibsun.net/namboy94/play-upload/commits/master)
 
-![Logo](logo/logo-readme.png "Logo")
+![Logo](../../resources/logo/play-upload/logo-readme.png "Logo")
 
 play-upload is a script that streamlines uploading releases to the Google Play
 store.
