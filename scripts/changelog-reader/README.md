@@ -1,6 +1,6 @@
-# Changelog Reader [![build status](https://gitlab.namibsun.net/namboy94/changelog-reader/badges/master/build.svg)](https://gitlab.namibsun.net/namboy94/changelog-reader/commits/master)
+# Changelog Reader
 
-![Logo](logo/logo-readme.png "Logo")
+![Logo](../../resources/logo/changelog-reader/logo-readme.png "Logo")
 
 **Note**: Names surrounded by <> are variables, the <> are not part of the
 changelog syntax. All Whitespace in a line before the first significant
@@ -52,11 +52,3 @@ An example of running this script would look like this:
 
 This will read the ```CHANGELOG``` file, extract the latest version entry
 and write it formatted into the change_message file.
-
-## Links
-
-* [Github](https://github.com/namboy94/changelog-reader)
-* [Gitlab](https://gitlab.namibsun.net/namboy94/changelog-reader)
-* [Git Statistics (gitstats)](https://gitstats.namibsun.net/gitstats/changelog-reader/index.html)
-* [Git Statistics (git_stats)](https://gitstats.namibsun.net/git_stats/changelog-reader/index.html)
-
