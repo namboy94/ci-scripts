@@ -1,6 +1,6 @@
-# Gitlab Release Uploader [![build status](https://gitlab.namibsun.net/namboy94/gitlab-release-uploader/badges/master/build.svg)](https://gitlab.namibsun.net/namboy94/gitlab-release-uploader/commits/master)
+# Gitlab Release Uploader
 
-![Logo](logo/logo-readme.png "Logo")
+![Logo](../../resources/logo/gitlab-release-uploader/logo-readme.png "Logo")
 
 This is a script that creates a Gitlab release. Once the Gitlab API
 allows for it, uploading of release assets should be incorporated as well.
@@ -28,10 +28,3 @@ If a file path is passed, the contents of that file are used
 * The script will fail if the release already exists
 * The script does not currently upload the release assets due to an API 
 limitation
-
-## Links
-
-* [Github](https://github.com/namboy94/gitlab-release-uploader)
-* [Gitlab](https://gitlab.namibsun.net/namboy94/gitlab-release-uploader)
-* [Git Statistics (gitstats)](https://gitstats.namibsun.net/gitstats/gitlab-release-uploader/index.html)
-* [Git Statistics (git_stats)](https://gitstats.namibsun.net/git_stats/gitlab-release-uploader/index.html)
