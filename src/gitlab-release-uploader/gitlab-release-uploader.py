@@ -85,7 +85,8 @@ def upload_gitlab_release(repository_owner,                 # str
     query += branch + "&message=" + tag_annotation + "&release_description="
     query += release_notes + "&tag_name=" + version_number
 
-    requests.post(query)
+    response = requests.post(query)
+    print("Upload Complete: " + str(response.status_code))
 
 
 def get_repository_id(repository_owner,       # str

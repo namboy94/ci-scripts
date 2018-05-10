@@ -76,6 +76,9 @@ def upload_github_release(repository_owner,  # str
 
     # Create Tag and get Tag ID
     response = json.loads(requests.post(post_url, json=json_payload).text)
+
+    print("Tag Created, Status: " + str(response.status_code))
+
     try:
         tag_id = response["id"]
     except KeyError:
@@ -95,7 +98,8 @@ def upload_github_release(repository_owner,  # str
         headers = {"Content-Type": content_type}
 
         # Upload Asset
-        requests.post(url=tag_api_url, data=data, headers=headers)
+        asset_resp = requests.post(url=tag_api_url, data=data, headers=headers)
+        print("Asset Uploaded, Status: " + str(asset_resp.status_code))
 
 
 def get_content_type(filename):
