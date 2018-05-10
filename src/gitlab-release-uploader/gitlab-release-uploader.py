@@ -69,9 +69,9 @@ def upload_gitlab_release(repository_owner,                 # str
     tag_annotation = "Release " + version_number
 
     if gitlab_url.endswith("/"):
-        gitlab_api_path = gitlab_url + "api/v3/"
+        gitlab_api_path = gitlab_url + "api/v4/"
     else:
-        gitlab_api_path = gitlab_url + "/api/v3/"
+        gitlab_api_path = gitlab_url + "/api/v4/"
 
     project_id = get_repository_id(repository_owner,
                                    repository_name,
@@ -103,9 +103,9 @@ def get_repository_id(repository_owner,       # str
     """
 
     if gitlab_url.endswith("/"):
-        gitlab_api_path = gitlab_url + "api/v3/"
+        gitlab_api_path = gitlab_url + "api/v4/"
     else:
-        gitlab_api_path = gitlab_url + "/api/v3/"
+        gitlab_api_path = gitlab_url + "/api/v4/"
 
     repository_path = gitlab_api_path + "projects/" + quote(
         (repository_owner + "/" + repository_name), safe="")

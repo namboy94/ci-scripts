@@ -1,5 +1,6 @@
 stages:
   - mirror
+  - test
 
 github_mirror:
   stage: mirror
@@ -9,3 +10,10 @@ github_mirror:
     - git checkout master
     - git pull
     - git push git@github.com:namboy94/gitlab-build-scripts.git master -f
+
+stylecheck:
+  stage: test
+  tags:
+    - pycodestyle
+  script:
+    - pycodestyle .

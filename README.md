@@ -18,5 +18,4 @@ This project contains various script for use with Gitlab CI.
 * [License (GPLv3)](https://gitlab.namibsun.net/namboy94/ci-scripts/raw/master/LICENSE)
 * [Gitlab](https://gitlab.namibsun.net/namboy94/ci-scripts)
 * [Github](https://github.com/namboy94/ci-scripts)
-* [Git Statistics (gitstats)](https://gitstats.namibsun.net/gitstats/ci-scripts/index.html)
-* [Git Statistics (git_stats)](https://gitstats.namibsun.net/git_stats/ci-scripts/index.html)
+* [Progstats](https://progstats.namibsun.net/projects/ci-scripts)
