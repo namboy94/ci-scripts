@@ -19,7 +19,6 @@ along with gitlab-build-scripts.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import os
-import sys
 import json
 import argparse
 import requests
@@ -75,9 +74,9 @@ def upload_github_release(repository_owner,  # str
     }
 
     # Create Tag and get Tag ID
-    response = json.loads(requests.post(post_url, json=json_payload).text)
-
-    print("Tag Created, Status: " + str(response.status_code))
+    post_resp = requests.post(post_url, json=json_payload)
+    print("Tag Created, Status: " + str(post_resp.status_code))
+    response = json.loads(post_resp.text)
 
     try:
         tag_id = response["id"]
@@ -167,10 +166,10 @@ if __name__ == "__main__":
 
     for asset in os.listdir(assets):
 
-        asset_dict = {}
-
-        asset_dict["file_path"] = os.path.join(assets, asset)
-        asset_dict["content_type"] = get_content_type(asset)
+        asset_dict = {
+            "file_path": os.path.join(assets, asset),
+            "content_type": get_content_type(asset)
+        }
 
         asset_info.append(asset_dict)
 

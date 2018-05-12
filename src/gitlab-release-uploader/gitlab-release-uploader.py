@@ -28,6 +28,7 @@ try:
     quote = urllib.parse.quote
 except ImportError:
     import urllib
+    # noinspection PyUnresolvedReferences
     quote = urllib.quote
 
 
@@ -87,6 +88,8 @@ def upload_gitlab_release(repository_owner,                 # str
 
     response = requests.post(query)
     print("Upload Complete: " + str(response.status_code))
+    if response.status_code >= 300:
+        print(str(response.reason))
 
 
 def get_repository_id(repository_owner,       # str
