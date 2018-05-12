@@ -19,6 +19,7 @@ along with gitlab-build-scripts.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import os
+import sys
 import json
 import argparse
 import requests
@@ -75,7 +76,10 @@ def upload_github_release(repository_owner,  # str
 
     # Create Tag and get Tag ID
     post_resp = requests.post(post_url, json=json_payload)
-    print("Tag Created, Status: " + str(post_resp.status_code))
+    if post_resp.status_code >= 300:
+        print("Tag Creation Failed (" + str(post_resp.status_code) + ")")
+        print(post_resp.reason)
+        sys.exit(1)
     response = json.loads(post_resp.text)
 
     try:
@@ -99,6 +103,10 @@ def upload_github_release(repository_owner,  # str
         # Upload Asset
         asset_resp = requests.post(url=tag_api_url, data=data, headers=headers)
         print("Asset Uploaded, Status: " + str(asset_resp.status_code))
+        if asset_resp.status_code >= 300:
+            print("Asset Upload Failed (" + str(asset_resp.status_code) + ")")
+            print(asset_resp.reason)
+            sys.exit(1)
 
 
 def get_content_type(filename):
