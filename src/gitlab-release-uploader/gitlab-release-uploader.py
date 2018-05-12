@@ -20,6 +20,7 @@ along with gitlab-build-scripts.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
 import sys
+import time
 import json
 import argparse
 import requests
@@ -88,10 +89,17 @@ def upload_gitlab_release(repository_owner,                 # str
     query += release_notes + "&tag_name=" + version_number
 
     response = requests.post(query)
-    if response.status_code >= 300:
-        print("Asset Upload Failed (" + str(response.status_code) + ")")
-        print(response.reason)
-        sys.exit(1)
+    retry_count = 0
+    while response.status_code >= 300:
+        time.sleep(5)
+        response = requests.post(query)
+
+        if retry_count >= 5:
+            print("Release Upload Failed (" + str(response.status_code) + ")")
+            print(response.reason)
+            sys.exit(1)
+        else:
+            retry_count += 1
 
 
 def get_repository_id(repository_owner,       # str
