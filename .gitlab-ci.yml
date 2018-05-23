@@ -7,6 +7,7 @@ github_mirror:
   tags:
     - python
   script:
+    - echo $GITHUB_USERNAME
     - python src/github-mirror.py master
 
 stylecheck:
