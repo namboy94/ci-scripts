@@ -5,11 +5,9 @@ stages:
 github_mirror:
   stage: mirror
   tags:
-    - github_namboy94_push
+    - python
   script:
-    - git checkout master
-    - git pull
-    - git push git@github.com:namboy94/gitlab-build-scripts.git master -f
+    - python src/github-mirror.py master
 
 stylecheck:
   stage: test
