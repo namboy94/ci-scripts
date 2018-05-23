@@ -1,6 +1,6 @@
 # play-upload.py
 
-![Logo](../../resources/logo/play-upload/logo-readme.png "Logo")
+![Logo](../resources/logo/play-upload/logo-readme.png "Logo")
 
 play-upload is a script that streamlines uploading releases to the Google Play
 store.

@@ -1,6 +1,6 @@
 # Github Release Uploader 
 
-![Logo](../../resources/logo/github-release-uploader/logo-readme.png "Logo")
+![Logo](../resources/logo/github-release-uploader/logo-readme.png "Logo")
 
 This is a script that creates a Github release. It also allows uploading
 release assets like compiled binaries.

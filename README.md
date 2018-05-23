@@ -2,20 +2,19 @@
 
 ![Logo](resources/logo/logo-readme.png)
 
-This project contains various script for use with Gitlab CI.
+This project contains various scripts for use with Gitlab CI.
 
 ## Scripts
 
-* [play-upload](src/play-upload/README.md)
-* [gitlab-release-uploader](src/gitlab-release-uploader/README.md)
-* [github-release-uploader](src/github-release-uploader/README.md)
-* [html-index-generator](src/html-index-generator/README.md)
-* [changelog-reader](src/changelog-reader/README.md)
+* [play-upload](doc/play-upload.md)
+* [gitlab-release-uploader](doc/gitlab-release-uploader.md)
+* [github-release-uploader](doc/github-release-uploader.md)
+* [changelog-reader](doc/changelog-reader.md)
 
 ## Further Information
 
-* [Changelog](https://gitlab.namibsun.net/namboy94/ci-scripts/raw/master/CHANGELOG)
-* [License (GPLv3)](https://gitlab.namibsun.net/namboy94/ci-scripts/raw/master/LICENSE)
+* [Changelog](CHANGELOG)
+* [License (GPLv3)](LICENSE)
 * [Gitlab](https://gitlab.namibsun.net/namboy94/ci-scripts)
 * [Github](https://github.com/namboy94/ci-scripts)
 * [Progstats](https://progstats.namibsun.net/projects/ci-scripts)

@@ -1,6 +1,6 @@
 # Changelog Reader
 
-![Logo](../../resources/logo/changelog-reader/logo-readme.png "Logo")
+![Logo](../resources/logo/changelog-reader/logo-readme.png "Logo")
 
 **Note**: Names surrounded by <> are variables, the <> are not part of the
 changelog syntax. All Whitespace in a line before the first significant
