@@ -37,6 +37,8 @@ def main():
     :return: None
     """
 
+    print(os.environ)
+
     parser = argparse.ArgumentParser()
     parser.add_argument("branches", nargs="+")
     args = parser.parse_args()
