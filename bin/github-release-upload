@@ -74,6 +74,7 @@ def upload_github_release(repository_owner: str,
         "draft": False,
         "prerelease": False
     }
+    print(json_payload)
 
     # Create Tag and get Tag ID
     post_resp = requests.post(post_url, json=json_payload)
