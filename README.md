@@ -1,4 +1,9 @@
-# CI Scripts [![pipeline status](https://gitlab.namibsun.net/namibsun/python/ci-scripts/badges/master/pipeline.svg)](https://gitlab.namibsun.net/namibsun/python/ci-scripts/commits/master)
+# CI Scripts 
+
+|master|develop|
+|:---:|:---:|
+|[![build status](https://gitlab.namibsun.net/namibsun/python/ci-scripts/badges/master/build.svg)](https://gitlab.namibsun.net/namibsun/python/ci-scripts/commits/master)|[![build status](https://gitlab.namibsun.net/namibsun/python/ci-scripts/badges/develop/build.svg)](https://gitlab.namibsun.net/namibsun/python/ci-scripts/commits/develop)|
+
 
 ![Logo](resources/logo/logo-readme.png)
 
