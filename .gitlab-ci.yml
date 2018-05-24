@@ -19,6 +19,7 @@ release_check:
     - echo $CI_PROJECT_NAME
     - echo $CI_PROJECT_ID
     - echo $CI_PROJECT_NAMESPACE
+    - echo $CI_PROJECT_URL
 
 gitstats:
   stage: stats
