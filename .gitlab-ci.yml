@@ -12,21 +12,27 @@ stylecheck:
 
 github_upload:
   stage: test
+  only:
+    - master
+    - develop
   tags:
     - python3
   script:
     - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
     - mkdir -p assets && echo "TestAsset" > assets/test.txt
-    - github-release-upload "TAG_$CI_COMMIT_SHA" "$CI_COMMIT_MESSAGE" assets/*
+    - github-release-upload "TAG_$CI_COMMIT_SHA" "$CI_COMMIT_MESSAGE" assets/* -b $CI_COMMIT_REF_NAME
 
 gitlab_upload:
   stage: test
+  only:
+    - master
+    - develop
   tags:
     - python3
   script:
     - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
     - mkdir -p assets && echo "TestAsset" > assets/test.txt
-    - gitlab-release-upload "TAG_$CI_COMMIT_SHA" "$CI_COMMIT_MESSAGE" assets/*
+    - gitlab-release-upload "TAG_$CI_COMMIT_SHA" "$CI_COMMIT_MESSAGE" assets/* -b $CI_COMMIT_REF_NAME
 
 gitstats:
   stage: stats
