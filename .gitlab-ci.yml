@@ -11,7 +11,8 @@ stylecheck:
     - pycodestyle . --exclude=virtual
 
 gitstats:
-  stage:
+  stage: stats
+  tags:
     - python3
     - gitstats
   script:
