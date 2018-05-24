@@ -68,17 +68,17 @@ def upload_gitlab_release(project_id: int,
     json_payload = {
         "id": project_id,
         "tag_name": version_number,
-        "message": tag_annotation,
         "ref": branch,
+        "message": tag_annotation,
         "release_description": release_notes
     }
-
-    print(query)
-    print(json_payload)
 
     response = requests.post(query, json=json_payload)
     retry_count = 0
     while response.status_code >= 300:
+
+        print(response.status_code)
+
         time.sleep(5)
         response = requests.post(query, json=json_payload)
 
@@ -107,7 +107,7 @@ def main():
     server_url = project_url.split(project_namespace, 1)[0]
 
     upload_gitlab_release(
-        project_id=os.environ["CI_PROJECT_ID"],
+        project_id=int(os.environ["CI_PROJECT_ID"]),
         version_number=args["tag_name"],
         personal_access_token=os.environ["GITLAB_TOKEN"],
         release_notes=args["notes"],
