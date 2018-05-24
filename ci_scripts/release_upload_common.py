@@ -79,6 +79,8 @@ def get_content_type(filename: str) -> str:
 
         if extension == "jar":
             return "application/java-archive"
+        elif extension == "txt":
+            return "text/plain"
         else:
             return "application/octet-stream"
 
