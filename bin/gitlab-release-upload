@@ -60,22 +60,27 @@ def upload_gitlab_release(project_id: int,
     :return: None
     """
     tag_annotation = "Release " + version_number
-    gitlab_api_path = gitlab_url + "api/v4/"
+    gitlab_api_path = gitlab_url + "api/v4/projects/" + \
+        str(project_id) + "/repository/tags"
 
-    project_path = str(project_id) + "/repository/tags"
-    project_url = gitlab_api_path + "projects/" + project_path
+    query = gitlab_api_path + "?private_token=" + personal_access_token
 
-    query = project_url + "?private_token=" + personal_access_token + "&ref="
-    query += branch + "&message=" + tag_annotation + "&release_description="
-    query += release_notes + "&tag_name=" + version_number
+    json_payload = {
+        "id": project_id,
+        "tag_name": version_number,
+        "message": tag_annotation,
+        "ref": branch,
+        "release_description": release_notes
+    }
 
     print(query)
+    print(json_payload)
 
-    response = requests.post(query)
+    response = requests.post(query, json=json_payload)
     retry_count = 0
     while response.status_code >= 300:
         time.sleep(5)
-        response = requests.post(query)
+        response = requests.post(query, json=json_payload)
 
         if retry_count >= 5:
             print("Release Upload Failed (" + str(response.status_code) + ")")
