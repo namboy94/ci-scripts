@@ -102,7 +102,7 @@ def main():
     upload_gitlab_release(
         os.environ["CI_PROJECT_ID"],
         args["tag_name"],
-        os.environ["GITLAB_ACCESS_TOKEN"],
+        os.environ["GITLAB_TOKEN"],
         args["notes"],
         args["assets"],
         server_url,
