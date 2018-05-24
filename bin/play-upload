@@ -23,6 +23,7 @@ import sys
 import argparse
 import httplib2
 from oauth2client import client
+# noinspection PyUnresolvedReferences
 from apiclient.discovery import build as build_google_service
 from oauth2client.service_account import ServiceAccountCredentials
 
@@ -175,5 +176,3 @@ def upload_release_notes(service_info, version_code, change_notes):
 
 if __name__ == "__main__":
     main()
-    print("Done")
-    sys.exit(0)

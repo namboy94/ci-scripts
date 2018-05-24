@@ -40,10 +40,11 @@ if __name__ == "__main__":
         scripts=list(map(lambda x: os.path.join("bin", x), os.listdir("bin"))),
         install_requires=[
             "requests",
-            "typing",
-            "google-api-python-client",
-            "pyOpenSSL",
-            "httplib2"
+            "typing"
+            # These are needed for play-upload
+            # "google-api-python-client",
+            # "pyOpenSSL",
+            # "httplib2"
         ],
         include_package_data=True,
         zip_safe=False
