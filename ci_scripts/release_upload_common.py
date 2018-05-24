@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """LICENSE
 Copyright 2017 Hermann Krumrey
 

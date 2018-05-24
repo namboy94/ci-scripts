@@ -10,16 +10,20 @@ stylecheck:
     - python3 -m venv virtual && source virtual/bin/activate && pip install pycodestyle
     - pycodestyle . --exclude=virtual
 
-release_check:
+github_upload:
   stage: test
   tags:
     - python3
   script:
-    - echo $CI_SERVER_NAME
-    - echo $CI_PROJECT_NAME
-    - echo $CI_PROJECT_ID
-    - echo $CI_PROJECT_NAMESPACE
-    - echo $CI_PROJECT_URL
+    - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
+    - github-release-upload namboy94 $GITHUB_AUTH_TOKEN $CI_COMMIT_SHA $CI_COMMIT_MESSAGE
+
+gitlab_upload:
+  stage: test
+  tags:
+    - python3
+  script:
+    - gitlab-release-upload $GITLAB_AUTH_TOKEN $CI_COMMIT_SHA $CI_COMMIT_MESSAGE
 
 gitstats:
   stage: stats

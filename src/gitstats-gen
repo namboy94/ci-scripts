@@ -33,6 +33,8 @@ def main():
       PROGSTATS_DATA_PATH: The path to the progstats data path
       CI_PROJECT_NAME: The project name, automatically set by Gitlab CI
 
+    Also, the gitstats and git_stats programs need to be installed.
+
     :return: None
     """
 

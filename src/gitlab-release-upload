@@ -96,7 +96,10 @@ def main():
     args = parse_args(SourceControlType.GITLAB)
 
     project_id = os.environ["CI_PROJECT_ID"]
-    server_name = os.environ["CI_SERVER_NAME"]
+    project_url = os.environ["CI_PROJECT_URL"]
+    project_namespace = os.environ["CI_PROJECT_NAMESPACE"]
+
+    server_url = project_url.split(project_namespace, 1)[0]
 
     upload_gitlab_release(
         project_id,
@@ -104,7 +107,7 @@ def main():
         args["auth_token"],
         args["notes"],
         args["notes"],
-        server_name,
+        server_url,
         args["branch"]
     )
 
