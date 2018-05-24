@@ -20,35 +20,17 @@ LICENSE"""
 import os
 import sys
 import argparse
-from enum import Enum
 from typing import Dict, List
 
 
-class SourceControlType(Enum):
-    """
-    An enum that specifies different source control types
-    to which releases can be uploaded
-    """
-    GITHUB = "github"
-    GITLAB = "gitlab"
-
-
-def parse_args(source_control_type: SourceControlType) \
-        -> Dict[str, str or List[Dict[str, str]]]:
+def parse_args() -> Dict[str, str or List[Dict[str, str]]]:
     """
     Parses command line arguments
-    :param source_control_type: The type of source control used
     :return: A dictionary containing data required for uploading a release
     """
-    src_ctrl = source_control_type.value
 
     parser = argparse.ArgumentParser()
 
-    if source_control_type == SourceControlType.GITHUB:
-        parser.add_argument("username", help="The " + src_ctrl + " Username")
-
-    parser.add_argument("auth_token",
-                        help="The " + src_ctrl + "Authentication Token")
     parser.add_argument("tag_name",
                         help="The Tag name on which to base the release on")
     parser.add_argument("release_notes",
@@ -61,7 +43,7 @@ def parse_args(source_control_type: SourceControlType) \
 
     args = parser.parse_args()
 
-    notes = args.notes
+    notes = args.release_notes
     if os.path.isfile(notes):
         with open(notes, 'r') as release_notes:
             notes = release_notes.read()
@@ -77,18 +59,12 @@ def parse_args(source_control_type: SourceControlType) \
                 "content_type": get_content_type(os.path.basename(asset))
             })
 
-    data = {
-        "auth_token": args.auth_token,
+    return {
         "tag_name": args.tag_name,
         "notes": notes,
         "assets": assets,
         "branch": args.branch
     }
-
-    if source_control_type == SourceControlType.GITHUB:
-        data["username"] = args.username
-
-    return data
 
 
 def get_content_type(filename: str) -> str:

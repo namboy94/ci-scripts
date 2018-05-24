@@ -26,9 +26,9 @@ if __name__ == "__main__":
 
     setup(
         name="ci-scripts",
-        version="1.0.0",
+        version=open("ci_scripts/version", "r").read(),
         description="Scripts to streamline Gitlab CI builds",
-        long_description=open("README.md").read(),
+        long_description=open("README.md", "r").read(),
         author="Hermann Krumrey",
         author_email="hermann@krumreyh.com",
         classifiers=[
@@ -37,7 +37,7 @@ if __name__ == "__main__":
         url="https://gitlab.namibsun.net/namibsun/python/ci-scripts",
         license="GNU GPL3",
         packages=find_packages(),
-        scripts=list(map(lambda x: os.path.join("src", x), os.listdir("src"))),
+        scripts=list(map(lambda x: os.path.join("bin", x), os.listdir("bin"))),
         install_requires=["requests", "typing"],
         include_package_data=True,
         zip_safe=False

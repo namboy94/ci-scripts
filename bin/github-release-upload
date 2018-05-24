@@ -23,7 +23,7 @@ import sys
 import json
 import requests
 from typing import Dict, List
-from ci_scripts.release_upload_common import parse_args, SourceControlType
+from ci_scripts.release_upload_common import parse_args
 
 
 def upload_github_release(repository_owner: str,
@@ -117,14 +117,13 @@ def main():
     :return: None
     """
 
-    args = parse_args(SourceControlType.GITHUB)
-    reponame = os.environ["CI_PROJECT_NAME"]
+    args = parse_args()
 
     upload_github_release(
-        args["username"],
-        reponame,
+        os.environ["GITHUB_USERNAME"],
+        os.environ["CI_PROJECT_NAME"],
         args["tag_name"],
-        args["auth_token"],
+        os.environ["GITHUB_AUTH_TOKEN"],
         args["notes"],
         args["assets"],
         args["branch"]

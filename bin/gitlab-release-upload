@@ -23,7 +23,7 @@ import sys
 import time
 import requests
 from typing import List, Dict
-from ci_scripts.release_upload_common import parse_args, SourceControlType
+from ci_scripts.release_upload_common import parse_args
 
 
 def upload_gitlab_release(project_id: int,
@@ -93,20 +93,18 @@ def main():
     :return: None
     """
 
-    args = parse_args(SourceControlType.GITLAB)
+    args = parse_args()
 
-    project_id = os.environ["CI_PROJECT_ID"]
     project_url = os.environ["CI_PROJECT_URL"]
     project_namespace = os.environ["CI_PROJECT_NAMESPACE"]
-
     server_url = project_url.split(project_namespace, 1)[0]
 
     upload_gitlab_release(
-        project_id,
+        os.environ["CI_PROJECT_ID"],
         args["tag_name"],
-        args["auth_token"],
+        os.environ["GITLAB_ACCESS_TOKEN"],
         args["notes"],
-        args["notes"],
+        args["assets"],
         server_url,
         args["branch"]
     )
