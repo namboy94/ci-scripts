@@ -23,7 +23,6 @@ import sys
 import argparse
 import httplib2
 from oauth2client import client
-# noinspection PyUnresolvedReferences
 from apiclient.discovery import build as build_google_service
 from oauth2client.service_account import ServiceAccountCredentials
 

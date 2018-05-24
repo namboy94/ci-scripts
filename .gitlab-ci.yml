@@ -4,6 +4,8 @@ stages:
 
 stylecheck:
   stage: test
+  except:
+    - tags
   tags:
     - python3
   script:
@@ -36,6 +38,8 @@ gitlab_upload:
 
 gitstats:
   stage: stats
+  except:
+    - tags
   tags:
     - python3
     - gitstats

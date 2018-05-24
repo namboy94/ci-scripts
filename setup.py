@@ -38,7 +38,13 @@ if __name__ == "__main__":
         license="GNU GPL3",
         packages=find_packages(),
         scripts=list(map(lambda x: os.path.join("bin", x), os.listdir("bin"))),
-        install_requires=["requests", "typing"],
+        install_requires=[
+            "requests",
+            "typing",
+            "google-api-python-client",
+            "pyOpenSSL",
+            "httplib2"
+        ],
         include_package_data=True,
         zip_safe=False
     )
