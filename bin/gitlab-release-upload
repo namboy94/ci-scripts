@@ -100,13 +100,13 @@ def main():
     server_url = project_url.split(project_namespace, 1)[0]
 
     upload_gitlab_release(
-        os.environ["CI_PROJECT_ID"],
-        args["tag_name"],
-        os.environ["GITLAB_TOKEN"],
-        args["notes"],
-        args["assets"],
-        server_url,
-        args["branch"]
+        project_id=os.environ["CI_PROJECT_ID"],
+        version_number=args["tag_name"],
+        personal_access_token=os.environ["GITLAB_TOKEN"],
+        release_notes=args["notes"],
+        release_assets=args["assets"],
+        gitlab_url=server_url,
+        branch=args["branch"]
     )
 
 

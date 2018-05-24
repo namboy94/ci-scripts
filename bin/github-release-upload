@@ -121,13 +121,13 @@ def main():
     args = parse_args()
 
     upload_github_release(
-        os.environ["GITHUB_USERNAME"],
-        os.environ["CI_PROJECT_NAME"],
-        args["tag_name"],
-        os.environ["GITHUB_TOKEN"],
-        args["notes"],
-        args["assets"],
-        args["branch"]
+        repository_owner=os.environ["GITHUB_USERNAME"],
+        repository_name=os.environ["CI_PROJECT_NAME"],
+        version_number=args["tag_name"],
+        o_auth_token=os.environ["GITHUB_TOKEN"],
+        release_notes=args["notes"],
+        release_assets=args["assets"],
+        branch=args["branch"]
     )
 
 
