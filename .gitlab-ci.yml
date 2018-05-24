@@ -17,7 +17,7 @@ github_upload:
   script:
     - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
     - mkdir -p assets && echo "TestAsset" > assets/test.txt
-    - github-release-upload "$CI_COMMIT_SHA" "$CI_COMMIT_MESSAGE" assets/*
+    - github-release-upload "TAG_$CI_COMMIT_SHA" "$CI_COMMIT_MESSAGE" assets/*
 
 gitlab_upload:
   stage: test
@@ -26,7 +26,7 @@ gitlab_upload:
   script:
     - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
     - mkdir -p assets && echo "TestAsset" > assets/test.txt
-    - gitlab-release-upload "$CI_COMMIT_SHA" "$CI_COMMIT_MESSAGE" assets/*
+    - gitlab-release-upload "TAG_$CI_COMMIT_SHA" "$CI_COMMIT_MESSAGE" assets/*
 
 gitstats:
   stage: stats
