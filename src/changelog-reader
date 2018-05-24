@@ -19,33 +19,43 @@ along with ci-scripts.  If not, see <http://www.gnu.org/licenses/>.
 LICENSE"""
 
 import os
+import sys
 import argparse
+from typing import Tuple, List
 
 
-def parse_args():
+def parse_args() -> Tuple[str, str or None]:
+    """
+    Parses the arguments of the script.
+    :return: A tuple consisting of the changelog path
+             and the destination file path
+    """
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-c", "--changelog", nargs='?', default="CHANGELOG",
                         help="The path to the Changelog file")
-    parser.add_argument("-d", "--destination", nargs='?', default=None,
+    parser.add_argument("-o", "--out", nargs='?', default=None,
                         help="The destination file")
 
     args = parser.parse_args()
 
     source = args.changelog
-    dest = args.destination
+    dest = args.out
 
     if not os.path.isfile(source):
         print("Changelog File not found")
-        exit()
-    if dest is not None and os.path.isfile(dest):
-        print("Destination file already exists")
-        exit()
+        sys.exit(1)
 
     return source, dest
 
 
-def read(source_file):
+def read(source_file: str) -> str:
+    """
+    Reads the latest entry in the changelog file
+    :param source_file: The path of the changelog file
+    :return: The latest entry, formatted
+    """
+
     with open(source_file, 'r') as f:
         source = f.read().split("\n")
 
@@ -70,7 +80,29 @@ def read(source_file):
     return format_changelog_entry(version_name, version_description)
 
 
-def format_version_name(version_name):
+def format_changelog_entry(version_name: str, version_description: List[str])\
+        -> str:
+    """
+    Formats the changelog entry
+    :param version_name: The version of the changelog entry
+    :param version_description: The description of the changelog entry
+    :return: The formatted changelog entry
+    """
+
+    formatted = "Changelog Version ```" + version_name + "```:\n\n"
+
+    for description in version_description:
+        formatted += "    - " + description + "\n"
+
+    return formatted
+
+
+def format_version_name(version_name: str) -> str:
+    """
+    Formats the version name of the changelog entry
+    :param version_name: The version of the changelog entry
+    :return: The formatted version name
+    """
 
     if version_name.lower().startswith("v ") or \
             version_name.lower().startswith("version "):
@@ -82,7 +114,12 @@ def format_version_name(version_name):
     return version_name
 
 
-def format_version_description(version_description):
+def format_version_description(version_description: str) -> str:
+    """
+    Formats the version description of a changelog entry
+    :param version_description: The raw changelog description
+    :return: The formatted changelog description
+    """
 
     while version_description.startswith(" "):
         version_description = version_description.split(" ", 1)[1]
@@ -97,23 +134,22 @@ def format_version_description(version_description):
     return version_description
 
 
-def format_changelog_entry(version_name, version_description):
+def main():
+    """
+    Retrieves the latest entry of a changelog file and either prints it or
+    writes it to a file
+    :return: None
+    """
 
-    formatted = "Changelog Version ```" + version_name + "```:\n\n"
-
-    for description in version_description:
-        formatted += "    - " + description + "\n"
-
-    return formatted
-
-
-if __name__ == "__main__":
-
-    source, destination = parse_args()
+    source, destination = parse_args()  # type: str
     content = read(source)
 
     if destination is None:
         print(content)
     else:
-        with open(destination, 'w') as f:
+        with open(destination, "w") as f:
             f.write(content)
+
+
+if __name__ == "__main__":
+    main()

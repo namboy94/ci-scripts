@@ -38,6 +38,7 @@ if __name__ == "__main__":
         license="GNU GPL3",
         packages=find_packages(),
         scripts=list(map(lambda x: os.path.join("src", x), os.listdir("src"))),
+        install_requires=["requests", "typing"],
         include_package_data=True,
         zip_safe=False
     )

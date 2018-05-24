@@ -21,17 +21,18 @@ LICENSE"""
 import os
 import sys
 import json
-import argparse
 import requests
+from typing import Dict, List
+from ci_scripts.release_upload_common import parse_args, SourceControlType
 
 
-def upload_github_release(repository_owner,  # str
-                          repository_name,   # str,
-                          version_number,    # str,
-                          o_auth_token,      # str,
-                          release_notes,     # str,
-                          release_assets,    # List[Dict[str, str]],
-                          branch):  # str
+def upload_github_release(repository_owner: str,
+                          repository_name: str,
+                          version_number: str,
+                          o_auth_token: str,
+                          release_notes: str,
+                          release_assets: List[Dict[str, str]],
+                          branch: str):
     """
     Uploads a new release to github.com
 
@@ -47,7 +48,7 @@ def upload_github_release(repository_owner,  # str
     :param release_notes:    release notes associated with this release
     :param release_assets:   the release assets, as a list of dictionaries
                              with the following keys:
-                                file_path:    the file path to the asset
+                                path:         the file path to the asset
                                 content_type: the asset's content type,
                                               for example
                                                   'application/java-archive'
@@ -86,10 +87,11 @@ def upload_github_release(repository_owner,  # str
         tag_id = response["id"]
     except KeyError:
         print(response)
+        sys.exit(1)
 
     for asset in release_assets:
 
-        file_path = asset["file_path"]
+        file_path = asset["path"]
         file_name = os.path.basename(file_path)
         content_type = asset["content_type"]
 
@@ -109,77 +111,25 @@ def upload_github_release(repository_owner,  # str
             sys.exit(1)
 
 
-def get_content_type(filename):
+def main():
+    """
+    Uploads a github release
+    :return: None
+    """
 
-    try:
-        extension = filename.rsplit(".", 1)[1].lower()
+    args = parse_args(SourceControlType.GITHUB)
+    reponame = os.environ["CI_PROJECT_NAME"]
 
-        if extension == "jar":
-            return "application/java-archive"
-        else:
-            return "application/octet-stream"
-
-    except IndexError:
-        return "application/octet-stream"
-
-
-def parse_args():   # -> username, reponame, auth token, release notes, assets,
-                    #    source branch
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("username",
-                        help="The Github Username")
-    parser.add_argument("reponame",
-                        help="The Repository Name")
-    parser.add_argument("auth_token",
-                        help="The Authentication Token")
-    parser.add_argument("tag_name",
-                        help="The Tag name on which to base the release on")
-    parser.add_argument("release_notes",
-                        help="The Release Notes. Can be a file or a string")
-    parser.add_argument("release_assets",
-                        help="The Release Asset directory. \
-                        Every file in this directory will be uploaded")
-    parser.add_argument("-b", "--branch", default="master",
-                        help="The source branch or commit on which to base \
-                        this release on")
-
-    args = parser.parse_args()
-
-    username = args.username
-    reponame = args.reponame
-    auth_token = args.auth_token
-    tag_name = args.tag_name
-    notes = args.release_notes
-    assets = args.release_assets
-    branch = args.branch
-
-    if os.path.isfile(notes):
-        with open(notes, 'r') as release_notes:
-            notes = release_notes.read()
-
-    if not os.path.isdir(assets):
-        print(assets + " is not a directory")
-        exit()
-
-    return username, reponame, auth_token, tag_name, notes, assets, branch
+    upload_github_release(
+        args["username"],
+        reponame,
+        args["tag_name"],
+        args["auth_token"],
+        args["notes"],
+        args["assets"],
+        args["branch"]
+    )
 
 
 if __name__ == "__main__":
-
-    username, reponame, auth_token, tag_name, release_notes, assets, branch \
-        = parse_args()
-
-    asset_info = []
-
-    for asset in os.listdir(assets):
-
-        asset_dict = {
-            "file_path": os.path.join(assets, asset),
-            "content_type": get_content_type(asset)
-        }
-
-        asset_info.append(asset_dict)
-
-    upload_github_release(username, reponame, tag_name, auth_token,
-                          release_notes, asset_info, branch)
+    main()

@@ -10,6 +10,16 @@ stylecheck:
     - python3 -m venv virtual && source virtual/bin/activate && pip install pycodestyle
     - pycodestyle . --exclude=virtual
 
+release_check:
+  stage: test
+  tags:
+    - python3
+  script:
+    - echo $CI_SERVER_NAME
+    - echo $CI_PROJECT_NAME
+    - echo $CI_PROJECT_ID
+    - echo $CI_PROJECT_NAMESPACE
+
 gitstats:
   stage: stats
   tags:
