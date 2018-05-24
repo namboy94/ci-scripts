@@ -4,6 +4,10 @@ stages:
 stylecheck:
   stage: test
   tags:
-    - pycodestyle
+    - python3
   script:
-    - pycodestyle .
+    - python3 -m venv virtual && source virtual/bin/activate && pip install pycodestyle
+    - pycodestyle . --exclude=virtual
+
+gitstats:
+  stage:
