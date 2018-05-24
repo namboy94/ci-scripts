@@ -1,22 +1,20 @@
 stages:
   - test
   - stats
+  - release
 
 stylecheck:
   stage: test
-  except:
-    - tags
   tags:
     - python3
   script:
     - python3 -m venv virtual && source virtual/bin/activate && pip install pycodestyle
     - pycodestyle . --exclude=virtual
 
-github_upload:
+github_upload_test:
   stage: test
-  only:
-    - master
-    - develop
+  except:
+    - tags
   tags:
     - python3
   script:
@@ -24,11 +22,20 @@ github_upload:
     - mkdir -p assets && echo "TestAsset" > assets/test.txt
     - github-release-upload "TAG_$CI_COMMIT_SHA" "$CI_COMMIT_MESSAGE" assets/* -b $CI_COMMIT_REF_NAME
 
-gitlab_upload:
+pypi_upload_test:
   stage: test
   only:
     - master
-    - develop
+  tags:
+    - python3
+  script:
+    - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
+    - pypi-upload --test
+
+gitlab_upload_test:
+  stage: test
+  except:
+    - tags
   tags:
     - python3
   script:
@@ -36,10 +43,29 @@ gitlab_upload:
     - mkdir -p assets && echo "TestAsset" > assets/test.txt
     - gitlab-release-upload "TAG_$CI_COMMIT_SHA" "$CI_COMMIT_MESSAGE" assets/* -b $CI_COMMIT_REF_NAME
 
+release_upload:
+  stage: release
+  only:
+    - master
+  tags:
+    - python3
+  script:
+    - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
+    - github-release-upload $(python setup.py -V) "$(changelog-reader)"
+    - gitlab-release-upload $(python setup.py -V) "$(changelog-reader)"
+
+pypi_upload:
+  stage: release
+  only:
+    - master
+  tags:
+    - python3
+  script:
+    - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
+    - pypi-upload
+
 gitstats:
   stage: stats
-  except:
-    - tags
   tags:
     - python3
     - gitstats
