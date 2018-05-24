@@ -69,6 +69,8 @@ def upload_gitlab_release(project_id: int,
     query += branch + "&message=" + tag_annotation + "&release_description="
     query += release_notes + "&tag_name=" + version_number
 
+    print(query)
+
     response = requests.post(query)
     retry_count = 0
     while response.status_code >= 300:
