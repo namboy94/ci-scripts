@@ -23,6 +23,7 @@ gitlab_upload:
   tags:
     - python3
   script:
+    - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
     - gitlab-release-upload $GITLAB_AUTH_TOKEN $CI_COMMIT_SHA $CI_COMMIT_MESSAGE
 
 gitstats:
