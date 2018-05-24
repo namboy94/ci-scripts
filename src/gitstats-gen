@@ -1,0 +1,53 @@
+#!/usr/bin/env python
+"""LICENSE
+Copyright 2017 Hermann Krumrey
+
+This file is part of ci-scripts.
+
+ci-scripts is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+ci-scripts is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ci-scripts.  If not, see <http://www.gnu.org/licenses/>.
+LICENSE"""
+
+import os
+import sys
+from subprocess import Popen
+
+
+def main():
+    """
+    Generates git statistics using git_stats and gitstats and copies them
+    to a progstats data directory
+
+    Requires the following environment variables to be set:
+
+      PROGSTATS_DATA_PATH: The path to the progstats data path
+      CI_PROJECT_NAME: The project name, automatically set by Gitlab CI
+
+    :return: None
+    """
+
+    destination = os.environ["PROGSTATS_DATA_PATH"]
+    project = os.environ["CI_PROJECT_NAME"]
+    gitstats_dest = os.path.join(destination, "gitstats", project)
+    git_stats_dest = os.path.join(destination, "git_stats", project)
+
+    Popen(["gitstats", ".", gitstats_dest]).wait()
+    Popen(["git_stats", "generate", "-o", git_stats_dest]).wait()
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except Exception as e:
+        print(e)
+        sys.exit(1)

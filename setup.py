@@ -1,5 +1,5 @@
 """LICENSE
-Copyright 2017+ Hermann Krumrey
+Copyright 2017 Hermann Krumrey
 
 This file is part of ci-scripts.
 
@@ -18,6 +18,7 @@ along with ci-scripts.  If not, see <http://www.gnu.org/licenses/>.
 LICENSE"""
 
 # imports
+import os
 from setuptools import setup, find_packages
 
 
@@ -28,17 +29,15 @@ if __name__ == "__main__":
         version="1.0.0",
         description="Scripts to streamline Gitlab CI builds",
         long_description=open("README.md").read(),
+        author="Hermann Krumrey",
+        author_email="hermann@krumreyh.com",
         classifiers=[
             "License :: OSI Approved :: GNU General Public License v3 (GPLv3)"
         ],
-        url="https://gitlab.namibsun.net/namboy94/ci-scripts",
-        author="Hermann Krumrey",
-        author_email="hermann@krumreyh.com",
+        url="https://gitlab.namibsun.net/namibsun/python/ci-scripts",
         license="GNU GPL3",
         packages=find_packages(),
+        scripts=list(map(lambda x: os.path.join("src", x), os.listdir("src"))),
         include_package_data=True,
-        install_requires=["flask"],
-        test_suite='nose.collector',
-        tests_require=['nose'],
         zip_safe=False
     )

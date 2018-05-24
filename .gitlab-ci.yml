@@ -1,5 +1,6 @@
 stages:
   - test
+  - stats
 
 stylecheck:
   stage: test
@@ -11,3 +12,8 @@ stylecheck:
 
 gitstats:
   stage:
+    - python3
+    - gitstats
+  script:
+    - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
+    - gitstats-gen
