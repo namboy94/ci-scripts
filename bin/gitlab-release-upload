@@ -73,6 +73,9 @@ def upload_gitlab_release(project_id: int,
         "release_description": release_notes
     }
 
+    print(query)
+    print(json_payload)
+
     response = requests.post(query, json=json_payload)
     retry_count = 0
     while response.status_code >= 300:
