@@ -26,7 +26,7 @@ if __name__ == "__main__":
 
     setup(
         name="ci-scripts",
-        version=open("ci_scripts/version", "r").read(),
+        version=open("version", "r").read(),
         description="Scripts to streamline Gitlab CI builds",
         long_description=open("README.md", "r").read(),
         author="Hermann Krumrey",

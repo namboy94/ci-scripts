@@ -16,6 +16,7 @@ This project contains various scripts for use with Gitlab CI.
 * github-release-upload
 * changelog-reader
 * gitstats-gen
+* pypi-upload
 
 ## Further Information
 
