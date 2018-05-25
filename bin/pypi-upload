@@ -36,7 +36,9 @@ def main():
     password = os.environ["PYPI_PASSWORD"]
     repo = "pypitest" if test else "pypi"
 
-    Popen(["pip", "install", "wheel", "twine"]).wait()
+    Popen(["pip", "install",
+           "wheel", "twine", "setuptools",
+           "--upgrade"]).wait()
     Popen(["python", "setup.py", "bdist_wheel", "sdist"]).wait()
     Popen(["twine", "upload",
            "-r", repo,
