@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+"""LICENSE
+Copyright 2017 Hermann Krumrey
+
+This file is part of ci-scripts.
+
+ci-scripts is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+ci-scripts is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ci-scripts.  If not, see <http://www.gnu.org/licenses/>.
+LICENSE"""
+
+
+import os
+from subprocess import Popen, check_output
+
+
+def main():
+    """
+    Generates sphinx documentation in PDF and HTML formats and
+    copies them to the progstats data directory
+    :return: None
+    """
+
+    Popen(["pip", "install", "sphinx", "sphinx_rtd_theme"]).wait()
+    Popen(["python", "setup.py", "install"]).wait()
+    package = check_output(["python", "setup.py", "--name"]).decode().strip()
+    package = package.replace("-", "_")
+
+    os.chdir("doc/sphinx")
+    Popen(["make", "buildsource"]).wait()
+    Popen(["make", "html"]).wait()
+    Popen(["make", "latexpdf"]).wait()
+
+    destination = os.environ["PROGSTATS_DATA_PATH"]
+    project = os.environ["CI_PROJECT_NAME"]
+
+    html_dest = os.path.join(destination, "doc_html", project)
+    pdf_dest = os.path.join(destination, "doc_pdf", project + ".pdf")
+    html_src = os.path.join("build", "html") + "/"
+    pdf_src = os.path.join("build", "latex", package + ".pdf")
+
+    Popen(["rsync", "-a", "--delete-after", html_src, html_dest]).wait()
+    Popen(["rsync", "-a", "--delete-after", pdf_src, pdf_dest]).wait()
+
+    Popen(["make", "clean"]).wait()
+
+    os.chdir("../..")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+"""LICENSE
+Copyright 2017 Hermann Krumrey
+
+This file is part of ci-scripts.
+
+ci-scripts is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+ci-scripts is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ci-scripts.  If not, see <http://www.gnu.org/licenses/>.
+LICENSE"""
+
+
+import os
+import glob
+import argparse
+from subprocess import Popen
+
+
+def main():
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--test", action="store_true",
+                        help="Uploads to pypitest instead")
+    test = parser.parse_args().test
+
+    username = os.environ["PYPI_USERNAME"]
+    password = os.environ["PYPI_PASSWORD"]
+    repo = "pypitest" if test else "pypi"
+
+    Popen(["pip", "install", "wheel", "twine"]).wait()
+    Popen(["python", "setup.py", "bdist_wheel", "sdist"]).wait()
+    Popen(["twine", "upload",
+           "-r", repo,
+           "-u", username,
+           "-p", password] + glob.glob("dist/*")).wait()
+
+
+if __name__ == "__main__":
+    main()

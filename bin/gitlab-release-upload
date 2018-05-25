@@ -1,0 +1,124 @@
+#!/usr/bin/env python3
+"""LICENSE
+Copyright 2017 Hermann Krumrey
+
+This file is part of ci-scripts.
+
+ci-scripts is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+ci-scripts is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ci-scripts.  If not, see <http://www.gnu.org/licenses/>.
+LICENSE"""
+
+import os
+import sys
+import time
+import requests
+from typing import List, Dict
+from ci_scripts.release_upload_common import parse_args
+
+
+def upload_gitlab_release(project_id: int,
+                          version_number: str,
+                          personal_access_token: str,
+                          release_notes: str,
+                          release_assets: List[Dict[str, str]],
+                          gitlab_url: str,
+                          branch: str):
+    """
+    Uploads a new release to a Gitlab instance
+
+    First, a new release is created. Afterwards, the script uploads all
+    specified release assets to that release tag.
+
+    WARNING: Since the Gitlab API does not allow uploading of attachments via
+             the API as of right now, the specified release assets will NOT be
+             uploaded. They will have to be uploaded by hand.
+
+    :param project_id:            the ID of the gitlab project
+    :param gitlab_url:            the URL of the gitlab instance
+    :param version_number:        the project's current version number
+    :param personal_access_token: the repository owner's personal access token
+    :param release_notes:         release notes associated with this release
+    :param release_assets:        the release assets, as a list of dictionaries
+                                  with the following keys:
+                                      path:          the file path to the asset
+                                      content_type:  the asset's content type,
+                                                     for example
+                                                       application/java-archive
+                                                     for .jar files
+    :param branch:                the branch to base the release on.
+                                  Defaults to master
+    :return: None
+    """
+    tag_annotation = "Release " + version_number
+    gitlab_api_path = gitlab_url + "api/v4/projects/" + \
+        str(project_id) + "/repository/tags"
+
+    query = gitlab_api_path + "?private_token=" + personal_access_token
+
+    json_payload = {
+        "id": project_id,
+        "tag_name": version_number,
+        "ref": branch,
+        "message": tag_annotation,
+        "release_description": release_notes
+    }
+
+    print(query)
+    print(json_payload)
+
+    response = requests.post(query, json=json_payload)
+    retry_count = 0
+    while response.status_code >= 300:
+
+        print(response.status_code)
+
+        time.sleep(5)
+        response = requests.post(query, json=json_payload)
+
+        if retry_count >= 5:
+            print("Release Upload Failed (" + str(response.status_code) + ")")
+            print(response.reason)
+            sys.exit(1)
+        else:
+            retry_count += 1
+
+    for _ in release_assets:
+        pass
+
+
+def main():
+    """
+    Uploads a gitlab release. Automatically gleams information from
+    the Gitlab CI variables
+    :return: None
+    """
+
+    args = parse_args()
+
+    project_url = os.environ["CI_PROJECT_URL"]
+    project_namespace = os.environ["CI_PROJECT_NAMESPACE"]
+    server_url = project_url.split(project_namespace, 1)[0]
+
+    upload_gitlab_release(
+        project_id=int(os.environ["CI_PROJECT_ID"]),
+        version_number=args["tag_name"],
+        personal_access_token=os.environ["GITLAB_TOKEN"],
+        release_notes=args["notes"],
+        release_assets=args["assets"],
+        gitlab_url=server_url,
+        branch=args["branch"]
+    )
+
+
+if __name__ == "__main__":
+    main()

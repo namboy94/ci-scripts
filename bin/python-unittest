@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+"""LICENSE
+Copyright 2017 Hermann Krumrey
+
+This file is part of ci-scripts.
+
+ci-scripts is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+ci-scripts is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ci-scripts.  If not, see <http://www.gnu.org/licenses/>.
+LICENSE"""
+
+
+import os
+from subprocess import Popen, check_output
+
+
+def main():
+    """
+    Executes python tests and copies the resulting coverage data to the
+    progstats data directory
+    :return: None
+    """
+
+    Popen(["pip", "install", "nose", "coverage"]).wait()
+
+    destination = os.environ["PROGSTATS_DATA_PATH"]
+    project = os.environ["CI_PROJECT_NAME"]
+    package = check_output(["python", "setup.py", "--name"]).decode().strip()
+    package = package.replace("-", "_")
+
+    Popen(["python", "setup.py", "nosetests", "-v",
+           "--with-coverage",
+           "--cover-package=" + package,
+           "--cover-branches",
+           "--cover-erase",
+           "--cover-html",
+           "--cover-inclusive"]).wait()
+
+    dest = os.path.join(destination, "coverage", project)
+    Popen(["rsync", "-a", "--delete-after", "cover/", dest]).wait()
+
+
+if __name__ == "__main__":
+    main()

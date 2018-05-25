@@ -1,4 +1,5 @@
-This project no longer maintains a changelog file.
+V 1.0.0:
+  - Created a real pypi-backed project
 V 0.8.0:
   - Fixed build script
   - Fixed script names when installed
