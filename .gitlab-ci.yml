@@ -13,25 +13,27 @@ stylecheck:
 
 github_upload_test:
   stage: test
-  except:
-    - tags
+  only:
+    - master
+    - develop
   tags:
     - python3
   script:
     - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
     - mkdir -p assets && echo "TestAsset" > assets/test.txt
-    - github-release-upload $(date +"%d.%m.%y.%H.%M.%S") "$CI_COMMIT_MESSAGE" assets/* -b $CI_COMMIT_REF_NAME
+    - github-release-upload $(date +"%d.%m.%y.%H.%M.%S") Test assets/* -b $CI_COMMIT_REF_NAME
 
 gitlab_upload_test:
   stage: test
-  except:
-    - tags
+  only:
+    - master
+    - develop
   tags:
     - python3
   script:
     - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
     - mkdir -p assets && echo "TestAsset" > assets/test.txt
-    - gitlab-release-upload $(date +"%d.%m.%y.%H.%M.%S") "$CI_COMMIT_MESSAGE" assets/* -b $CI_COMMIT_REF_NAME
+    - gitlab-release-upload $(date +"%d.%m.%y.%H.%M.%S") Test assets/* -b $CI_COMMIT_REF_NAME
 
 pypi_upload_test:
   stage: test
