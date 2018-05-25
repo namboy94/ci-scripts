@@ -74,3 +74,11 @@ gitstats:
   script:
     - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
     - gitstats-gen
+
+docgen:
+  stage: stats
+  tags:
+    - python3
+  script:
+    - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
+    - sphinx-docgen
