@@ -22,16 +22,6 @@ github_upload_test:
     - mkdir -p assets && echo "TestAsset" > assets/test.txt
     - github-release-upload "TAG_$CI_COMMIT_SHA" "$CI_COMMIT_MESSAGE" assets/* -b $CI_COMMIT_REF_NAME
 
-pypi_upload_test:
-  stage: test
-  only:
-    - master
-  tags:
-    - python3
-  script:
-    - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
-    - pypi-upload --test
-
 gitlab_upload_test:
   stage: test
   except:
@@ -42,6 +32,16 @@ gitlab_upload_test:
     - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
     - mkdir -p assets && echo "TestAsset" > assets/test.txt
     - gitlab-release-upload "TAG_$CI_COMMIT_SHA" "$CI_COMMIT_MESSAGE" assets/* -b $CI_COMMIT_REF_NAME
+
+pypi_upload_test:
+  stage: test
+  only:
+    - master
+  tags:
+    - python3
+  script:
+    - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
+    - pypi-upload --test
 
 release_upload:
   stage: release
