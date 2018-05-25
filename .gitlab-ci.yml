@@ -11,6 +11,14 @@ stylecheck:
     - python3 -m venv virtual && source virtual/bin/activate && pip install pycodestyle
     - pycodestyle . --exclude=virtual
 
+unittest:
+  stage: test
+  tags:
+    - python3
+  script:
+    - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
+    - python-unittest
+
 github_upload_test:
   stage: test
   only:
