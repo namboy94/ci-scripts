@@ -1,5 +1,10 @@
 V 1.0.0:
   - Created a real pypi-backed project
+  - Increasingly use environment variables
+  - Added gitstats-gen script
+  - Added pypi-upload script
+  - Added python-unittest script
+  - Added sphinx-docgen script
 V 0.8.0:
   - Fixed build script
   - Fixed script names when installed
