@@ -29,6 +29,7 @@ if __name__ == "__main__":
         version=open("version", "r").read(),
         description="Scripts to streamline Gitlab CI builds",
         long_description=open("README.md", "r").read(),
+        long_description_content_type="text/markdown",
         author="Hermann Krumrey",
         author_email="hermann@krumreyh.com",
         classifiers=[
