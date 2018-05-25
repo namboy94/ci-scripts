@@ -33,6 +33,7 @@ def main():
     Popen(["pip", "install", "sphinx", "sphinx_rtd_theme"]).wait()
     Popen(["python", "setup.py", "install"]).wait()
     package = check_output(["python", "setup.py", "--name"]).decode()
+    package = package.replace("-", "_")
 
     os.chdir("doc/sphinx")
     Popen(["make", "buildsource"]).wait()

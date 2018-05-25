@@ -35,6 +35,7 @@ def main():
     destination = os.environ["PROGSTATS_DATA_PATH"]
     project = os.environ["CI_PROJECT_NAME"]
     package = check_output(["python", "setup.py", "--name"]).decode()
+    package = package.replace("-", "_")
 
     Popen(["python", "setup.py", "nosetests", "-v",
            "--with-coverage",
