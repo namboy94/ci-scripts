@@ -35,7 +35,7 @@ def main():
                         help="Will be passed to the "
                              "--exclude option of pycodestyle")
 
-    excluded = parser.parse_args().excluded
+    excluded = parser.parse_args().exclude
     default_excluded = ["virtual", "build", "dist", "virt", "venv"]
     excluded = ",".join(excluded + default_excluded)
 
