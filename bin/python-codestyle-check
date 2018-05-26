@@ -35,7 +35,7 @@ def main():
 
     pycodestyle_command = ["pycodestyle", "."]
     for exclude in ignored:
-        pycodestyle_command.append("--exclude=" + exclude)
+        pycodestyle_command += ["--exclude", exclude]
 
     sys.exit(Popen(pycodestyle_command).wait())
 
