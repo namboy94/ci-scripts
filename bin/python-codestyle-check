@@ -40,7 +40,9 @@ def main():
     excluded = ",".join(excluded + default_excluded)
 
     Popen(["pip", "install", "pycodestyle"]).wait()
-    sys.exit(Popen(["pycodestyle", ".", "--exclude", excluded]).wait())
+    comm = ["pycodestyle", ".", "--exclude", excluded]
+    print(" ".join(comm))
+    sys.exit(Popen(comm).wait())
 
 
 if __name__ == "__main__":
