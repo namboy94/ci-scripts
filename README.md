@@ -25,3 +25,4 @@ This project contains various scripts for use with Gitlab CI.
 * [Gitlab](https://gitlab.namibsun.net/namibsun/python/ci-scripts)
 * [Github](https://github.com/namboy94/ci-scripts)
 * [Progstats](https://progstats.namibsun.net/projects/ci-scripts)
+* [PyPi](https://pypi.org/project/ci-scripts)

@@ -22,6 +22,7 @@ LICENSE"""
 import os
 import glob
 import argparse
+from shutil import rmtree
 from subprocess import Popen
 
 
@@ -31,6 +32,9 @@ def main():
     parser.add_argument("--test", action="store_true",
                         help="Uploads to pypitest instead")
     test = parser.parse_args().test
+
+    if os.path.isdir("dist"):
+        rmtree("dist")
 
     username = os.environ["PYPI_USERNAME"]
     password = os.environ["PYPI_PASSWORD"]
