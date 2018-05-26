@@ -1,4 +1,4 @@
-# Contributing to ci-scripts
+# Contributing
 
 ## Copyright and Management
 
