@@ -47,9 +47,11 @@ pypi_upload_test:
   stage: test
   only:
     - master
+    - develop
   tags:
     - python3
   script:
+    - echo $(date +"%d.%m.%y.%H.%M.%S") > version
     - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
     - pypi-upload --test
 
