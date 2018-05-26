@@ -20,6 +20,7 @@ LICENSE"""
 
 
 import sys
+import argparse
 from subprocess import Popen
 
 
@@ -29,15 +30,17 @@ def main():
     :return: None
     """
 
-    ignored = ["virtual", "build", "dist", "virt", "venv"]
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-e", "--excluded", nargs="*", default=[],
+                        help="Will be passed to the "
+                             "--exclude option of pycodestyle")
+
+    excluded = parser.parse_args().excluded
+    default_excluded = ["virtual", "build", "dist", "virt", "venv"]
+    excluded = ",".join(excluded + default_excluded)
 
     Popen(["pip", "install", "pycodestyle"]).wait()
-
-    pycodestyle_command = ["pycodestyle", "."]
-    for exclude in ignored:
-        pycodestyle_command += ["--exclude", exclude]
-
-    sys.exit(Popen(pycodestyle_command).wait())
+    sys.exit(Popen(["pycodestyle", ".", "--exclude", excluded]).wait())
 
 
 if __name__ == "__main__":
