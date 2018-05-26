@@ -20,30 +20,46 @@ LICENSE"""
 
 
 import os
+import glob
 import argparse
 from shutil import rmtree
 from subprocess import Popen
 
 
 def main():
+    """
+    Uploads the current python project to pypi. Also allows the use of
+    pypitest using the --test flag
+    :return: None
+    """
+
+    Popen(["pip", "install",
+           "wheel", "twine", "setuptools",
+           "--upgrade"]).wait()
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--test", action="store_true",
+    parser.add_argument("-t", "--test", action="store_true",
                         help="Uploads to pypitest instead")
     test = parser.parse_args().test
 
-    if os.path.isdir("dist"):
-        rmtree("dist")
+    for path in ["dist", "build"]:
+        if os.path.isdir(path):
+            rmtree(path)
 
     username = os.environ["PYPI_USERNAME"]
     password = os.environ["PYPI_PASSWORD"]
     repo = "pypitest" if test else "pypi"
 
-    Popen("pip install wheel twine setuptools --upgrade", shell=True).wait()
     Popen("python setup.py bdist_wheel sdist", shell=True).wait()
     Popen("twine upload dist/* " +
           "-r '" + repo + "' -u '" + username + "' -p '" + password + "'",
           shell=True)
+
+    Popen(["python", "setup.py", "bdis_wheel", "sdist"]).wait()
+    Popen(["twine", "upload",
+           "-r", repo,
+           "-u", username,
+           "-p", password] + glob.glob("dist/*")).wait()
 
 
 if __name__ == "__main__":
