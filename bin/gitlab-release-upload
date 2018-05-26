@@ -20,7 +20,6 @@ LICENSE"""
 
 import os
 import sys
-import time
 import requests
 from typing import List, Dict
 from ci_scripts.release_upload_common import parse_args
@@ -65,6 +64,7 @@ def upload_gitlab_release(project_id: int,
 
     query = gitlab_api_path + "?private_token=" + personal_access_token
 
+    print(query)
     json_payload = {
         "id": project_id,
         "tag_name": version_number,
@@ -76,20 +76,10 @@ def upload_gitlab_release(project_id: int,
     print(json_payload)
 
     response = requests.post(query, json=json_payload)
-    retry_count = 0
-    while response.status_code >= 300:
-
-        print(response.status_code)
-
-        time.sleep(5)
-        response = requests.post(query, json=json_payload)
-
-        if retry_count >= 5:
-            print("Release Upload Failed (" + str(response.status_code) + ")")
-            print(response.reason)
-            sys.exit(1)
-        else:
-            retry_count += 1
+    if response.status_code >= 300:
+        print("Release Upload Failed (" + str(response.status_code) + ")")
+        print(response.reason)
+        sys.exit(1)
 
     for _ in release_assets:
         pass
@@ -120,4 +110,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    print("Disabled for now due to gitlab API issues")
+    # main()
