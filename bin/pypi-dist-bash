@@ -1,0 +1,6 @@
+#!/bin/bash
+
+rm -rf dist
+pip install wheel twine setuptools --upgrade
+python setup.py bdist_wheel sdist
+twine upload dist/* -r pypitest -u $PYPI_USERNAME -p $PYPI_PASSWORD

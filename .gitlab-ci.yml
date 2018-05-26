@@ -53,7 +53,7 @@ pypi_upload_test:
   script:
     - echo $(date +"%d.%m.%y.%H.%M.%S") > version
     - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
-    - pypi-upload --test
+    - pypi-upload-bash
 
 release_upload:
   stage: release
