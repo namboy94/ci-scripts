@@ -64,7 +64,6 @@ def upload_gitlab_release(project_id: int,
 
     query = gitlab_api_path + "?private_token=" + personal_access_token
 
-    print(query)
     json_payload = {
         "id": project_id,
         "tag_name": version_number,
