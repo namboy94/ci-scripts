@@ -1,5 +1,5 @@
 """LICENSE
-Copyright 2017 Hermann Krumrey
+Copyright 2017 Hermann Krumrey <hermann@krumreyh.com>
 
 This file is part of ci-scripts.
 
