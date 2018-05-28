@@ -20,7 +20,7 @@ LICENSE"""
 
 import os
 import sys
-from subprocess import Popen
+from ci_scripts.common import process_call
 
 
 def main():
@@ -43,8 +43,8 @@ def main():
     gitstats_dest = os.path.join(destination, "gitstats", project)
     git_stats_dest = os.path.join(destination, "git_stats", project)
 
-    Popen(["gitstats", ".", gitstats_dest]).wait()
-    Popen(["git_stats", "generate", "-o", git_stats_dest]).wait()
+    process_call(["gitstats", ".", gitstats_dest])
+    process_call(["git_stats", "generate", "-o", git_stats_dest])
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 """LICENSE
 Copyright 2017 Hermann Krumrey <hermann@krumreyh.com>
 
@@ -18,30 +18,16 @@ You should have received a copy of the GNU General Public License
 along with ci-scripts.  If not, see <http://www.gnu.org/licenses/>.
 LICENSE"""
 
+from typing import List
+from subprocess import check_output
 
-import argparse
-from ci_scripts.common import process_call
 
-
-def main():
+def process_call(command: List[str]) -> str:
     """
-    Runs a code style check for python projects
-    :return: None
+    Prints a command and executes it.
+    If the exit code is not 0, the program will crash.
+    :param command: The command to run
+    :return: The output of the command call
     """
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-e", "--exclude", nargs="*", default=[],
-                        help="Will be passed to the "
-                             "--exclude option of pycodestyle")
-
-    excluded = parser.parse_args().exclude
-    default_excluded = ["virtual", "build", "dist", "virt", "venv"]
-    excluded = ",".join(excluded + default_excluded)
-
-    process_call(["pip", "install", "pycodestyle"])
-    comm = ["pycodestyle", ".", "--exclude", excluded]
-    process_call(comm)
-
-
-if __name__ == "__main__":
-    main()
+    print(" ".join(command))
+    return check_output(command).decode()
