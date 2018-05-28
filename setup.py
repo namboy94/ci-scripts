@@ -41,7 +41,8 @@ if __name__ == "__main__":
         scripts=list(map(lambda x: os.path.join("bin", x), os.listdir("bin"))),
         install_requires=[
             "requests",
-            "typing"
+            "typing",
+            "colorama"
             # These are needed for play-upload
             # "google-api-python-client",
             # "pyOpenSSL",

@@ -19,6 +19,7 @@ along with ci-scripts.  If not, see <http://www.gnu.org/licenses/>.
 LICENSE"""
 
 from typing import List
+from colorama import Fore, Style
 from subprocess import check_output
 
 
@@ -29,5 +30,7 @@ def process_call(command: List[str]) -> str:
     :param command: The command to run
     :return: The output of the command call
     """
-    print(" ".join(command))
-    return check_output(command).decode()
+    print(Fore.CYAN + " ".join(command) + Style.RESET_ALL)
+    output = check_output(command).decode()
+    print(Fore.MAGENTA + output + Style.RESET_ALL)
+    return output
