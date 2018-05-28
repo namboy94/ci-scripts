@@ -20,7 +20,7 @@ LICENSE"""
 
 
 import os
-from subprocess import Popen, check_output
+from ci_scripts.common import process_call
 
 
 def main():
@@ -30,23 +30,23 @@ def main():
     :return: None
     """
 
-    Popen(["pip", "install", "nose", "coverage"]).wait()
+    process_call(["pip", "install", "nose", "coverage"])
 
     destination = os.environ["PROGSTATS_DATA_PATH"]
     project = os.environ["CI_PROJECT_NAME"]
-    package = check_output(["python", "setup.py", "--name"]).decode().strip()
+    package = process_call(["python", "setup.py", "--name"]).strip()
     package = package.replace("-", "_")
 
-    Popen(["python", "setup.py", "nosetests", "-v",
-           "--with-coverage",
-           "--cover-package=" + package,
-           "--cover-branches",
-           "--cover-erase",
-           "--cover-html",
-           "--cover-inclusive"]).wait()
+    process_call(["python", "setup.py", "nosetests", "-v",
+                  "--with-coverage",
+                  "--cover-package=" + package,
+                  "--cover-branches",
+                  "--cover-erase",
+                  "--cover-html",
+                  "--cover-inclusive"])
 
     dest = os.path.join(destination, "coverage", project)
-    Popen(["rsync", "-a", "--delete-after", "cover/", dest]).wait()
+    process_call(["rsync", "-a", "--delete-after", "cover/", dest])
 
 
 if __name__ == "__main__":

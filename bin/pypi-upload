@@ -23,7 +23,7 @@ import os
 import glob
 import argparse
 from shutil import rmtree
-from subprocess import Popen
+from ci_scripts.common import process_call
 
 
 def main():
@@ -33,9 +33,9 @@ def main():
     :return: None
     """
 
-    Popen(["pip", "install",
-           "wheel", "twine", "setuptools",
-           "--upgrade"]).wait()
+    process_call(["pip", "install",
+                  "wheel", "twine", "setuptools",
+                  "--upgrade"])
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-t", "--test", action="store_true",
@@ -50,16 +50,11 @@ def main():
     password = os.environ["PYPI_PASSWORD"]
     repo = "pypitest" if test else "pypi"
 
-    Popen("python setup.py bdist_wheel sdist", shell=True).wait()
-    Popen("twine upload dist/* " +
-          "-r '" + repo + "' -u '" + username + "' -p '" + password + "'",
-          shell=True)
-
-    Popen(["python", "setup.py", "bdis_wheel", "sdist"]).wait()
-    Popen(["twine", "upload",
-           "-r", repo,
-           "-u", username,
-           "-p", password] + glob.glob("dist/*")).wait()
+    process_call(["python", "setup.py", "bdist_wheel", "sdist"])
+    process_call(["twine", "upload",
+                  "-r", repo,
+                  "-u", username,
+                  "-p", password] + glob.glob("dist/*"))
 
 
 if __name__ == "__main__":

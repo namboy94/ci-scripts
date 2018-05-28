@@ -20,7 +20,7 @@ LICENSE"""
 
 
 import os
-from subprocess import Popen, check_output
+from ci_scripts.common import process_call
 
 
 def main():
@@ -30,15 +30,14 @@ def main():
     :return: None
     """
 
-    Popen(["pip", "install", "sphinx", "sphinx_rtd_theme"]).wait()
-    Popen(["python", "setup.py", "install"]).wait()
-    package = check_output(["python", "setup.py", "--name"]).decode().strip()
-    package = package.replace("-", "_")
+    process_call(["pip", "install", "sphinx", "sphinx_rtd_theme"])
+    process_call(["python", "setup.py", "install"])
+    package = process_call(["python", "setup.py", "--name"]).strip()
 
     os.chdir("doc/sphinx")
-    Popen(["make", "buildsource"]).wait()
-    Popen(["make", "html"]).wait()
-    Popen(["make", "latexpdf"]).wait()
+    process_call(["make", "buildsource"])
+    process_call(["make", "html"])
+    process_call(["make", "latexpdf"])
 
     destination = os.environ["PROGSTATS_DATA_PATH"]
     project = os.environ["CI_PROJECT_NAME"]
@@ -48,10 +47,10 @@ def main():
     html_src = os.path.join("build", "html") + "/"
     pdf_src = os.path.join("build", "latex", package + ".pdf")
 
-    Popen(["rsync", "-a", "--delete-after", html_src, html_dest]).wait()
-    Popen(["rsync", "-a", "--delete-after", pdf_src, pdf_dest]).wait()
+    process_call(["rsync", "-a", "--delete-after", html_src, html_dest])
+    process_call(["rsync", "-a", "--delete-after", pdf_src, pdf_dest])
 
-    Popen(["make", "clean"]).wait()
+    process_call(["make", "clean"])
 
     os.chdir("../..")
 
