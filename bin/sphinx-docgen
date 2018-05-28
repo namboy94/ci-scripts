@@ -33,7 +33,6 @@ def main():
     process_call(["pip", "install", "sphinx", "sphinx_rtd_theme"])
     process_call(["python", "setup.py", "install"])
     package = process_call(["python", "setup.py", "--name"]).strip()
-    package = package.replace("-", "_")
 
     os.chdir("doc/sphinx")
     process_call(["make", "buildsource"])
