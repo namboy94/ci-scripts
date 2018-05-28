@@ -109,5 +109,5 @@ def main():
 
 
 if __name__ == "__main__":
-    print("Disabled for now due to gitlab API issues")
-    # main()
+    # print("Disabled for now due to gitlab API issues")
+    main()
