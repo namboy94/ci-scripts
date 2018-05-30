@@ -42,11 +42,10 @@ if __name__ == "__main__":
         install_requires=[
             "requests",
             "typing",
-            "colorama"
-            # These are needed for play-upload
-            # "google-api-python-client",
-            # "pyOpenSSL",
-            # "httplib2"
+            "colorama",
+            "google-api-python-client",
+            "pyOpenSSL",
+            "httplib2"
         ],
         include_package_data=True,
         zip_safe=False

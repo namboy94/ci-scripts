@@ -1,5 +1,8 @@
+V 1.7.0:
+  - Created gradle-ktlint script
+  - Created gradle-android-build script
 V 1.6.0:
-  - Create deploy-flask script
+  - Created deploy-flask script
 V 1.5.0:
   - Made subprocess call failures cause the script itself to fail
 V 1.4.2:
