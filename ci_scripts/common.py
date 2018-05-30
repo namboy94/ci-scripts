@@ -19,6 +19,7 @@ along with ci-scripts.  If not, see <http://www.gnu.org/licenses/>.
 LICENSE"""
 
 from typing import List
+from base64 import b64decode
 from colorama import Fore, Style
 from subprocess import check_output
 
@@ -34,3 +35,14 @@ def process_call(command: List[str]) -> str:
     output = check_output(command).decode()
     print(Fore.MAGENTA + output + Style.RESET_ALL)
     return output
+
+
+def decode_base64_string_to_file(content: str, dest: str):
+    """
+    Decodes a base64-encoded string and writes the result to a file
+    :param content: The string to decode
+    :param dest: The destination file path
+    :return: None
+    """
+    with open(dest, "wb") as f:
+        f.write(b64decode(bytes(content, "utf-8")))

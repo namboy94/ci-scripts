@@ -21,8 +21,7 @@ LICENSE"""
 
 import os
 import argparse
-from base64 import b64decode
-from ci_scripts.common import process_call
+from ci_scripts.common import process_call, decode_base64_string_to_file
 
 
 def main():
@@ -40,8 +39,8 @@ def main():
     version = process_call(["./gradlew", "version", "-q"])
 
     key = "androidkey"
-    with open(key, "w") as f:
-        f.write(b64decode(bytes(os.environ["ANDROIDKEY"])))
+    decode_base64_string_to_file(os.environ["ANDROIDKEY"], key)
+
     key_pass = os.environ["ANDROIDKEY_PASS"]
     key_alias = os.environ["ANDROIDKEY_ALIAS"]
 
