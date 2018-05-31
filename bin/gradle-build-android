@@ -20,6 +20,7 @@ LICENSE"""
 
 
 import os
+import shutil
 import argparse
 from ci_scripts.common import process_call, decode_base64_string_to_file
 
@@ -40,6 +41,7 @@ def main():
 
     key = "androidkey"
     decode_base64_string_to_file(os.environ["ANDROIDKEY"], key)
+    shutil.copyfile(key, os.path.join(submodule_name, key))
 
     key_pass = os.environ["ANDROIDKEY_PASS"]
     key_alias = os.environ["ANDROIDKEY_ALIAS"]
