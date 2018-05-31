@@ -29,12 +29,12 @@ def process_call(command: List[str]) -> str:
     Prints a command and executes it.
     If the exit code is not 0, the program will crash.
     :param command: The command to run
-    :return: The output of the command call
+    :return: The output of the command call, stripped of whitespace
     """
     print(Fore.CYAN + " ".join(command) + Style.RESET_ALL)
     output = check_output(command).decode()
     print(Fore.MAGENTA + output + Style.RESET_ALL)
-    return output
+    return output.strip()
 
 
 def decode_base64_string_to_file(content: str, dest: str):
