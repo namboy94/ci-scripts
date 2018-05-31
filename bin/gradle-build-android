@@ -53,7 +53,8 @@ def main():
                   "-Pandroid.injected.signing.key.password=" + key_pass])
 
     generated = os.path.join(
-        submodule_name, "build/outputs/apk/" + submodule_name + ".apk"
+        submodule_name,
+        "build/outputs/apk/release/" + submodule_name + "-release.apk"
     )
 
     if not os.path.isdir("artifacts"):

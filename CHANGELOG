@@ -1,3 +1,6 @@
+V 1.7.3:
+  - Stripped subprocess call output of leading/trailing whitespace
+  - Fixed gradle android build script
 V 1.7.2:
   - Fixed gradle android key file location
 V 1.7.1:

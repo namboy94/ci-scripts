@@ -60,7 +60,7 @@ def parse_args() -> Dict[str, str or List[Dict[str, str]]]:
             })
 
     return {
-        "tag_name": args.tag_name,
+        "tag_name": args.tag_name.strip(),
         "notes": notes,
         "assets": assets,
         "branch": args.branch
