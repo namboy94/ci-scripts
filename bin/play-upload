@@ -30,13 +30,15 @@ def main():
     """
     process_call(["python3", "-m", "venv", "playupload-venv"])
     process_call([
-        "pip", "install",
+        "playupload-venv/bin/pip", "install",
         "ci-scripts",
         "google-api-python-client",
         "pyOpenSSL",
-        "httplib2"
+        "httplib2",
+        "oauth2client"
     ])
-    process_call(["playupload-venv/bin/__play-upload"] + sys.argv[1:])
+    process_call(["playupload-venv/bin/python",
+                  "playupload-venv/bin/__play-upload"] + sys.argv[1:])
 
 
 if __name__ == "__main__":
