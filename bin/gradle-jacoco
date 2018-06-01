@@ -18,27 +18,36 @@ You should have received a copy of the GNU General Public License
 along with ci-scripts.  If not, see <http://www.gnu.org/licenses/>.
 LICENSE"""
 
-import sys
+
+import os
+import argparse
 from ci_scripts.common import process_call
 
 
 def main():
     """
-    Uploads a release to the Google play store
-    Wrapper around the __play_upload script
+    Generates jacoco test coverage reports and syncs it to progstats
     :return: None
     """
-    process_call(["python3", "-m", "venv", "playupload-venv"])
-    process_call([
-        "playupload-venv/bin/pip", "install",
-        "ci-scripts",
-        "google-api-python-client",
-        "pyOpenSSL",
-        "httplib2",
-        "oauth2client"
-    ])
-    process_call(["playupload-venv/bin/python",
-                  "playupload-venv/bin/__play-upload"] + sys.argv[1:])
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("submodule_name", default="app",
+                        help="The name of the android gradle submodule")
+    args = parser.parse_args()
+    submodule_name = args.submodule_name
+    project_name = os.environ["CI_PROJECT_NAME"]
+    progstats_data = os.environ["PROGSTATS_DATA_PATH"]
+
+    process_call(["./gradlew", "test", "jacocoTestReport"])
+
+    source = os.path.join(
+        submodule_name, "build/reports/jacoco/jacocoTestReport/html"
+    )
+    dest = os.path.join(
+        progstats_data, "doc_html", project_name + "-" + submodule_name
+    )
+
+    process_call(["rsync", "-a", source, dest])
 
 
 if __name__ == "__main__":
