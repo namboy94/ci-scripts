@@ -44,10 +44,8 @@ def main():
         submodule_name, "build/javadoc"
     )
     dest = os.path.join(
-        progstats_data, "coverage", project_name, submodule_name
+        progstats_data, "coverage", project_name + "-" + submodule_name
     )
-    if not os.path.isdir(dest):
-        os.makedirs(dest)
 
     process_call(["rsync", "-a", source + "/", dest])
 
