@@ -42,12 +42,12 @@ def main():
 
     source = os.path.join(
         submodule_name, "build/javadoc"
-    )
+    ) + "/"
     dest = os.path.join(
-        progstats_data, "coverage", project_name + "-" + submodule_name
+        progstats_data, "doc_html", project_name + "-" + submodule_name
     )
 
-    process_call(["rsync", "-a", source + "/", dest])
+    process_call(["rsync", "-a", source, dest])
 
 
 if __name__ == "__main__":

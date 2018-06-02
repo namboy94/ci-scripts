@@ -42,9 +42,9 @@ def main():
 
     source = os.path.join(
         submodule_name, "build/reports/jacoco/jacocoTestReport/html"
-    )
+    ) + "/"
     dest = os.path.join(
-        progstats_data, "doc_html", project_name + "-" + submodule_name
+        progstats_data, "coverage", project_name + "-" + submodule_name
     )
 
     process_call(["rsync", "-a", source, dest])
