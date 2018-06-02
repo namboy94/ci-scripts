@@ -1,3 +1,5 @@
+V 1.8.1:
+  - Fixed gradle-dokka and gradle-jacoco scripts
 V 1.8.0:
   - Added gradle-dokka script
   - Added gradle-jacoco script
