@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with ci-scripts.  If not, see <http://www.gnu.org/licenses/>.
 LICENSE"""
 
-import sys
+import argparse
 from ci_scripts.common import process_call
 
 
@@ -28,6 +28,19 @@ def main():
     Wrapper around the __play_upload script
     :return: None
     """
+    parser = argparse.ArgumentParser()
+    parser.add_argument("package",
+                        help="The name of the package to upload to,"
+                             "for example: com.android.example")
+    parser.add_argument("track",
+                        choices={"rollout", "production", "beta", "alpha"},
+                        help="The track to which to upload the release to. May"
+                             " be 'rollout', 'production', 'beta' or 'alpha'")
+    args = parser.parse_args()
+
+    package = args.package
+    track = args.track
+
     process_call(["python3", "-m", "venv", "playupload-venv"])
     process_call([
         "playupload-venv/bin/pip", "install",
@@ -37,8 +50,13 @@ def main():
         "httplib2",
         "oauth2client"
     ])
-    process_call(["playupload-venv/bin/python",
-                  "playupload-venv/bin/__play-upload"] + sys.argv[1:])
+
+    process_call([
+        "playupload-venv/bin/python",
+        "playupload-venv/bin/__play-upload",
+        package,
+        track
+    ])
 
 
 if __name__ == "__main__":

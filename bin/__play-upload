@@ -20,46 +20,16 @@ LICENSE"""
 
 import os
 import sys
-import argparse
+import glob
+# noinspection PyPackageRequirements
 import httplib2
+# noinspection PyPackageRequirements
 from oauth2client import client
-# noinspection PyUnresolvedReferences
+# noinspection PyUnresolvedReferences,PyPackageRequirements
 from apiclient.discovery import build as build_google_service
+# noinspection PyPackageRequirements
 from oauth2client.service_account import ServiceAccountCredentials
-
-
-def parse_args():
-    """
-    Parses the command line arguments
-    :return: The parsed arguments as an argparse Namespace
-    """
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("package",
-                        help="The name of the package to upload to,"
-                             "for example: com.android.example")
-    parser.add_argument("track",
-                        help="The track to which to upload the release to. May"
-                             " be 'rollout', 'production', 'beta' or 'alpha'")
-    parser.add_argument("email",
-                        help="The Google API Service Account Email address")
-    parser.add_argument("keyfile",
-                        help="The p12 keyfile provided by the Google API")
-    parser.add_argument("apks",
-                        help="The APK file(s) to upload")
-    parser.add_argument("-c", "--changes",
-                        help="Can be used to specify a file containing changes"
-                             " to the new version of the app. The file must"
-                             " be called 'en-US' or 'de-DE' or similar."
-                             " Multiple of these files can be provided by"
-                             " seperating the file paths with commas")
-    args = parser.parse_args()
-
-    if args.track not in ["rollout", "production", "beta", "alpha"]:
-        print("Invalid track " + args.track + " selected.")
-        sys.exit(1)
-
-    return args
+from ci_scripts.common import process_call, decode_base64_string_to_file
 
 
 def main():
@@ -69,22 +39,50 @@ def main():
     :return: None
     """
 
-    args = parse_args()
+    package = sys.argv[1]
+    track = sys.argv[2]
+    email = os.environ["PLAY_UPLOAD_EMAIL"]
+    keyfile = "key.p12"
+
+    changes = prepare_changelogs()
+    decode_base64_string_to_file(os.environ["PLAY_UPLOAD_SECRET"], keyfile)
+    apks = glob.glob("artifacts/*")
 
     try:
-        service_info = build_service(args.email, args.keyfile, args.package)
-        version_code = upload_apks(service_info, args.apks)
-        set_apk_track_info(service_info, args.track, version_code)
-        upload_release_notes(service_info, version_code, args.changes)
+        service_info = build_service(email, keyfile, package)
+        version_code = upload_apks(service_info, apks)
+        set_apk_track_info(service_info, track, version_code)
+        upload_release_notes(service_info, version_code, ",".join(changes))
 
         commit_request = service_info["service"].edits().commit(
-            editId=service_info["edit_id"], packageName=args.package).execute()
+            editId=service_info["edit_id"], packageName=package).execute()
 
         print("Edit " + commit_request['id'] + " has been committed")
 
     except client.AccessTokenRefreshError:
         print("Authentication Failed")
         sys.exit(1)
+
+
+def prepare_changelogs():
+    """
+    Prepares the changelogs to upload.
+    :return: A list of changelog files named after their respective languages
+    """
+
+    changelog_files = list(filter(
+        lambda x: x.startswith("CHANGELOG"),
+        os.listdir(".")
+    ))
+    changelogs = []
+    for changelog in changelog_files:
+        if "-" in changelog:
+            lang = changelog.split("-", 1)[1]
+        else:
+            lang = "en-US"
+        process_call(["changelog-reader", "-c", changelog, "-o", lang])
+        changelogs.append(lang)
+    return changelogs
 
 
 def build_service(email, keyfile, package_name):
