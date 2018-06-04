@@ -46,6 +46,7 @@ def main():
     changes = prepare_changelogs()
     decode_base64_string_to_file(os.environ["PLAY_UPLOAD_SECRET"], keyfile)
     apks = list(filter(lambda x: x.endswith(".apk"), os.listdir("artifacts")))
+    apks = map(lambda x: os.path.join("artifacts", x), apks)
 
     try:
         service_info = build_service(email, keyfile, package)
