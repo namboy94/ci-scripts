@@ -20,7 +20,6 @@ LICENSE"""
 
 import os
 import sys
-import glob
 # noinspection PyPackageRequirements
 import httplib2
 # noinspection PyPackageRequirements
@@ -46,7 +45,7 @@ def main():
 
     changes = prepare_changelogs()
     decode_base64_string_to_file(os.environ["PLAY_UPLOAD_SECRET"], keyfile)
-    apks = glob.glob("artifacts/*")
+    apks = "artifacts/*"
 
     try:
         service_info = build_service(email, keyfile, package)
