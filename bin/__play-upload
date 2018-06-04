@@ -45,11 +45,15 @@ def main():
 
     changes = prepare_changelogs()
     decode_base64_string_to_file(os.environ["PLAY_UPLOAD_SECRET"], keyfile)
-    apks = "artifacts/*.apk"
+    apks = list(filter(lambda x: x.endswith(".apk"), os.listdir("artifacts")))
 
     try:
         service_info = build_service(email, keyfile, package)
-        version_code = upload_apks(service_info, apks)
+
+        version_code = 0
+        for apk in apks:
+            version_code = upload_apks(service_info, apk)
+
         set_apk_track_info(service_info, track, version_code)
         upload_release_notes(service_info, version_code, ",".join(changes))
 
@@ -109,17 +113,17 @@ def build_service(email, keyfile, package_name):
             "package": package_name}
 
 
-def upload_apks(service_info, apks):
+def upload_apks(service_info, apk):
     """
-    Uploads any APK files provided via the command line arguments
+    Uploads the release's APK file
     :param service_info: The previously established service info dictionary
-    :param apks: The APK files to upload
+    :param apk: The APK file to upload
     :return: The uploaded version code for the APK
     """
     apk_response = service_info["service"].edits().apks().upload(
         editId=service_info["edit_id"],
         packageName=service_info["package"],
-        media_body=apks).execute()
+        media_body=apk).execute()
 
     version_code = apk_response['versionCode']
     print("Uploaded APK for version " + str(version_code))
