@@ -45,7 +45,7 @@ def main():
 
     changes = prepare_changelogs()
     decode_base64_string_to_file(os.environ["PLAY_UPLOAD_SECRET"], keyfile)
-    apks = "artifacts/*"
+    apks = "artifacts/*.apk"
 
     try:
         service_info = build_service(email, keyfile, package)
