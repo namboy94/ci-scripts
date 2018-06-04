@@ -33,6 +33,7 @@ def main():
                         help="The name of the package to upload to,"
                              "for example: com.android.example")
     parser.add_argument("track",
+                        choices={"rollout", "production", "beta", "alpha"},
                         help="The track to which to upload the release to. May"
                              " be 'rollout', 'production', 'beta' or 'alpha'")
     args = parser.parse_args()
