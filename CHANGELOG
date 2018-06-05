@@ -1,3 +1,5 @@
+V 1.11.0:
+  - Created php documentation generating script
 V 1.10.0:
   - Created php-related CI scripts
 V 1.9.4:
