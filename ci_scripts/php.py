@@ -64,3 +64,19 @@ def unittest():
         os.environ["CI_PROJECT_NAME"]
     )
     process_call(["rsync", "-a", "--delete-after", "coverage/", dest])
+
+
+def docgen():
+    """
+    Generates documentation
+    :return: None
+    """
+    process_call(["./composer.phar", "update"])
+    process_call(["vendor/bin/phpdoc", "-d", "src"])
+
+    dest = os.path.join(
+        os.environ["PROGSTATS_DATA_PATH"],
+        "doc_html",
+        os.environ["CI_PROJECT_NAME"]
+    )
+    process_call(["rsync", "-a", "--delete-after", "output/", dest])
