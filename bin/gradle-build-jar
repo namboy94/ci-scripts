@@ -42,7 +42,7 @@ def main():
 
     generated = os.path.join(
         submodule_name,
-        "build/outputs/apk/release/",
+        "build/libs",
         submodule_name + ".jar"
     )
 
