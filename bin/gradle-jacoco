@@ -20,6 +20,7 @@ LICENSE"""
 
 
 import os
+import sys
 import argparse
 from ci_scripts.common import process_call
 
@@ -40,13 +41,22 @@ def main():
 
     process_call(["./gradlew", "test", "jacocoTestReport"])
 
-    source = os.path.join(
-        submodule_name, "build/reports/jacoco/jacocoTestReport/html"
-    ) + "/"
+    source = os.path.join(submodule_name, "build/reports")
+
+    if os.path.isfile(
+            os.path.join(source, "jacoco/jacocoTestReport/html/index.html")
+    ):
+        source = os.path.join(source, "jacoco/jacocoTestReport/html")
+    elif os.path.isfile(os.path.join(source, "coverage/index.html")):
+        source = os.path.join(source, "coverage")
+    else:
+        print("Coverage not found")
+        sys.exit(1)
+    source += "/"
+
     dest = os.path.join(
         progstats_data, "coverage", project_name + "-" + submodule_name
     )
-
     process_call(["rsync", "-a", source, dest])
 
 
