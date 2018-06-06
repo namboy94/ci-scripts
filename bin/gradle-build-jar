@@ -20,14 +20,13 @@ LICENSE"""
 
 
 import os
-import shutil
 import argparse
-from ci_scripts.common import process_call, decode_base64_string_to_file
+from ci_scripts.common import process_call
 
 
 def main():
     """
-    Builds a signed android APK from a gradle project
+    Builds a JAR file for a gradle project
     :return: None
     """
     parser = argparse.ArgumentParser()
@@ -39,43 +38,24 @@ def main():
 
     version = process_call(["./gradlew", "version", "-q"])
 
-    key = "androidkey"
-    decode_base64_string_to_file(os.environ["ANDROIDKEY"], key)
-    shutil.copyfile(key, os.path.join(submodule_name, key))
-
-    key_pass = os.environ["ANDROIDKEY_PASS"]
-    key_alias = os.environ["ANDROIDKEY_ALIAS"]
-
-    process_call(["./gradlew", "assembleRelease",
-                  "-Pandroid.injected.signing.store.file=" + key,
-                  "-Pandroid.injected.signing.store.password=" + key_pass,
-                  "-Pandroid.injected.signing.key.alias=" + key_alias,
-                  "-Pandroid.injected.signing.key.password=" + key_pass])
+    process_call(["./gradlew", "build"])
 
     generated = os.path.join(
         submodule_name,
-        "build/outputs/apk/release/" + submodule_name + "-release.apk"
+        "build/outputs/apk/release/",
+        submodule_name + ".jar"
     )
 
     if not os.path.isdir("artifacts"):
         os.makedirs("artifacts")
 
-    if submodule_name == "app":
-        destname = \
-            os.path.join("artifacts", project_name + "-" + version + ".apk")
-    else:
-        destname = os.path.join(
-            "artifacts",
-            project_name + "-" + submodule_name + "-" + version + ".apk"
-        )
+    destname = os.path.join(
+        "artifacts",
+        project_name + "-" + submodule_name + version + ".jar"
+    )
 
     os.rename(generated, destname)
 
 
 if __name__ == "__main__":
-
-    try:
-        main()
-    finally:
-        if os.path.isfile("androidkey"):
-            os.remove("androidkey")
+    main()
