@@ -60,10 +60,16 @@ def main():
     if not os.path.isdir("artifacts"):
         os.makedirs("artifacts")
 
-    os.rename(
-        generated,
-        os.path.join("artifacts", project_name + "-" + version + ".apk")
-    )
+    if submodule_name == "app":
+        destname = \
+            os.path.join("artifacts", project_name + "-" + version + ".apk")
+    else:
+        destname = os.path.join(
+            "artifacts",
+            project_name + "-" + submodule_name + "-" + version + ".apk"
+        )
+
+    os.rename(generated, destname)
 
 
 if __name__ == "__main__":

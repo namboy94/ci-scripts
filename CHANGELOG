@@ -1,3 +1,5 @@
+V 1.12.0:
+  - Created JAR building script for gradle
 V 1.11.0:
   - Created php documentation generating script
 V 1.10.0:

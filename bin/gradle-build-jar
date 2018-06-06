@@ -20,44 +20,41 @@ LICENSE"""
 
 
 import os
-import sys
 import argparse
 from ci_scripts.common import process_call
 
 
 def main():
     """
-    Generates jacoco test coverage reports and syncs it to progstats
+    Builds a JAR file for a gradle project
     :return: None
     """
-
     parser = argparse.ArgumentParser()
     parser.add_argument("submodule_name", default="app",
                         help="The name of the android gradle submodule")
     args = parser.parse_args()
     submodule_name = args.submodule_name
     project_name = os.environ["CI_PROJECT_NAME"]
-    progstats_data = os.environ["PROGSTATS_DATA_PATH"]
 
-    process_call(["./gradlew", "test", "jacocoTestReport"])
+    version = process_call(["./gradlew", "version", "-q"])
 
-    source = os.path.join(submodule_name, "build/reports")
+    process_call(["./gradlew", "build"])
 
-    if os.path.isfile(
-            os.path.join(source, "jacoco/jacocoTestReport/html/index.html")
-    ):
-        source = os.path.join(source, "jacoco/jacocoTestReport/html")
-    elif os.path.isfile(os.path.join(source, "coverage/index.html")):
-        source = os.path.join(source, "coverage")
-    else:
-        print("Coverage not found")
-        sys.exit(1)
-    source += "/"
-
-    dest = os.path.join(
-        progstats_data, "coverage", project_name + "-" + submodule_name
+    generated = os.path.join(
+        submodule_name,
+        "build/outputs/apk/release/",
+        submodule_name + ".jar"
     )
-    process_call(["rsync", "-a", source, dest])
+
+    if not os.path.isdir("artifacts"):
+        os.makedirs("artifacts")
+
+    destname = os.path.join(
+        "artifacts",
+        project_name + "-" + submodule_name + version + ".jar"
+    )
+
+    os.rename(generated, destname)
 
 
 if __name__ == "__main__":
