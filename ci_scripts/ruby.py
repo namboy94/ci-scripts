@@ -19,7 +19,6 @@ LICENSE"""
 
 
 import os
-import glob
 from ci_scripts.common import process_call
 
 
@@ -101,6 +100,8 @@ def gem_publish():
         f.write(os.environ["RUBYGEMS_CREDENTIALS"])
     process_call(["chmod", "0600", cred_file])
 
-    process_call(["gem", "push", glob.glob("artifacts/*.gem")])
+    for gemfile in os.listdir("artifacts"):
+        if gemfile.endswith(".gem"):
+            process_call(["gem", "push", os.path.join("artifacts", gemfile)])
 
     os.remove(cred_file)
