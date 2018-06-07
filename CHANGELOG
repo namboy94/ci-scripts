@@ -1,3 +1,5 @@
+V 1.13.3:
+  - Fixed gem uploading
 V 1.13.2:
   - Fixed rdoc generating documentation for the venv
 V 1.13.1:
