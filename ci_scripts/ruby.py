@@ -61,7 +61,7 @@ def rdoc():
     :return: None
     """
     install_gem("rdoc")
-    process_call(["rdoc"])
+    process_call(["rdoc", "--exclude=virtual"])
 
     destination = os.environ["PROGSTATS_DATA_PATH"]
     project = os.environ["CI_PROJECT_NAME"]
