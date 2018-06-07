@@ -8,15 +8,8 @@
 ![Logo](resources/logo/logo-readme.png)
 
 This project contains various scripts for use with Gitlab CI.
-
-## Scripts
-
-* play-upload
-* gitlab-release-upload
-* github-release-upload
-* changelog-reader
-* gitstats-gen
-* pypi-upload
+For an overview of which scripts are available, have a look
+[here](bin)
 
 ## Further Information
 
