@@ -28,10 +28,12 @@ def make_sure_in_path():
     Makes sure the ruby paths are in the system's PATH
     :return: None
     """
-    rubydir = os.path.join(os.path.expanduser("~"), ".gem/ruby")
+    gemdir = os.path.join(os.path.expanduser("~"), ".gem")
+    rubydir = os.path.join(gemdir, "ruby")
     for version in os.listdir(rubydir):
         ruby_path = os.path.join(rubydir, version, "bin")
         os.environ["PATH"] += ":" + ruby_path
+    os.environ["PATH"] += ":" + os.path.join(gemdir, "bin")
 
 
 def install_gem(gem: str):
