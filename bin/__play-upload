@@ -84,7 +84,12 @@ def prepare_changelogs():
             lang = changelog.split("-", 1)[1]
         else:
             lang = "en-US"
-        process_call(["changelog-reader", "-c", changelog, "-o", lang])
+        process_call([
+            "changelog-reader",
+            "-c", changelog,
+            "-o", lang,
+            "--notitle"
+        ])
         changelogs.append(lang)
     return changelogs
 
