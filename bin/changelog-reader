@@ -24,7 +24,7 @@ import argparse
 from typing import Tuple, List
 
 
-def parse_args() -> Tuple[str, str or None]:
+def parse_args() -> Tuple[str, str or None, bool]:
     """
     Parses the arguments of the script.
     :return: A tuple consisting of the changelog path
@@ -36,6 +36,8 @@ def parse_args() -> Tuple[str, str or None]:
                         help="The path to the Changelog file")
     parser.add_argument("-o", "--out", nargs='?', default=None,
                         help="The destination file")
+    parser.add_argument("--notitle", action="store_true",
+                        help="Outputs the changelog without a title")
 
     args = parser.parse_args()
 
@@ -46,13 +48,14 @@ def parse_args() -> Tuple[str, str or None]:
         print("Changelog File not found")
         sys.exit(1)
 
-    return source, dest
+    return source, dest, args.notitle
 
 
-def read(source_file: str) -> str:
+def read(source_file: str, notitle: bool) -> str:
     """
     Reads the latest entry in the changelog file
     :param source_file: The path of the changelog file
+    :param notitle: Indicates if a title should be included or not
     :return: The latest entry, formatted
     """
 
@@ -77,24 +80,26 @@ def read(source_file: str) -> str:
         else:
             version_description.append(format_version_description(line))
 
-    return format_changelog_entry(version_name, version_description)
+    return format_changelog_entry(version_name, version_description, notitle)
 
 
-def format_changelog_entry(version_name: str, version_description: List[str])\
-        -> str:
+def format_changelog_entry(version_name: str, version_description: List[str],
+                           notitle: bool) -> str:
     """
     Formats the changelog entry
     :param version_name: The version of the changelog entry
     :param version_description: The description of the changelog entry
+    :param notitle: Indicates if the title should be included or not
     :return: The formatted changelog entry
     """
-
-    formatted = "Changelog Version ```" + version_name + "```:\n\n"
+    formatted = ""
+    if not notitle:
+        formatted = "# Changelog Version ```" + version_name + "```:\n\n"
 
     for description in version_description:
-        formatted += "    - " + description + "\n"
+        formatted += "* " + description + "\n"
 
-    return formatted
+    return formatted.strip()
 
 
 def format_version_name(version_name: str) -> str:
@@ -141,8 +146,8 @@ def main():
     :return: None
     """
 
-    source, destination = parse_args()  # type: str
-    content = read(source)
+    source, destination, notitle = parse_args()  # type: str or bool
+    content = read(source, notitle)
 
     if destination is None:
         print(content)
