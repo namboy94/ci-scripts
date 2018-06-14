@@ -1,3 +1,6 @@
+V 1.14.0:
+  - Added additional option for changelog-reader
+  - Redid output layout of changelog-reader
 V 1.13.3:
   - Fixed gem uploading
 V 1.13.2:
