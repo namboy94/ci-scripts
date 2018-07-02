@@ -1,3 +1,8 @@
+V 1.15.0:
+  - Re-added --cover-inclusive to python-unittest
+  - Added webext-build
+  - Added webext-lint
+  - Added webext-version
 V 1.14.2:
   - Remove --cover-inclusive from python-unittest, as this may result in errors during importing from __init__ files
 V 1.14.1:

@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+"""LICENSE
+Copyright 2017 Hermann Krumrey <hermann@krumreyh.com>
+
+This file is part of ci-scripts.
+
+ci-scripts is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+ci-scripts is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ci-scripts.  If not, see <http://www.gnu.org/licenses/>.
+LICENSE"""
+
+import os
+import argparse
+from ci_scripts.npm import install_package
+from ci_scripts.common import process_call
+
+
+def main():
+    """
+    Builds a webextension package
+    :return: None
+    """
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--signed", action="store_true",
+                        help="Specifies whether or not to "
+                             "create a signed build")
+    signed = parser.parse_args().signed
+
+    install_package("web-ext")
+    web_ext = os.path.join("node_modules", ".bin", "web-ext")
+
+    if signed:
+        process_call([web_ext, "sign"
+                      "--api-key", os.environ["JWT_ISSUER"],
+                      "--api-secret", os.environ["JWT_SECRET"]])
+
+    else:
+        process_call([web_ext, "build"])
+
+    if not os.path.isdir("artifacts"):
+        os.makedirs("artifacts")
+
+    for child in os.listdir("web-ext-artifacts"):
+        child_path = os.path.join("web-ext-artifacts", child)
+        dest_path = os.path.join("artifacts", child)
+        os.rename(child_path, dest_path)
+
+
+if __name__ == "__main__":
+    main()

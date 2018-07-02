@@ -18,35 +18,19 @@ You should have received a copy of the GNU General Public License
 along with ci-scripts.  If not, see <http://www.gnu.org/licenses/>.
 LICENSE"""
 
-
 import os
+from ci_scripts.npm import install_package
 from ci_scripts.common import process_call
 
 
 def main():
     """
-    Executes python tests and copies the resulting coverage data to the
-    progstats data directory
+    Lints a webextension package
     :return: None
     """
-
-    process_call(["pip", "install", "nose", "coverage"])
-
-    destination = os.environ["PROGSTATS_DATA_PATH"]
-    project = os.environ["CI_PROJECT_NAME"]
-    package = process_call(["python", "setup.py", "--name"]).strip()
-    package = package.replace("-", "_")
-
-    process_call(["python", "setup.py", "nosetests", "-v",
-                  "--with-coverage",
-                  "--cover-package=" + package,
-                  "--cover-branches",
-                  "--cover-erase",
-                  "--cover-html",
-                  "--cover-inclusive"])
-
-    dest = os.path.join(destination, "coverage", project)
-    process_call(["rsync", "-a", "--delete-after", "cover/", dest])
+    install_package("web-ext")
+    web_ext = os.path.join("node_modules", ".bin", "web-ext")
+    process_call([web_ext, "lint"])
 
 
 if __name__ == "__main__":
