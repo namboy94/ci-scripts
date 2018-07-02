@@ -42,7 +42,8 @@ def main():
                   "--cover-package=" + package,
                   "--cover-branches",
                   "--cover-erase",
-                  "--cover-html"])
+                  "--cover-html",
+                  "--cover-inclusive"])
 
     dest = os.path.join(destination, "coverage", project)
     process_call(["rsync", "-a", "--delete-after", "cover/", dest])
