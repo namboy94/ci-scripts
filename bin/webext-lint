@@ -30,7 +30,7 @@ def main():
     """
     install_package("web-ext")
     web_ext = os.path.join("node_modules", ".bin", "web-ext")
-    process_call([web_ext, "lint"])
+    process_call([web_ext, "lint", "-i", "virtual"])
 
 
 if __name__ == "__main__":
