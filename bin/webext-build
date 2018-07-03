@@ -44,7 +44,7 @@ def main():
         shutil.rmtree("web-ext-artifacts")
 
     if signed:
-        process_call([web_ext, "sign"
+        process_call([web_ext, "sign",
                       "--api-key", os.environ["JWT_ISSUER"],
                       "--api-secret", os.environ["JWT_SECRET"],
                       "-i", "virtual"])
