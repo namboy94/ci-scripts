@@ -19,6 +19,7 @@ along with ci-scripts.  If not, see <http://www.gnu.org/licenses/>.
 LICENSE"""
 
 import os
+import shutil
 import argparse
 from ci_scripts.npm import install_package
 from ci_scripts.common import process_call
@@ -39,13 +40,17 @@ def main():
     install_package("web-ext")
     web_ext = os.path.join("node_modules", ".bin", "web-ext")
 
+    if os.path.isdir("web-ext-artifacts"):
+        shutil.rmtree("web-ext-artifacts")
+
     if signed:
         process_call([web_ext, "sign"
                       "--api-key", os.environ["JWT_ISSUER"],
-                      "--api-secret", os.environ["JWT_SECRET"]])
+                      "--api-secret", os.environ["JWT_SECRET"],
+                      "-i", "virtual"])
 
     else:
-        process_call([web_ext, "build"])
+        process_call([web_ext, "build", "-i", "virtual"])
 
     if not os.path.isdir("artifacts"):
         os.makedirs("artifacts")
