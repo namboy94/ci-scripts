@@ -48,8 +48,16 @@ def parse_args() -> Dict[str, str or List[Dict[str, str]]]:
         with open(notes, 'r') as release_notes:
             notes = release_notes.read()
 
+    # Add files in artifacts directory to release assets
+    all_asset_paths = args.release_assets
+    if os.path.isdir("artifacts"):
+        for child in os.listdir("artifacts"):
+            child_path = os.path.join("artifacts", child)
+            if os.path.isfile(child_path):
+                all_asset_paths.append(child_path)
+
     assets = []
-    for asset in args.release_assets:
+    for asset in all_asset_paths:
         if not os.path.isfile(asset):
             print(asset + " does not exist")
             sys.exit(1)

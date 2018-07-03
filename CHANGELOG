@@ -1,3 +1,5 @@
+V 1.15.4:
+  - Now files in artifacts directory are automatically uploaded in releases
 V 1.15.3:
   - Added publish to webext-build
 V 1.15.2:
