@@ -19,6 +19,7 @@ along with ci-scripts.  If not, see <http://www.gnu.org/licenses/>.
 LICENSE"""
 
 import os
+import sys
 import shutil
 import argparse
 from ci_scripts.npm import install_package
@@ -35,7 +36,16 @@ def main():
     parser.add_argument("--signed", action="store_true",
                         help="Specifies whether or not to "
                              "create a signed build")
-    signed = parser.parse_args().signed
+    parser.add_argument("--publish", action="store_true",
+                        help="Specifies wether or not to publish")
+
+    args = parser.parse_args()
+    signed = args.signed
+    publish = args.publish
+
+    if publish and not signed:
+        print("Can't publish unsigned package")
+        sys.exit(1)
 
     install_package("web-ext")
     web_ext = os.path.join("node_modules", ".bin", "web-ext")
@@ -44,10 +54,15 @@ def main():
         shutil.rmtree("web-ext-artifacts")
 
     if signed:
-        process_call([web_ext, "sign",
-                      "--api-key", os.environ["JWT_ISSUER"],
-                      "--api-secret", os.environ["JWT_SECRET"],
-                      "-i", "virtual"])
+        command = [web_ext, "sign",
+                   "--api-key", os.environ["JWT_ISSUER"],
+                   "--api-secret", os.environ["JWT_SECRET"],
+                   "-i", "virtual"]
+
+        if publish:
+            command += ["--id", os.environ["AMO_ID"]]
+
+        process_call(command, publish)  # Ignore error during publish
 
     else:
         process_call([web_ext, "build", "-i", "virtual"])

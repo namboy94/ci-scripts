@@ -21,18 +21,27 @@ LICENSE"""
 from typing import List
 from base64 import b64decode
 from colorama import Fore, Style
-from subprocess import check_output
+from subprocess import check_output, CalledProcessError
 
 
-def process_call(command: List[str]) -> str:
+def process_call(command: List[str], ignore_error: bool = False) -> str:
     """
     Prints a command and executes it.
     If the exit code is not 0, the program will crash.
     :param command: The command to run
+    :param ignore_error: Ignores any errors during a process call if True
     :return: The output of the command call, stripped of whitespace
     """
     print(Fore.CYAN + " ".join(command) + Style.RESET_ALL)
-    output = check_output(command).decode()
+
+    if ignore_error:
+        try:
+            output = check_output(command).decode()
+        except CalledProcessError:
+            output = "Error ignored during subprocess call"
+    else:
+        output = check_output(command).decode()
+
     print(Fore.MAGENTA + output + Style.RESET_ALL)
     return output.strip()
 
