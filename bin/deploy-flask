@@ -47,6 +47,15 @@ def main():
     process_call(["rsync", "-a", "--delete-after", "flask-app", project_home])
     process_call(["rsync", "-a", "--delete-after", "app.wsgi", project_home])
 
+    if os.path.isfile("generate_secrets.py"):
+        process_call(["python", "generate_secrets.py"])
+
+    if os.path.isfile("secrets.json"):
+        process_call([
+            "rsync", "-a", "--delete-after", "secrets.json", project_home
+        ])
+        os.remove("secrets.json")
+
 
 if __name__ == "__main__":
     main()
