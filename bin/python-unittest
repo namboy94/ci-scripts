@@ -37,6 +37,8 @@ def main():
     package = process_call(["python", "setup.py", "--name"]).strip()
     package = package.replace("-", "_")
 
+    os.environ["FLASK_TESTING"] = "1"
+
     process_call(["python", "setup.py", "nosetests", "-v",
                   "--with-coverage",
                   "--cover-package=" + package,
