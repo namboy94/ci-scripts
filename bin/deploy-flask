@@ -43,7 +43,9 @@ def main():
         sys.exit(1)
 
     process_call(["python3", "-m", "venv", "flask-app"])
+    link_mysql("flask-app")
     process_call(["flask-app/bin/python", "setup.py", "install"])
+
     process_call(["rsync", "-a", "--delete-after", "flask-app", project_home])
     process_call(["rsync", "-a", "--delete-after", "app.wsgi", project_home])
 
@@ -55,6 +57,29 @@ def main():
             "rsync", "-a", "--delete-after", "secrets.json", project_home
         ])
         os.remove("secrets.json")
+
+
+def link_mysql(venv_path: str):
+    """
+    Links mysql libraries to a venv
+    :param venv_path: The venv to which to link the libs to
+    :return: None
+    """
+    if os.path.isdir("/usr/lib/python3/dist-packages/"):
+
+        # Find _mysql.so
+        _mysql = ""
+        for lib in os.listdir("/usr/lib/python3/dist-packages"):
+            if lib.startswith("_mysql.") and lib.endswith(".so"):
+                _mysql = lib
+                break
+
+        # Link libs
+        for lib in [_mysql, "MySQLdb", "_mysql_exceptions.py"]:
+            source = os.path.join("/usr/lib/python3/dist-packages/", lib)
+            dest = os.path.join(venv_path, "lib/site_packages", lib)
+            if os.path.exists(source):
+                process_call(["ln", "-s", source, dest])
 
 
 if __name__ == "__main__":

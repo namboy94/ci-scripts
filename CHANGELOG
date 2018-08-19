@@ -1,3 +1,5 @@
+V 1.16.2:
+  - Flask deployment now includes mysql libraries
 V 1.16.1:
   - python-unittest now sets the FLASK_TESTING environment variable
 V 1.16.0:
