@@ -1,3 +1,5 @@
+V 1.16.4:
+  - Another linking fix
 V 1.16.3:
   - Fixed linking mysql libraries
 V 1.16.2:

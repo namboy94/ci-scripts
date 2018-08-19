@@ -82,8 +82,8 @@ def link_mysql(venv_path: str):
 
         # Link libs
         for lib in [_mysql, "MySQLdb", "_mysql_exceptions.py"]:
-            source = os.path.join(site_packages, lib)
-            dest = os.path.join(venv_path, "lib/site_packages", lib)
+            source = os.path.join("/usr/lib/python3/dist-packages", lib)
+            dest = os.path.join(site_packages, lib)
             if os.path.exists(source):
                 process_call(["ln", "-s", source, dest])
 
