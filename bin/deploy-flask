@@ -58,6 +58,8 @@ def main():
         ])
         os.remove("secrets.json")
 
+    process_call(["touch", os.path.join(project_home, "app.wsgi")])
+
 
 def link_mysql(venv_path: str):
     """

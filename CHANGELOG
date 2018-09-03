@@ -1,3 +1,5 @@
+V 1.16.5:
+  - Fixed WSGI reloading for flask application
 V 1.16.4:
   - Another linking fix
 V 1.16.3:
