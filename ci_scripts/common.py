@@ -40,7 +40,7 @@ def process_call(command: List[str], ignore_error: bool = False) -> str:
         if ignore_error:
             output = "Error ignored during subprocess call"
         else:
-            print(Fore.RED + e.stdout + Style.RESET_ALL)
+            print(Fore.RED + e.stdout.decode() + Style.RESET_ALL)
             raise e
 
     print(Fore.MAGENTA + output + Style.RESET_ALL)
