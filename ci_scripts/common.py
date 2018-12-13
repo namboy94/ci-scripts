@@ -21,7 +21,7 @@ LICENSE"""
 from typing import List
 from base64 import b64decode
 from colorama import Fore, Style
-from subprocess import check_output, CalledProcessError
+from subprocess import check_output, CalledProcessError, STDOUT
 
 
 def process_call(command: List[str], ignore_error: bool = False) -> str:
@@ -34,13 +34,14 @@ def process_call(command: List[str], ignore_error: bool = False) -> str:
     """
     print(Fore.CYAN + " ".join(command) + Style.RESET_ALL)
 
-    if ignore_error:
-        try:
-            output = check_output(command).decode()
-        except CalledProcessError:
+    try:
+        output = check_output(command, stderr=STDOUT).decode()
+    except CalledProcessError as e:
+        if ignore_error:
             output = "Error ignored during subprocess call"
-    else:
-        output = check_output(command).decode()
+        else:
+            print(Fore.RED + e.stdout + Style.RESET_ALL)
+            raise e
 
     print(Fore.MAGENTA + output + Style.RESET_ALL)
     return output.strip()
