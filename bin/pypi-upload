@@ -48,7 +48,7 @@ def main():
 
     username = os.environ["PYPI_USERNAME"]
     password = os.environ["PYPI_PASSWORD"]
-    repo = "pypitest" if test else "pypi"
+    repo = "https://test.pypi.org/legacy/" if test else "pypi"
 
     process_call(["python", "setup.py", "bdist_wheel", "sdist"])
     process_call(["twine", "upload",
