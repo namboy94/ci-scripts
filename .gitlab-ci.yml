@@ -74,5 +74,5 @@ docgen:
   stage: stats
   tags: [docker]
   script:
-    - DEBIAN_FRONTEND=noninteractive apt install latexmk texlive-latex-extra -y
+    - DEBIAN_FRONTEND=noninteractive apt install python3-setuptools latexmk texlive-latex-extra -y
     - sphinx-docgen
