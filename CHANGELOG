@@ -1,3 +1,5 @@
+V 1.16.7:
+  - Fixed gitlab release uploading for namespaces that appear in the domain
 V 1.16.6:
   - Fixed pypi uploading using twine
 V 1.16.5:
