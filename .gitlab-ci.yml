@@ -18,7 +18,7 @@ github_mirror:
   script:
     - echo "$GITHUB_SSH_KEY" > ~/.ssh/id_rsa
     - chmod 0600 ~/.ssh/id_rsa
-    - git-mirror-pusher git@github.com/namboy94/ci-scripts master develop
+    - git-mirror-pusher git@github.com:namboy94/ci-scripts.git master develop
 
 stylecheck:
   stage: test
