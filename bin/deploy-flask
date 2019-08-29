@@ -44,6 +44,7 @@ def main():
 
     process_call(["python3", "-m", "venv", "flask-app"])
     link_mysql("flask-app")
+    process_call(["flask-app/bin/pip", "install", "flask"])
     process_call(["flask-app/bin/python", "setup.py", "install"])
 
     process_call(["rsync", "-a", "--delete-after", "flask-app", project_home])
