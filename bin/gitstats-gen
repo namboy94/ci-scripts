@@ -20,6 +20,7 @@ LICENSE"""
 
 import os
 import sys
+import shutil
 from ci_scripts.common import process_call
 
 
@@ -37,14 +38,27 @@ def main():
 
     :return: None
     """
-
     destination = os.environ["PROGSTATS_DATA_PATH"]
     project = os.environ["CI_PROJECT_NAME"]
     gitstats_dest = os.path.join(destination, "gitstats", project)
     git_stats_dest = os.path.join(destination, "git_stats", project)
 
-    process_call(["gitstats", ".", gitstats_dest])
-    process_call(["git_stats", "generate", "-o", git_stats_dest])
+    gitstats_temp_dest = "gitstats_temp_dest"
+    git_stats_temp_dest = "git_stats_temp_dest"
+
+    for path in [gitstats_temp_dest, git_stats_temp_dest]:
+        if not os.path.isdir(path):
+            os.makedirs(path)
+
+    process_call(["gitstats", ".", gitstats_temp_dest])
+    process_call(["git_stats", "generate", "-o", git_stats_temp_dest])
+
+    rsync_cmd = ["rsync", "-av", "--delete-after"]
+    process_call(rsync_cmd + [gitstats_temp_dest + "/", gitstats_dest])
+    process_call(rsync_cmd + [git_stats_temp_dest + "/", git_stats_dest])
+
+    for path in [gitstats_temp_dest, git_stats_temp_dest]:
+        shutil.rmtree(path)
 
 
 if __name__ == "__main__":
