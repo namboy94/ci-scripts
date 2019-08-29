@@ -74,5 +74,5 @@ docgen:
   stage: stats
   tags: [docker]
   script:
-    - apt install latexmk -y
+    - apt install latexmk texlive-latex-extra -y
     - sphinx-docgen
