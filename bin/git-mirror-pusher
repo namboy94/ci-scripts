@@ -1,0 +1,46 @@
+#!/usr/bin/env python3
+"""LICENSE
+Copyright 2017 Hermann Krumrey <hermann@krumreyh.com>
+
+This file is part of ci-scripts.
+
+ci-scripts is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+ci-scripts is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ci-scripts.  If not, see <http://www.gnu.org/licenses/>.
+LICENSE"""
+
+import argparse
+from ci_scripts.common import process_call
+
+
+def main():
+    """
+    Retrieves the latest entry of a changelog file and either prints it or
+    writes it to a file
+    :return: None
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument("repo", help="The github repository SSH URL")
+    parser.add_argument("branches", nargs="*", default=["master"],
+                        help="The branches to mirror")
+    args = parser.parse_args()
+    branches = args.branches
+    repo = args.repo
+
+    for branch in branches:
+        process_call(["git", "checkout", branch])
+        process_call(["git", "pull"])
+        process_call(["git", "push", "-f", repo, branch])
+
+
+if __name__ == "__main__":
+    main()
