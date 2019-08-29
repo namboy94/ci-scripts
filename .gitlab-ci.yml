@@ -3,95 +3,75 @@ stages:
   - stats
   - release
 
+default:
+  image: namboy94/ci-docker-environment:latest
+  before_script:
+    - echo "$SERVER_ACCESS_KEY" > ~/.ssh/id_rsa
+    - chmod 0600 ~/.ssh/id_rsa
+    - pip uninstall ci-scripts -y
+    - python setup.py install
+
 stylecheck:
   stage: test
-  tags:
-    - python3
+  tags: [docker]
   script:
-    - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
     - python-codestyle-check
 
 unittest:
   stage: test
-  tags:
-    - python3
-    - progstats
+  tags: [docker]
   script:
-    - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
     - python-unittest
 
 github_upload_test:
   stage: test
-  only:
-    - master
-    - develop
-  tags:
-    - python3
+  only: [master, develop]
+  tags: [docker]
   script:
-    - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
     - mkdir -p assets && echo "TestAsset" > assets/test.txt
-    - github-release-upload $(date +"%d.%m.%y.%H.%M.%S") "$(changelog-reader)" assets/* -b $CI_COMMIT_REF_NAME
+    - github-release-upload $(date +"%d.%m.%y.%H.%M.%S")
+      "$(changelog-reader)" assets/* -b $CI_COMMIT_REF_NAME
 
 gitlab_upload_test:
   stage: test
-  only:
-    - master
-    - develop
-  tags:
-    - python3
+  only: [master, develop]
+  tags: [docker]
   script:
-    - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
     - mkdir -p assets && echo "TestAsset" > assets/test.txt
-    - gitlab-release-upload $(date +"%d.%m.%y.%H.%M.%S") "$(changelog-reader)" assets/* -b $CI_COMMIT_REF_NAME
+    - gitlab-release-upload $(date +"%d.%m.%y.%H.%M.%S")
+      "$(changelog-reader)" assets/* -b $CI_COMMIT_REF_NAME
 
 pypi_upload_test:
   stage: test
-  only:
-    - master
-    - develop
-  tags:
-    - python3
+  only: [master, develop]
+  tags: [docker]
   script:
-    - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
     - echo $(date +"%d.%m.%y.%H.%M.%S") > version
     - pypi-upload --test
 
 release_upload:
   stage: release
-  only:
-    - master
-  tags:
-    - python3
+  only: [master]
+  tags: [docker]
   script:
-    - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
     - github-release-upload $(python setup.py -V) "$(changelog-reader)"
     - gitlab-release-upload $(python setup.py -V) "$(changelog-reader)"
 
 pypi_upload:
   stage: release
-  only:
-    - master
-  tags:
-    - python3
+  only: [master]
+  tags: [docker]
   script:
-    - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
     - pypi-upload
 
 gitstats:
   stage: stats
-  tags:
-    - python3
-    - gitstats
-    - progstats
+  tags: [docker]
   script:
-    - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
     - gitstats-gen
 
 docgen:
   stage: stats
-  tags:
-    - python3
-    - progstats
+  tags: [docker]
   script:
-    - python3 -m venv virtual && source virtual/bin/activate && python setup.py install
     - sphinx-docgen
