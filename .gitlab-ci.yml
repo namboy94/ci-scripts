@@ -75,5 +75,5 @@ docgen:
   tags: [docker]
   script:
     - DEBIAN_FRONTEND=noninteractive apt install python3-setuptools latexmk texlive-latex-extra -y
-    - python setup.py install
+    - python -V
     - sphinx-docgen
