@@ -76,4 +76,7 @@ docgen:
   script:
     - DEBIAN_FRONTEND=noninteractive apt install python3-setuptools latexmk texlive-latex-extra -y
     - python -V
+    - ln -s /usr/bin/python3 /usr/bin/python
+    - ln -s /usr/bin/pip3 /usr/bin/pip
+    - python -V
     - sphinx-docgen
