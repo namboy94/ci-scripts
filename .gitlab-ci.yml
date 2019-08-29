@@ -74,10 +74,4 @@ docgen:
   stage: stats
   tags: [docker]
   script:
-    # - TODO Integrate this in the actual docker image
-    - DEBIAN_FRONTEND=noninteractive apt install python3-setuptools latexmk texlive-latex-extra -y
-    - rm /usr/bin/python
-    - rm /usr/bin/pip
-    - ln -s /usr/bin/python3 /usr/bin/python
-    - ln -s /usr/bin/pip3 /usr/bin/pip
     - sphinx-docgen
