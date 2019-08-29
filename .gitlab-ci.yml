@@ -14,6 +14,7 @@ default:
 
 github_mirror:
   stage: mirror
+  only: [master, develop]
   tags: [docker]
   script:
     - echo "$GITHUB_SSH_KEY" > ~/.ssh/id_rsa
