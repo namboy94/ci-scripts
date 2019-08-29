@@ -75,6 +75,8 @@ def upload_gitlab_release(project_id: int,
     print(json_payload)
 
     response = requests.post(query, json=json_payload)
+    print(response.status_code)
+
     if response.status_code >= 300:
         print("Release Upload Failed (" + str(response.status_code) + ")")
         print(response.reason)
@@ -94,8 +96,8 @@ def main():
     args = parse_args()
 
     project_url = os.environ["CI_PROJECT_URL"]
-    project_namespace = os.environ["CI_PROJECT_NAMESPACE"]
-    server_url = project_url.split(project_namespace, 1)[0]
+    project_path = os.environ["CI_PROJECT_PATH"]
+    server_url = project_url.split(project_path, 1)[0]
 
     upload_gitlab_release(
         project_id=int(os.environ["CI_PROJECT_ID"]),
@@ -109,5 +111,4 @@ def main():
 
 
 if __name__ == "__main__":
-    # print("Disabled for now due to gitlab API issues")
     main()
