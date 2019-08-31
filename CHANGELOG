@@ -1,3 +1,5 @@
+V 1.17.3:
+  - Made git-mirror-pusher fetch before doing anything
 V 1.17.2:
   - Made gitstats-gen work with ssh paths
 V 1.17.1:
