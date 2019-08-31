@@ -36,6 +36,7 @@ def main():
     branches = args.branches
     repo = args.repo
 
+    process_call(["git", "fetch"])
     for branch in branches:
         process_call(["git", "checkout", branch])
         process_call(["git", "pull"])
