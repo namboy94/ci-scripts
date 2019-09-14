@@ -27,6 +27,7 @@ def main():
     :return: None
     """
     package = process_call(["python", "setup.py", "--name"]).strip()
+    package = package.replace("-", "_")
 
     process_call(["pip", "install", "mypy"])
     process_call(["mypy", "-p", package, "--ignore-missing-imports"])
