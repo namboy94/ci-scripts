@@ -20,10 +20,10 @@ LICENSE"""
 import os
 import sys
 import argparse
-from typing import Dict, List
+from typing import Dict, List, Union
 
 
-def parse_args() -> Dict[str, str or List[Dict[str, str]]]:
+def parse_args() -> Dict[str, Union[str, List[Dict[str, str]]]]:
     """
     Parses command line arguments
     :return: A dictionary containing data required for uploading a release
