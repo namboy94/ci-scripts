@@ -1,6 +1,7 @@
 V 1.19.0:
   - Now supports custom ports for progstats transfer
   - Removed deploy-flask script
+  - Fixed deprecated github upload procedure
 V 1.18.0:
   - Added static type checking for python
 V 1.17.3:
