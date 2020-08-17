@@ -23,6 +23,7 @@ import os
 import sys
 import argparse
 from ci_scripts.common import process_call
+from ci_scripts.progstats import progstats_transfer
 
 
 def main():
@@ -37,7 +38,6 @@ def main():
     args = parser.parse_args()
     submodule_name = args.submodule_name
     project_name = os.environ["CI_PROJECT_NAME"]
-    progstats_data = os.environ["PROGSTATS_DATA_PATH"]
 
     process_call(["./gradlew", "test", "jacocoTestReport"])
 
@@ -52,12 +52,8 @@ def main():
     else:
         print("Coverage not found")
         sys.exit(1)
-    source += "/"
 
-    dest = os.path.join(
-        progstats_data, "coverage", project_name + "-" + submodule_name
-    )
-    process_call(["rsync", "-a", source, dest])
+    progstats_transfer(source, "coverage", project_name + "-" + submodule_name)
 
 
 if __name__ == "__main__":

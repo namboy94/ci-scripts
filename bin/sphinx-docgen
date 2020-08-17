@@ -21,6 +21,7 @@ LICENSE"""
 
 import os
 from ci_scripts.common import process_call
+from ci_scripts.progstats import progstats_transfer
 
 
 def main():
@@ -39,16 +40,13 @@ def main():
     process_call(["make", "html"])
     process_call(["make", "latexpdf"])
 
-    destination = os.environ["PROGSTATS_DATA_PATH"]
     project = os.environ["CI_PROJECT_NAME"]
 
-    html_dest = os.path.join(destination, "doc_html", project)
-    pdf_dest = os.path.join(destination, "doc_pdf", project + ".pdf")
     html_src = os.path.join("build", "html") + "/"
     pdf_src = os.path.join("build", "latex", package + ".pdf")
 
-    process_call(["rsync", "-a", "--delete-after", html_src, html_dest])
-    process_call(["rsync", "-a", "--delete-after", pdf_src, pdf_dest])
+    progstats_transfer(html_src, "doc_html", project)
+    progstats_transfer(pdf_src, "doc_pdf", project)
 
     process_call(["make", "clean"])
 

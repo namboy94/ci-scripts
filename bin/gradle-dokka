@@ -22,6 +22,7 @@ LICENSE"""
 import os
 import argparse
 from ci_scripts.common import process_call
+from ci_scripts.progstats import progstats_transfer
 
 
 def main():
@@ -36,18 +37,13 @@ def main():
     args = parser.parse_args()
     submodule_name = args.submodule_name
     project_name = os.environ["CI_PROJECT_NAME"]
-    progstats_data = os.environ["PROGSTATS_DATA_PATH"]
 
     process_call(["./gradlew", "dokka"])
-
-    source = os.path.join(
-        submodule_name, "build/javadoc"
-    ) + "/"
-    dest = os.path.join(
-        progstats_data, "doc_html", project_name + "-" + submodule_name
+    progstats_transfer(
+        os.path.join(submodule_name, "build/javadoc"),
+        "doc_html",
+        project_name + "-" + submodule_name
     )
-
-    process_call(["rsync", "-a", source, dest])
 
 
 if __name__ == "__main__":
