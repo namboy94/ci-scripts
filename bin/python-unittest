@@ -21,6 +21,7 @@ LICENSE"""
 
 import os
 from ci_scripts.common import process_call
+from ci_scripts.progstats import progstats_transfer
 
 
 def main():
@@ -32,7 +33,6 @@ def main():
 
     process_call(["pip", "install", "nose", "coverage"])
 
-    destination = os.environ["PROGSTATS_DATA_PATH"]
     project = os.environ["CI_PROJECT_NAME"]
     package = process_call(["python", "setup.py", "--name"]).strip()
     package = package.replace("-", "_")
@@ -47,8 +47,7 @@ def main():
                   "--cover-html",
                   "--cover-inclusive"])
 
-    dest = os.path.join(destination, "coverage", project)
-    process_call(["rsync", "-a", "--delete-after", "cover/", dest])
+    progstats_transfer("cover", "coverage", project)
 
 
 if __name__ == "__main__":

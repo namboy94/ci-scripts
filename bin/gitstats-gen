@@ -22,6 +22,7 @@ import os
 import sys
 import shutil
 from ci_scripts.common import process_call
+from ci_scripts.progstats import progstats_transfer
 
 
 def main():
@@ -29,19 +30,11 @@ def main():
     Generates git statistics using git_stats and gitstats and copies them
     to a progstats data directory
 
-    Requires the following environment variables to be set:
-
-      PROGSTATS_DATA_PATH: The path to the progstats data path
-      CI_PROJECT_NAME: The project name, automatically set by Gitlab CI
-
     Also, the gitstats and git_stats programs need to be installed.
 
     :return: None
     """
-    destination = os.environ["PROGSTATS_DATA_PATH"]
     project = os.environ["CI_PROJECT_NAME"]
-    gitstats_dest = os.path.join(destination, "gitstats", project)
-    git_stats_dest = os.path.join(destination, "git_stats", project)
 
     gitstats_temp_dest = "gitstats_temp_dest"
     git_stats_temp_dest = "git_stats_temp_dest"
@@ -53,9 +46,8 @@ def main():
     process_call(["gitstats", ".", gitstats_temp_dest])
     process_call(["git_stats", "generate", "-o", git_stats_temp_dest])
 
-    rsync_cmd = ["rsync", "-av", "--delete-after"]
-    process_call(rsync_cmd + [gitstats_temp_dest + "/", gitstats_dest])
-    process_call(rsync_cmd + [git_stats_temp_dest + "/", git_stats_dest])
+    progstats_transfer(gitstats_temp_dest, "gitstats", project)
+    progstats_transfer(git_stats_temp_dest, "git_stats", project)
 
     for path in [gitstats_temp_dest, git_stats_temp_dest]:
         shutil.rmtree(path)
