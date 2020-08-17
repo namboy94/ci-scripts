@@ -8,7 +8,7 @@ default:
   image: namboy94/ci-docker-environment:0.8.0
   before_script:
     - ssh-keygen -R progstats.namibsun.net
-    - ssh-keyscan -H progstats.namibsun.net >> ~/.ssh/known_hosts
+    - ssh-keyscan -H progstats.namibsun.net -p 3333 >> ~/.ssh/known_hosts
     - echo "$SERVER_ACCESS_KEY" > ~/.ssh/id_rsa
     - chmod 0600 ~/.ssh/id_rsa
     - pip uninstall ci-scripts -y
