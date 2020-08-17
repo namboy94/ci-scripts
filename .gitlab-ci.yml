@@ -5,7 +5,7 @@ stages:
   - release
 
 default:
-  image: namboy94/ci-docker-environment:0.8.0
+  image: namboy94/ci-docker-environment:0.9.0
   before_script:
     - ssh-keyscan -p 3333 -H progstats.namibsun.net >> ~/.ssh/known_hosts
     - echo "$PROGSTATS_SSH_KEY" > ~/.ssh/id_rsa
