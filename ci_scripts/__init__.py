@@ -17,3 +17,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with ci-scripts.  If not, see <http://www.gnu.org/licenses/>.
 LICENSE"""
+
+
+sentry_dsn = "https://82292407367d47869c03aa7756431d3d@sentry.namibsun.net/8"
+"""
+Sentry DSN used for exception tracking
+"""
