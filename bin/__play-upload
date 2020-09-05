@@ -111,7 +111,7 @@ def build_service(email, keyfile, package_name):
 
     http = httplib2.Http()
     http = credentials.authorize(http)
-    service = build_google_service("androidpublisher", "v2", http=http)
+    service = build_google_service("androidpublisher", "v3", http=http)
 
     edit_request = service.edits().insert(body={}, packageName=package_name)
     return {"service": service,
